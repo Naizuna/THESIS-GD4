@@ -7,28 +7,48 @@ public class PianoHandler : MonoBehaviour
 {
     [Header("Labels")]
     [SerializeField] TMP_Text keyLabel;
-    private string key;
-    // Start is called before the first frame update
-    void Start()
-    {
+    [Header("Quiz Handler")]
+    [SerializeField] QuizHandler qh;
+    private List<string> keys = new List<string>();
 
+    public void UpdatePianoKeyPressed(string input)
+    {
+        if (keys.Count >= 3)
+        {
+            Debug.Log("Inputs full");
+            return;
+        }
+
+        keys.Add(input);
+        string txt = string.Empty;
+        for (int i = 0; i < keys.Count; i++)
+        {
+            if (i == 0)
+            {
+                txt += keys[i];
+                continue;
+            }
+            txt += $", {keys[i]}";
+        }
+
+        keyLabel.text = txt;
+        Debug.Log(input);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SendPlayerAnswerToHandler()
     {
-
+        qh.ReceivePlayerAnswers(keys);
+        Debug.Log("Sent player answers to QuizHandler");
+    }
+    public List<string> GetAllPianoKeysPressed()
+    {
+        return keys;
     }
 
-    public void UpdatePianoKeyPressed(string key)
+    public void ClearAllKeys()
     {
-        this.key = key;
-        keyLabel.text = this.key;
-        Debug.Log(this.key);
-    }
-
-    public string GetPianoKeyPressed()
-    {
-        return this.key;
+        keys.Clear();
+        Debug.Log("Answers Cleared");
+        keyLabel.text = "None";
     }
 }

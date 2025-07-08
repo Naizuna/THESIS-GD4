@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class QuestionsBank : MonoBehaviour
 {
-    [SerializeField] public List<QuestionComponent> availableQuestions;
+    [SerializeField] public List<QuestionComponent> availableQuestionsPool;
 
     //add methods for retrieving blocks of questions with difficulty filters
 }

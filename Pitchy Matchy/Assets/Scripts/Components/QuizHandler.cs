@@ -2,21 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+    //quiz handler will bridge the PianoHandler (player inputs), question answering and etc.
 public class QuizHandler : MonoBehaviour
 {
-    [SerializeField] public List<QuestionComponent> questionList;
+    [Header("Questions Loaded(visible for testing)")]
+    [SerializeField] public List<QuestionComponent> questionsToAnswer; //will be dynamically filled up
 
-    //quiz handler will bridge the PianoHandler (player inputs), question answering and etc.
+    private List<string> playerAnswers = new List<string>();
 
-    // Start is called before the first frame update
-    void Start()
+    public void ReceivePlayerAnswers(List<string> answers)
     {
-        
+        playerAnswers = answers;
+        Debug.Log("QUIZMANAGER GETPLAYERANSWERS Debug: ");
+        foreach (var item in playerAnswers)
+        {
+            Debug.Log(item);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }
