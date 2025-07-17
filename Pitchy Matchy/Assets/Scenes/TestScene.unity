@@ -171,6 +171,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   questionsToAnswer: []
+  bank: {fileID: 127569226}
+  numberOfQuestions: 1
 --- !u!1 &127569224
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,7 +221,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86674fae6589e7a40bd992c681ad53fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  availableQuestionsPool: []
+  availableQuestionsPool:
+  - questionText: test1
+    questionDifficulty: 0
+    soundClips:
+    - {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
+    test:
+      playerAnswers: []
+    correctAnswers:
+    - C4
+    playerAnswers: []
+    isAnsweredCorrectly: 0
+    hasBeenAnswered: 0
+  - questionText: test2
+    questionDifficulty: 1
+    soundClips:
+    - {fileID: 8300000, guid: 50ebd3ac255cd164aa72f9da4fa46a91, type: 3}
+    test:
+      playerAnswers: []
+    correctAnswers:
+    - G4
+    playerAnswers: []
+    isAnsweredCorrectly: 0
+    hasBeenAnswered: 0
+  - questionText: test3
+    questionDifficulty: 2
+    soundClips:
+    - {fileID: 8300000, guid: 50ebd3ac255cd164aa72f9da4fa46a91, type: 3}
+    test:
+      playerAnswers: []
+    correctAnswers:
+    - G4
+    playerAnswers: []
+    isAnsweredCorrectly: 0
+    hasBeenAnswered: 0
   easyQuestionsPool: []
   mediumQuestionsPool: []
   hardQuestionsPool: []
