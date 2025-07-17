@@ -9,6 +9,7 @@ public class QuestionComponent
     public string questionText;
     public DifficultyClass questionDifficulty;
     public List<AudioClip> soundClips;
+    public AnswersComponent test;
     public List<string> correctAnswers;
     public List<string> playerAnswers;
 
