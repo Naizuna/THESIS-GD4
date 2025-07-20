@@ -120,14 +120,9 @@ public class QuizManager : MonoBehaviour
             yield return new WaitForSeconds(confirmSound.length);
         }
 
-        // Remove question only if correct
-        if (isCorrect)
-        {
-            QnA.RemoveAt(currentQuestion);
-        }
+        QnA.RemoveAt(currentQuestion);
 
         selectedAnswerIndex = -1;
-
         generateQuestion();
     }
 }
