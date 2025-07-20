@@ -120,7 +120,7 @@ public class DialogueController : MonoBehaviour
         {
             audioSource.Stop();
             audioSource.clip = lastPlayedClip;
-            audioSource.Play();
+            audioSource.Play(); 
         }
     }
 
