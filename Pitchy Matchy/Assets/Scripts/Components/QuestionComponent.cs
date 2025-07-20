@@ -14,14 +14,14 @@ public class QuestionComponent
     public List<string> playerAnswers;
 
     //if player answered correctly or wrong
-    public bool isAnsweredCorrectly = false; 
+    public bool isAnsweredCorrectly = false;
 
     //check if the question has been answered either wrong or correctly
     public bool hasBeenAnswered = false;
 
     public QuestionComponent()
     {
-        
+
     }
 
     // CONSTRUCTOR FOR COPY-PURPOSES
@@ -40,6 +40,50 @@ public class QuestionComponent
         playerAnswers.Clear();
         hasBeenAnswered = false;
         isAnsweredCorrectly = false;
+    }
+
+    public void CheckAnswers()
+    {
+        //we just assume that incomplete answers r wrong fr
+        if (playerAnswers.Count != correctAnswers.Count)
+        {
+            isAnsweredCorrectly = false;
+            hasBeenAnswered = true;
+            return;
+        }
+
+        for (int i = 0; i < correctAnswers.Count; i++)
+        {
+            if (playerAnswers[i] != correctAnswers[i])
+            {
+                isAnsweredCorrectly = false;
+                hasBeenAnswered = true;
+                return;
+            }
+        }
+
+        isAnsweredCorrectly = true;
+        hasBeenAnswered = true;
+    }
+
+    public string ReturnPlayerAnswersAsString()
+    {
+        return string.Join(", ", playerAnswers);
+    }
+
+    public string ReturnCorrectAnswersAsString()
+    {
+        return string.Join(", ", correctAnswers);
+    }
+
+    public int GetNumberOfPitchesToAnswer()
+    {
+        return correctAnswers.Count;
+    }
+
+    public List<AudioClip> GetAudioClips()
+    {
+        return soundClips;
     }
 }
 
