@@ -24,6 +24,10 @@ public class QuizHandler : MonoBehaviour
 
     [Header("Clip Player")]
     [SerializeField] private ClipPlayer clipPlayer;
+
+    [Header("Player & Enemy (TESTING)")]
+    [SerializeField] private PlayerComponent player;
+    [SerializeField] private EnemyComponent enemy;
     
     private List<string> playerAnswers = new List<string>();
     private int currQuestionIndex;
@@ -86,6 +90,15 @@ public class QuizHandler : MonoBehaviour
     {
         questionsToAnswer[currQuestionIndex].playerAnswers = this.playerAnswers;
         questionsToAnswer[currQuestionIndex].CheckAnswers();
+
+        if (questionsToAnswer[currQuestionIndex].isAnsweredCorrectly)
+        {
+            enemy.TakeDamage(player.GetAttackPower());
+        }
+        else
+        {
+            player.TakeDamage(enemy.GetAttackPower());
+        }
     }
 
     public void LoadRandomQuestions(int numberOfQuestions)
