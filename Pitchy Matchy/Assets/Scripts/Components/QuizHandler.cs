@@ -32,6 +32,8 @@ public class QuizHandler : MonoBehaviour
     private List<string> playerAnswers = new List<string>();
     private int currQuestionIndex;
 
+    private bool isSessionFinished;
+
     public void Start()
     {
         currQuestionIndex = 0;
@@ -62,6 +64,8 @@ public class QuizHandler : MonoBehaviour
 
     public void ReceivePlayerAnswersAndProcess(List<string> answers)
     {
+        if (isSessionFinished) return;
+
         playerAnswers = answers;
         Debug.Log("QUIZMANAGER GETPLAYERANSWERS Debug: ");
         foreach (var item in playerAnswers)
@@ -74,6 +78,8 @@ public class QuizHandler : MonoBehaviour
 
     public void LoadNextQuestion()
     {
+        if (isSessionFinished) return;
+        
         wp.HideParentPanel();
         currQuestionIndex++;
         this.playerAnswers.Clear();
