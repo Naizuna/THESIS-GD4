@@ -3409,6 +3409,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1801858083}
   m_CullTransparentMesh: 1
+--- !u!212 &1900967163 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7183481425546900612, guid: 83e3c63a3ec0adf45a913c01f7ed32cc, type: 3}
+  m_PrefabInstance: {fileID: 5970602485597921065}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2064472785
 GameObject:
   m_ObjectHideFlags: 0
@@ -3805,6 +3810,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: ENEMY
       objectReference: {fileID: 0}
+    - target: {fileID: 487838880063102903, guid: 83e3c63a3ec0adf45a913c01f7ed32cc, type: 3}
+      propertyPath: enemySprite
+      value: 
+      objectReference: {fileID: 1900967163}
+    - target: {fileID: 487838880063102903, guid: 83e3c63a3ec0adf45a913c01f7ed32cc, type: 3}
+      propertyPath: damagedColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 487838880063102903, guid: 83e3c63a3ec0adf45a913c01f7ed32cc, type: 3}
+      propertyPath: damagedColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 487838880063102903, guid: 83e3c63a3ec0adf45a913c01f7ed32cc, type: 3}
+      propertyPath: damagedColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 487838880063102903, guid: 83e3c63a3ec0adf45a913c01f7ed32cc, type: 3}
+      propertyPath: damagedColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 487838880063102903, guid: 83e3c63a3ec0adf45a913c01f7ed32cc, type: 3}
+      propertyPath: damagedFlashDuration
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3958816443250662766, guid: 83e3c63a3ec0adf45a913c01f7ed32cc, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -3822,9 +3851,9 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 228977275}
   - {fileID: 5970602485597921065}
   - {fileID: 2082558498}
-  - {fileID: 228977275}
   - {fileID: 281105536}
   - {fileID: 2128186455}
   - {fileID: 165399383}
