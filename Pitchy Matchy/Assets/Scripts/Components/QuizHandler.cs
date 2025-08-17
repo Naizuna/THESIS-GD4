@@ -48,6 +48,11 @@ public class QuizHandler : MonoBehaviour
         PlayQuestionPitches();
     }
 
+    public void SetEnemy(EnemyComponent enemy)
+    {
+        this.enemy = enemy;
+    }
+
     public void PlayQuestionPitches()
     {
         List<AudioClip> clips = questionsToAnswer[currQuestionIndex].GetAudioClips();

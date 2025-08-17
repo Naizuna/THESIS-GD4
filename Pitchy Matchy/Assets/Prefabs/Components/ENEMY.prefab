@@ -173,8 +173,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8166933ba70c46b47bc2dcbc557f65b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemySprite: {fileID: 0}
-  enemyHP: 3
+  enemySprite: {fileID: 7183481425546900612}
+  damagedColor: {r: 1, g: 0, b: 0, a: 1}
+  damagedFlashDuration: 0.2
+  enemyHP: 1
   attackPower: 1
   hpBar: {fileID: 958040542949371904}
 --- !u!1 &1499401014807614862

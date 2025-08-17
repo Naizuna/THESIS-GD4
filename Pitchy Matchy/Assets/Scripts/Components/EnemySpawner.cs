@@ -4,20 +4,37 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+    [SerializeField] QuizHandler quizHandler;
     [SerializeField] GameObject spawnPoint;
     [SerializeField] GameObject[] enemyVariants;
+    [SerializeField] bool isInfiniteSpawning;
+    [SerializeField] int numberOfSpawns;
     private GameObject spawnedEnemy;
     private int variantCount;
 
     void Start()
     {
         variantCount = enemyVariants.Length;
+
+        if (isInfiniteSpawning)
+            numberOfSpawns = -1;
     }
 
     void Update()
     {
-        if (spawnedEnemy is null)
-            SpawnEnemy();
+        if (spawnedEnemy == null)
+            TrySpawn();
+    }
+
+    void TrySpawn()
+    {
+        if (variantCount == 0 || spawnPoint == null) return;
+
+        if (numberOfSpawns == 0) return; // spawn tokens
+
+        SpawnEnemy();
+
+        if (numberOfSpawns > 0) numberOfSpawns--;
     }
 
     void SpawnEnemy()
@@ -26,5 +43,6 @@ public class EnemySpawner : MonoBehaviour
         GameObject temp = Instantiate(
             enemyVariants[i], spawnPoint.transform.position, Quaternion.identity);
         spawnedEnemy = temp;
+        quizHandler.SetEnemy(spawnedEnemy.GetComponent<EnemyComponent>());
     }
 }
