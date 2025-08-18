@@ -78,7 +78,7 @@ public class QuizHandler : MonoBehaviour
             Debug.Log(item);
         }
         ProcessAnswer();
-        InitiateWaitPanel();
+        //InitiateWaitPanel();
     }
 
     public void LoadNextQuestion()
@@ -119,9 +119,9 @@ public class QuizHandler : MonoBehaviour
         {
             QuestionComponent.DifficultyClass randDifficulty = (QuestionComponent.DifficultyClass)UnityEngine.Random.Range(
                 0,
-                System.Enum.GetValues(typeof(QuestionComponent.DifficultyClass)).Length - 1
+                System.Enum.GetValues(typeof(QuestionComponent.DifficultyClass)).Length
             );
-
+            Debug.Log(randDifficulty);
             questionsToAnswer.Add(bank.GetQuestionFromBank(randDifficulty));
         }
     }

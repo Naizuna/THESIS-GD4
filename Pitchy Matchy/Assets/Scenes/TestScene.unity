@@ -172,7 +172,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   questionsToAnswer: []
   bank: {fileID: 127569226}
-  numberOfQuestions: 12
+  numberOfQuestions: 20
   wp: {fileID: 534009048}
   questText: {fileID: 1289629726}
   clipPlayer: {fileID: 169996646}
@@ -415,7 +415,7 @@ MonoBehaviour:
     isAnsweredCorrectly: 0
     hasBeenAnswered: 0
   - questionText: test3
-    questionDifficulty: 2
+    questionDifficulty: 1
     soundClips:
     - {fileID: 8300000, guid: 50ebd3ac255cd164aa72f9da4fa46a91, type: 3}
     test:
@@ -424,7 +424,18 @@ MonoBehaviour:
     - G4
     playerAnswers: []
     isAnsweredCorrectly: 0
-    hasBeenAnswered: 1
+    hasBeenAnswered: 0
+  - questionText: q4
+    questionDifficulty: 2
+    soundClips:
+    - {fileID: 8300000, guid: 9b016761919b89e41821fd72dd1346b3, type: 3}
+    test:
+      playerAnswers: []
+    correctAnswers:
+    - D4
+    playerAnswers: []
+    isAnsweredCorrectly: 0
+    hasBeenAnswered: 0
   easyQuestionsPool: []
   mediumQuestionsPool: []
   hardQuestionsPool: []
@@ -1011,8 +1022,8 @@ MonoBehaviour:
   spawnPoint: {fileID: 688220537}
   enemyVariants:
   - {fileID: 313901636418427762, guid: 83e3c63a3ec0adf45a913c01f7ed32cc, type: 3}
-  isInfiniteSpawning: 0
-  numberOfSpawns: 5
+  isInfiniteSpawning: 1
+  numberOfSpawns: 0
 --- !u!1 &351085037
 GameObject:
   m_ObjectHideFlags: 0
@@ -3712,8 +3723,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 3
-  playerSprite: {fileID: 0}
+  playerSprite: {fileID: 2082558497}
+  damagedColor: {r: 1, g: 0, b: 0, a: 1}
   attackPower: 1
+  damagedFlashDuration: 0.2
 --- !u!1 &2113856901
 GameObject:
   m_ObjectHideFlags: 0

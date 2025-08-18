@@ -176,7 +176,7 @@ MonoBehaviour:
   enemySprite: {fileID: 7183481425546900612}
   damagedColor: {r: 1, g: 0, b: 0, a: 1}
   damagedFlashDuration: 0.2
-  enemyHP: 1
+  enemyHP: 3
   attackPower: 1
   hpBar: {fileID: 958040542949371904}
 --- !u!1 &1499401014807614862

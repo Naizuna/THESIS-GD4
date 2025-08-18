@@ -26,19 +26,19 @@ public class QuestionsBank : MonoBehaviour
         {
             case QuestionComponent.DifficultyClass.EASY:
                 //random question from easy list
-                n = easyQuestionsPool.Count - 1;
+                n = easyQuestionsPool.Count;
                 question = new QuestionComponent(easyQuestionsPool[Random.Range(0, n)]);
                 break;
 
             case QuestionComponent.DifficultyClass.MEDIUM:
                 //random question from medium list
-                n = mediumQuestionsPool.Count - 1;
+                n = mediumQuestionsPool.Count;
                 question = new QuestionComponent(mediumQuestionsPool[Random.Range(0, n)]);
                 break;
 
             case QuestionComponent.DifficultyClass.HARD:
                 //random question from hard list
-                n = hardQuestionsPool.Count - 1;
+                n = hardQuestionsPool.Count;
                 question = new QuestionComponent(hardQuestionsPool[Random.Range(0, n)]);
                 break;
 
