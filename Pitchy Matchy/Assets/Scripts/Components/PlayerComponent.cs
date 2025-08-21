@@ -38,9 +38,14 @@ public class PlayerComponent : MonoBehaviour
         return attackPower;
     }
 
+    public int GetHP()
+    {
+        return hp;
+    }
+
     public void Death()
     {
-        Destroy(this.gameObject);
+        this.gameObject.SetActive(false);
     }
 
     void Start()
