@@ -40,6 +40,36 @@ public class QuizHandler : MonoBehaviour
         LoadRandomQuestions(numberOfQuestions);
         UpdateQuestionText();
     }
+    public void Update()
+    {
+        CheckPlayerStatus();
+
+        if (currQuestionIndex == numberOfQuestions)
+        {
+            Debug.Log("all questions answered");
+            PlayerVictory();
+            isSessionFinished = true;
+        }
+    }
+
+    public void CheckPlayerStatus()
+    {
+        if (player.IsPlayerDefeated())
+        {
+            PlayerDefeat();
+            isSessionFinished = true;
+        }
+    }
+
+    public void PlayerDefeat()
+    {
+        Debug.Log("Player Defeat");
+    }
+
+    public void PlayerVictory()
+    {
+        Debug.Log("Player Victory");
+    }
 
     public void UpdateQuestionText()
     {
@@ -57,14 +87,6 @@ public class QuizHandler : MonoBehaviour
     {
         List<AudioClip> clips = questionsToAnswer[currQuestionIndex].GetAudioClips();
         clipPlayer.PlayAllClips(clips);
-    }
-
-    public void Update()
-    {
-        if (currQuestionIndex == numberOfQuestions)
-        {
-            Debug.Log("all questions answered");
-        }
     }
 
     public void ReceivePlayerAnswersAndProcess(List<string> answers)
@@ -99,7 +121,7 @@ public class QuizHandler : MonoBehaviour
 
     private void ProcessAnswer()
     {
-        questionsToAnswer[currQuestionIndex].playerAnswers = this.playerAnswers;
+        questionsToAnswer[currQuestionIndex].playerAnswers = new List<string> (this.playerAnswers);
         questionsToAnswer[currQuestionIndex].CheckAnswers();
 
         if (questionsToAnswer[currQuestionIndex].isAnsweredCorrectly)
@@ -110,6 +132,8 @@ public class QuizHandler : MonoBehaviour
         {
             player.TakeDamage(enemy.GetAttackPower());
         }
+
+        LoadNextQuestion();
     }
 
     public void LoadRandomQuestions(int numberOfQuestions)
