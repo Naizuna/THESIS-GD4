@@ -9,6 +9,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] GameObject[] enemyVariants;
     [SerializeField] bool isInfiniteSpawning;
     [SerializeField] int numberOfSpawns;
+    [SerializeField] bool autoSpawn;
     private GameObject spawnedEnemy;
     private int variantCount;
 
@@ -22,8 +23,11 @@ public class EnemySpawner : MonoBehaviour
 
     void Update()
     {
-        if (spawnedEnemy == null)
-            TrySpawn();
+        if (autoSpawn)
+        {
+            if (spawnedEnemy == null)
+                TrySpawn();
+        }
     }
 
     void TrySpawn()
@@ -37,7 +41,7 @@ public class EnemySpawner : MonoBehaviour
         if (numberOfSpawns > 0) numberOfSpawns--;
     }
 
-    void SpawnEnemy()
+    public void SpawnEnemy()
     {
         int i = Random.Range(0, variantCount);
         GameObject temp = Instantiate(
