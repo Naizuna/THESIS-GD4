@@ -172,7 +172,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   questionsToAnswer: []
   bank: {fileID: 127569226}
-  numberOfQuestions: 20
+  numberOfQuestions: 5
   wp: {fileID: 534009048}
   questText: {fileID: 1289629726}
   clipPlayer: {fileID: 169996646}
@@ -1024,6 +1024,7 @@ MonoBehaviour:
   - {fileID: 313901636418427762, guid: 83e3c63a3ec0adf45a913c01f7ed32cc, type: 3}
   isInfiniteSpawning: 1
   numberOfSpawns: 0
+  autoSpawn: 0
 --- !u!1 &351085037
 GameObject:
   m_ObjectHideFlags: 0
