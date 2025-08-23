@@ -19,6 +19,9 @@ public class QuizHandler : MonoBehaviour
     [Header("Waiting Panel (Panel Shows when player submits answer)")]
     [SerializeField] private WaitingPanel wp;
 
+    [Header("Victory and Lose Screens")]
+    [SerializeField] private ScreensPanel sPanel;
+
     [Header("Question Texts")]
     [SerializeField] private TMP_Text questText;
 
@@ -37,6 +40,7 @@ public class QuizHandler : MonoBehaviour
     public void Start()
     {
         currQuestionIndex = 0;
+        sPanel.HideParentPanel();
         LoadRandomQuestions(numberOfQuestions);
         UpdateQuestionText();
     }
@@ -49,6 +53,7 @@ public class QuizHandler : MonoBehaviour
             Debug.Log("all questions answered");
             PlayerVictory();
             isSessionFinished = true;
+            return;
         }
     }
 
@@ -64,11 +69,15 @@ public class QuizHandler : MonoBehaviour
     public void PlayerDefeat()
     {
         Debug.Log("Player Defeat");
+        sPanel.SetLoseScreen();
+        sPanel.ShowParentPanel();
     }
 
     public void PlayerVictory()
     {
         Debug.Log("Player Victory");
+        sPanel.SetWinScreen();
+        sPanel.ShowParentPanel();
     }
 
     public void UpdateQuestionText()
