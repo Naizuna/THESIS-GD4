@@ -10,6 +10,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] bool isInfiniteSpawning;
     [SerializeField] int numberOfSpawns;
     [SerializeField] bool autoSpawn;
+    [SerializeField] float zSpawnOffset;
     private GameObject spawnedEnemy;
     private int variantCount;
 
@@ -45,7 +46,10 @@ public class EnemySpawner : MonoBehaviour
     {
         int i = Random.Range(0, variantCount);
         GameObject temp = Instantiate(
-            enemyVariants[i], spawnPoint.transform.position, Quaternion.identity);
+            enemyVariants[i], 
+            new Vector3(spawnPoint.transform.position.x, spawnPoint.transform.position.y, zSpawnOffset), 
+            Quaternion.identity
+        );
         spawnedEnemy = temp;
         quizHandler.SetEnemy(spawnedEnemy.GetComponent<EnemyComponent>());
     }
