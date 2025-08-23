@@ -110,6 +110,13 @@ public class QuizHandler : MonoBehaviour
         wp.HideParentPanel();
         currQuestionIndex++;
         this.playerAnswers.Clear();
+
+        if (currQuestionIndex == numberOfQuestions)
+        {
+            isSessionFinished = true;
+            return;
+        }
+        
         UpdateQuestionText();
     }
 
