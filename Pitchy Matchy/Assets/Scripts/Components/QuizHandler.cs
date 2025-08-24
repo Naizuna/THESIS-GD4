@@ -37,6 +37,9 @@ public class QuizHandler : MonoBehaviour
 
     private bool isSessionFinished;
 
+    //player metrics
+    private PlayerMetric playerMetric = new PlayerMetric();
+
     public void Start()
     {
         currQuestionIndex = 0;
@@ -47,22 +50,23 @@ public class QuizHandler : MonoBehaviour
     public void Update()
     {
         CheckPlayerStatus();
-
-        if (currQuestionIndex == numberOfQuestions)
-        {
-            Debug.Log("all questions answered");
-            PlayerVictory();
-            isSessionFinished = true;
-            return;
-        }
     }
 
     public void CheckPlayerStatus()
     {
+        if (isSessionFinished) return;
+
         if (player.IsPlayerDefeated())
         {
             PlayerDefeat();
             isSessionFinished = true;
+            return;
+        }
+        else if (currQuestionIndex == numberOfQuestions)
+        {
+            PlayerVictory();
+            isSessionFinished = true;
+            return;
         }
     }
 
@@ -71,6 +75,9 @@ public class QuizHandler : MonoBehaviour
         Debug.Log("Player Defeat");
         sPanel.SetLoseScreen();
         sPanel.ShowParentPanel();
+        playerMetric.SetQuestionsAnswered(questionsToAnswer);
+        playerMetric.CalculateTotalAccuracy();
+        playerMetric.TestPrint();
     }
 
     public void PlayerVictory()
@@ -78,6 +85,9 @@ public class QuizHandler : MonoBehaviour
         Debug.Log("Player Victory");
         sPanel.SetWinScreen();
         sPanel.ShowParentPanel();
+        playerMetric.SetQuestionsAnswered(questionsToAnswer);
+        playerMetric.CalculateTotalAccuracy();
+        playerMetric.TestPrint();
     }
 
     public void UpdateQuestionText()
@@ -119,12 +129,6 @@ public class QuizHandler : MonoBehaviour
         wp.HideParentPanel();
         currQuestionIndex++;
         this.playerAnswers.Clear();
-
-        if (currQuestionIndex == numberOfQuestions)
-        {
-            isSessionFinished = true;
-            return;
-        }
         
         UpdateQuestionText();
     }
