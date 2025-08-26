@@ -114,7 +114,7 @@ public class QuizHandler : MonoBehaviour
         {
             QuestionComponent.DifficultyClass randDifficulty = (QuestionComponent.DifficultyClass)UnityEngine.Random.Range(
                 0,
-                System.Enum.GetValues(typeof(QuestionComponent.DifficultyClass)).Length - 1
+                System.Enum.GetValues(typeof(QuestionComponent.DifficultyClass)).Length
             );
 
             questionsToAnswer.Add(bank.GetQuestionFromBank(randDifficulty));
