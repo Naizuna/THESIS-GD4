@@ -19,6 +19,9 @@ public class QuizHandler : MonoBehaviour
     [Header("Waiting Panel (Panel Shows when player submits answer)")]
     [SerializeField] private WaitingPanel wp;
 
+    [Header("Victory and Lose Screens")]
+    [SerializeField] private ScreensPanel sPanel;
+
     [Header("Question Texts")]
     [SerializeField] private TMP_Text questText;
 
@@ -34,11 +37,57 @@ public class QuizHandler : MonoBehaviour
 
     private bool isSessionFinished;
 
+    //player metrics
+    private PlayerMetric playerMetric = new PlayerMetric();
+
     public void Start()
     {
         currQuestionIndex = 0;
+        sPanel.HideParentPanel();
         LoadRandomQuestions(numberOfQuestions);
         UpdateQuestionText();
+    }
+    public void Update()
+    {
+        CheckPlayerStatus();
+    }
+
+    public void CheckPlayerStatus()
+    {
+        if (isSessionFinished) return;
+
+        if (player.IsPlayerDefeated())
+        {
+            PlayerDefeat();
+            isSessionFinished = true;
+            return;
+        }
+        else if (currQuestionIndex == numberOfQuestions)
+        {
+            PlayerVictory();
+            isSessionFinished = true;
+            return;
+        }
+    }
+
+    public void PlayerDefeat()
+    {
+        Debug.Log("Player Defeat");
+        sPanel.SetLoseScreen();
+        sPanel.ShowParentPanel();
+        playerMetric.SetQuestionsAnswered(questionsToAnswer);
+        playerMetric.CalculateTotalAccuracy();
+        playerMetric.TestPrint();
+    }
+
+    public void PlayerVictory()
+    {
+        Debug.Log("Player Victory");
+        sPanel.SetWinScreen();
+        sPanel.ShowParentPanel();
+        playerMetric.SetQuestionsAnswered(questionsToAnswer);
+        playerMetric.CalculateTotalAccuracy();
+        playerMetric.TestPrint();
     }
 
     public void UpdateQuestionText()
@@ -48,18 +97,15 @@ public class QuizHandler : MonoBehaviour
         PlayQuestionPitches();
     }
 
+    public void SetEnemy(EnemyComponent enemy)
+    {
+        this.enemy = enemy;
+    }
+
     public void PlayQuestionPitches()
     {
         List<AudioClip> clips = questionsToAnswer[currQuestionIndex].GetAudioClips();
         clipPlayer.PlayAllClips(clips);
-    }
-
-    public void Update()
-    {
-        if (currQuestionIndex == numberOfQuestions)
-        {
-            Debug.Log("all questions answered");
-        }
     }
 
     public void ReceivePlayerAnswersAndProcess(List<string> answers)
@@ -73,7 +119,7 @@ public class QuizHandler : MonoBehaviour
             Debug.Log(item);
         }
         ProcessAnswer();
-        InitiateWaitPanel();
+        //InitiateWaitPanel();
     }
 
     public void LoadNextQuestion()
@@ -83,6 +129,7 @@ public class QuizHandler : MonoBehaviour
         wp.HideParentPanel();
         currQuestionIndex++;
         this.playerAnswers.Clear();
+        
         UpdateQuestionText();
     }
 
@@ -94,7 +141,7 @@ public class QuizHandler : MonoBehaviour
 
     private void ProcessAnswer()
     {
-        questionsToAnswer[currQuestionIndex].playerAnswers = this.playerAnswers;
+        questionsToAnswer[currQuestionIndex].playerAnswers = new List<string> (this.playerAnswers);
         questionsToAnswer[currQuestionIndex].CheckAnswers();
 
         if (questionsToAnswer[currQuestionIndex].isAnsweredCorrectly)
@@ -105,6 +152,8 @@ public class QuizHandler : MonoBehaviour
         {
             player.TakeDamage(enemy.GetAttackPower());
         }
+
+        LoadNextQuestion();
     }
 
     public void LoadRandomQuestions(int numberOfQuestions)
@@ -116,7 +165,7 @@ public class QuizHandler : MonoBehaviour
                 0,
                 System.Enum.GetValues(typeof(QuestionComponent.DifficultyClass)).Length
             );
-
+            Debug.Log(randDifficulty);
             questionsToAnswer.Add(bank.GetQuestionFromBank(randDifficulty));
         }
     }

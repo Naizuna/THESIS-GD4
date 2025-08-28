@@ -37,10 +37,11 @@ public class EnemyComponent : MonoBehaviour
 
         StartCoroutine(HurtFlash());
 
-        if ((enemyHP - damage) < 0)
+        if ((enemyHP - damage) <= 0)
         {
             isDefeated = true;
             enemyHP = 0;
+            Death();
             return;
         }
 
@@ -52,6 +53,11 @@ public class EnemyComponent : MonoBehaviour
         enemySprite.color = damagedColor;
         yield return new WaitForSeconds(damagedFlashDuration);
         enemySprite.color = defaultColor;
+    }
+
+    public void Death()
+    {
+        Destroy(gameObject);
     }
 
 
