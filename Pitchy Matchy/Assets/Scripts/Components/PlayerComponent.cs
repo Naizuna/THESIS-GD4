@@ -5,17 +5,23 @@ using UnityEngine;
 public class PlayerComponent : MonoBehaviour
 {
     [SerializeField] int hp; //equivalent to no. of tries
-    [SerializeField] Sprite playerSprite;
+    [SerializeField] SpriteRenderer playerSprite;
+    [SerializeField] Color damagedColor;
     [SerializeField] int attackPower;
+    [SerializeField] float damagedFlashDuration;
     private bool playerDefeated;
+    private Color defaultColor;
 
     public void TakeDamage(int damage)
     {
         Debug.Log($"Player takes {damage} damage!");
-        if ((hp - damage) < 0)
+        StartCoroutine(HurtFlash());
+
+        if ((hp - damage) <= 0)
         {
             playerDefeated = true;
             hp = 0;
+            Death();
             return;
         }
 
@@ -32,9 +38,20 @@ public class PlayerComponent : MonoBehaviour
         return attackPower;
     }
 
+    public int GetHP()
+    {
+        return hp;
+    }
+
+    public void Death()
+    {
+        this.gameObject.SetActive(false);
+    }
+
     void Start()
     {
         playerDefeated = false;
+        defaultColor = playerSprite.color;
     }
 
     void Update()
@@ -45,5 +62,12 @@ public class PlayerComponent : MonoBehaviour
         {
             Debug.Log("Player Defeated");
         }
+    }
+
+    private IEnumerator HurtFlash()
+    {
+        playerSprite.color = damagedColor;
+        yield return new WaitForSeconds(damagedFlashDuration);
+        playerSprite.color = defaultColor;
     }
 }

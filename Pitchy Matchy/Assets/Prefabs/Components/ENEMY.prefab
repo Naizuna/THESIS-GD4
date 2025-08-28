@@ -102,7 +102,7 @@ Transform:
   m_GameObject: {fileID: 313901636418427762}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.6, y: 1.96, z: 0}
+  m_LocalPosition: {x: 4.6, y: 1.96, z: 60}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -149,7 +149,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -173,7 +173,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8166933ba70c46b47bc2dcbc557f65b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemySprite: {fileID: 0}
+  enemySprite: {fileID: 7183481425546900612}
+  damagedColor: {r: 1, g: 0, b: 0, a: 1}
+  damagedFlashDuration: 0.2
   enemyHP: 3
   attackPower: 1
   hpBar: {fileID: 958040542949371904}

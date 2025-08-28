@@ -37,8 +37,9 @@ public class PianoHandler : MonoBehaviour
 
     public void SendPlayerAnswerToHandler()
     {
-        qh.ReceivePlayerAnswersAndProcess(keys);
+        qh.ReceivePlayerAnswersAndProcess(new List<string>(keys));
         Debug.Log("Sent player answers to QuizHandler");
+        ClearAllKeys();
     }
     public List<string> GetAllPianoKeysPressed()
     {
