@@ -8,7 +8,7 @@ public class PianoHandler : MonoBehaviour
     [Header("Labels")]
     [SerializeField] TMP_Text keyLabel;
     [Header("Quiz Handler")]
-    [SerializeField] QuizHandler qh;
+    [SerializeField] SARSAQuizHandler qh;
     private List<string> keys = new List<string>();
 
     public void UpdatePianoKeyPressed(string input)
