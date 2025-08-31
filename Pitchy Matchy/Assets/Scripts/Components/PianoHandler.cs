@@ -9,10 +9,8 @@ public class PianoHandler : MonoBehaviour
     [SerializeField] TMP_Text keyLabel;
     [Header("Quiz Handler")]
     //addition from sarsa
-    [SerializeField] SARSAQuizHandler qh;
-
-//change later
-    //[SerializeField] QuizHandler qh;
+    //[SerializeField] SARSAQuizHandler qh;
+    [SerializeField] QuizHandler qh;
     //[SerializeField] MonteCarloQuizHandler mc;
 
     private List<string> keys = new List<string>();

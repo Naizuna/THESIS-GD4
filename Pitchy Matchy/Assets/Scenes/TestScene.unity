@@ -167,18 +167,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 28850800}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f968fa15e122c324b810a0204d6461a2, type: 3}
+  m_Script: {fileID: 11500000, guid: 96f6bcfa2c3310d438ab076c0e390f1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   questionsToAnswer: []
   bank: {fileID: 127569226}
-  numberOfQuestions: 5
+  numberOfQuestions: 12
   wp: {fileID: 534009048}
   sPanel: {fileID: 1087929173}
   questText: {fileID: 1289629726}
   clipPlayer: {fileID: 169996646}
   player: {fileID: 2082558499}
-  totalQuestions: 5
   enemy: {fileID: 0}
 --- !u!1 &52922656
 GameObject:
@@ -2526,7 +2525,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 28850802}
         m_TargetAssemblyTypeName: QuizHandler, Assembly-CSharp
         m_MethodName: PlayQuestionPitches
         m_Mode: 1
