@@ -6,8 +6,12 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
-//quiz handler will bridge the PianoHandler (player inputs), question answering and etc.
-public class QuizHandler : MonoBehaviour
+// Merged QuizHandler with imported MonteCarloQuizHandler members.
+// Duplicate fields/methods imported from MonteCarloQuizHandler are renamed with an "_MCC" suffix
+// (MCC = Monte Carlo Conflict) so both implementations coexist and are easy to find.
+// You can later remove/merge duplicates as needed or call the _MCC variants directly.
+
+public class QuizHandlerMerge : MonoBehaviour
 {
     [Header("Questions Loaded(visible for testing)")]
     [SerializeField] public List<QuestionComponent> questionsToAnswer; //will be dynamically filled up
@@ -38,43 +42,6 @@ public class QuizHandler : MonoBehaviour
     private int currQuestionIndex;
 
     private bool isSessionFinished;
-
-    // ==
-    // PUBLIC ACCESS / GETTERS SETTERS
-    // ==
-
-    public int CurrQuestionIndex
-    {
-        get => currQuestionIndex;
-        set => currQuestionIndex = value;
-    }
-
-    public int NumberOfQuestions => numberOfQuestions;
-    public List<QuestionComponent> QuestionsToAnswer => new List<QuestionComponent>(questionsToAnswer);
-
-    public List<string> PlayerAnswers
-    {
-        get => new List<string>(playerAnswers);
-        set => playerAnswers = new List<string>(value);
-    }
-
-    public bool IsSessionFinished
-    {
-        get => isSessionFinished;
-        set => isSessionFinished = value;
-    }
-
-    public WaitingPanel WP => wp;
-    public ScreensPanel SPanel => sPanel;
-    public PlayerComponent Player => player;
-    public EnemyComponent Enemy => enemy;
-    public ClipPlayer ClipPlayer => clipPlayer;
-    public TMP_Text QuestText => questText;
-    public QuestionsBank Bank => bank;
-
-    public int TotalQuestions_MCC => totalQuestions_MCC;
-    public int QuestionsPerEpisode_MCC => questionsPerEpisode_MCC;
-    public MonteCarloAgent McAgent_MCC => mcAgent_MCC;
 
     //player metrics
     private PlayerMetric playerMetric = new PlayerMetric();
@@ -119,7 +86,7 @@ public class QuizHandler : MonoBehaviour
     {
         CheckPlayerStatus();
     }
-    
+
     public void CheckPlayerStatus()
     {
         if (isSessionFinished) return;
@@ -207,7 +174,7 @@ public class QuizHandler : MonoBehaviour
         wp.ShowParentPanel();
     }
 
-    public void ProcessAnswer()
+    private void ProcessAnswer()
     {
         questionsToAnswer[currQuestionIndex].playerAnswers = new List<string>(this.playerAnswers);
         questionsToAnswer[currQuestionIndex].CheckAnswers();
