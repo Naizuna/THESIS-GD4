@@ -6,9 +6,14 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
-//quiz handler will bridge the PianoHandler (player inputs), question answering and etc.
+//versions
+
+
 public class QuizHandler : MonoBehaviour
 {
+    [Header("Quiz Mode")]
+    [SerializeField] private QuizMode quizMode;
+
     [Header("Questions Loaded(visible for testing)")]
     [SerializeField] public List<QuestionComponent> questionsToAnswer; //will be dynamically filled up
 
@@ -38,6 +43,7 @@ public class QuizHandler : MonoBehaviour
     private int currQuestionIndex;
 
     private bool isSessionFinished;
+    private IQuizMode mode;
 
     // ==
     // PUBLIC ACCESS / GETTERS SETTERS
@@ -91,9 +97,6 @@ public class QuizHandler : MonoBehaviour
     [Header("Question Bank (MCC)")]
     [SerializeField] private int numberOfQuestions_MCC; // MCC: note duplicate name
 
-    [Header("Clip Player (MCC)")]
-    // clipPlayer already exists above; imported duplicates are not re-declared
-
     // Monte Carlo agent and episode memory
     private MonteCarloAgent mcAgent_MCC = new MonteCarloAgent(); // MCC: imported
     private List<(string state, QuestionComponent.DifficultyClass action, float reward)> episode_MCC
@@ -105,21 +108,22 @@ public class QuizHandler : MonoBehaviour
 
     public void Start()
     {
-        // Original QuizHandler Start behaviour
+
         currQuestionIndex = 0;
         sPanel.HideParentPanel();
-        LoadRandomQuestions(numberOfQuestions);
-        UpdateQuestionText();
 
-        // If you want to initialise MonteCarlo-specific state as well, call Start_MCC();
-        // Start_MCC();
+        mode = (quizMode == QuizMode.Normal) ?
+            (IQuizMode)new NormalQuizMode() : new MonteCarloControlQuizMode();
+
+        mode.StartQuiz(this);
+
     }
 
     public void Update()
     {
         CheckPlayerStatus();
     }
-    
+
     public void CheckPlayerStatus()
     {
         if (isSessionFinished) return;
@@ -179,26 +183,14 @@ public class QuizHandler : MonoBehaviour
     public void ReceivePlayerAnswersAndProcess(List<string> answers)
     {
         if (isSessionFinished) return;
-
-        playerAnswers = answers;
-        Debug.Log("QUIZMANAGER GETPLAYERANSWERS Debug: ");
-        foreach (var item in playerAnswers)
-        {
-            Debug.Log(item);
-        }
-        ProcessAnswer();
+        mode.ReceiveAnswers(this, answers);
         //InitiateWaitPanel();
     }
 
     public void LoadNextQuestion()
     {
         if (isSessionFinished) return;
-
-        wp.HideParentPanel();
-        currQuestionIndex++;
-        this.playerAnswers.Clear();
-
-        UpdateQuestionText();
+        mode.LoadNextQuestion(this);
     }
 
     private void InitiateWaitPanel()
@@ -240,17 +232,16 @@ public class QuizHandler : MonoBehaviour
 
     // ==========================
     // MonteCarlo imported methods (renamed with _MCC suffix)
-    // Call these if you want MonteCarlo-driven behaviour.
     // ==========================
 
-    // MCC: original MonteCarlo Start renamed to avoid collision with MonoBehaviour.Start
+    // MCC: original MonteCarlo Start
     public void Start_MCC()
     {
         currQuestionIndex = 0;
         LoadNextQuestion_MCC();
     }
 
-    // MCC: UpdateQuestionText (duplicate) -> renamed
+    // MCC: UpdateQuestionText 
     public void UpdateQuestionText_MCC()
     {
         int num = questionsToAnswer[currQuestionIndex].GetNumberOfPitchesToAnswer();
@@ -258,24 +249,24 @@ public class QuizHandler : MonoBehaviour
         PlayQuestionPitches_MCC();
     }
 
-    // MCC: PlayQuestionPitches (duplicate) -> renamed
+    // MCC: PlayQuestionPitches 
     public void PlayQuestionPitches_MCC()
     {
         List<AudioClip> clips = questionsToAnswer[currQuestionIndex].GetAudioClips();
         clipPlayer.PlayAllClips(clips);
     }
 
-    // MCC: ReceivePlayerAnswersAndProcess (duplicate) -> renamed
+    // MCC: ReceivePlayerAnswersAndProcess 
     public void ReceivePlayerAnswersAndProcess_MCC(List<string> answers)
     {
         if (isSessionFinished) return;
 
         playerAnswers = answers;
         ProcessAnswers_MCC();
-        InitiateWaitPanel();
+        //InitiateWaitPanel();
     }
 
-    // MCC: LoadNextQuestion (duplicate) -> renamed and changed to use MonteCarlo agent
+    // MCC: LoadNextQuestion 
     public void LoadNextQuestion_MCC()
     {
         if (isSessionFinished) return;
@@ -341,6 +332,8 @@ public class QuizHandler : MonoBehaviour
             Debug.Log("All questions answered. Session finished.");
             return;
         }
+
+        LoadNextQuestion_MCC();
     }
 
     private string GetCurrentState_MCC()

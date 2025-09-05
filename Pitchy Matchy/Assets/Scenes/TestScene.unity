@@ -167,18 +167,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 28850800}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96f6bcfa2c3310d438ab076c0e390f1f, type: 3}
+  m_Script: {fileID: 11500000, guid: 76ddee04193222349bee2a26355a8484, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  questionsToAnswer: []
+  quizMode: 1
   bank: {fileID: 127569226}
-  numberOfQuestions: 12
   wp: {fileID: 534009048}
   sPanel: {fileID: 1087929173}
-  questText: {fileID: 1289629726}
-  clipPlayer: {fileID: 169996646}
   player: {fileID: 2082558499}
   enemy: {fileID: 0}
+  clipPlayer: {fileID: 169996646}
+  questText: {fileID: 1289629726}
+  numberOfQuestions: 4
+  mccQuestionsPerEpisode: 2
 --- !u!1 &52922656
 GameObject:
   m_ObjectHideFlags: 0
@@ -2526,8 +2527,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 28850802}
-        m_TargetAssemblyTypeName: QuizHandler, Assembly-CSharp
-        m_MethodName: PlayQuestionPitches
+        m_TargetAssemblyTypeName: QuizController, Assembly-CSharp
+        m_MethodName: PlayCurrentPitch
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3180,6 +3181,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1177193687058852215, guid: 8bbc39e25675cf84fa098e59398191cc, type: 3}
       propertyPath: qh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1177193687058852215, guid: 8bbc39e25675cf84fa098e59398191cc, type: 3}
+      propertyPath: qController
       value: 
       objectReference: {fileID: 28850802}
     - target: {fileID: 2728210894273464230, guid: 8bbc39e25675cf84fa098e59398191cc, type: 3}

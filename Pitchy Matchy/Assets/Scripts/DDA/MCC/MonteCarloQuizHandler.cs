@@ -1,156 +1,112 @@
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
-public class MonteCarloQuizHandler : MonoBehaviour
+public class MonteCarloQuizHandler : IQuizHandler
 {
-    [Header("Questions Loaded")]
-    [SerializeField] public List<QuestionComponent> questionsToAnswer;
+    private readonly QuizContext ctx;
+    private MonteCarloAgent mcAgent;
+    private List<(string state, QuestionComponent.DifficultyClass action, float reward)> episode;
+    private int totalQuestions;
+    private int questionsPerEpisode;
+    private int questionsAskedInEpisode = 0;
 
-    [Header("Question Bank")]
-    [SerializeField] private QuestionsBank bank;
-    [SerializeField] private int numberOfQuestions;
-    [SerializeField] private WaitingPanel wp;
+    public bool IsSessionFinished { get; set; } = false;
 
-    [Header("Episode Settings")]
-    [SerializeField] private int totalQuestions = 30;
-    [SerializeField] private int questionsPerEpisode = 5;
-    private int questionsAskedInCurrentEpisode = 0;
-
-    [Header("Question Texts")]
-    [SerializeField] private TMP_Text questText;
-
-    [Header("Clip Player")]
-    [SerializeField] private ClipPlayer clipPlayer;
-
-    [Header("Player & Enemy")]
-    [SerializeField] private PlayerComponent player;
-    [SerializeField] private EnemyComponent enemy;
-
-    private List<string> playerAnswers = new List<string>();
-    private int currQuestionIndex;
-    private bool isSessionFinished;
-
-    private MonteCarloAgent mcAgent = new MonteCarloAgent();
-    private List<(string state, QuestionComponent.DifficultyClass action, float reward)> episode
-        = new List<(string, QuestionComponent.DifficultyClass, float)>();
-
-    void Start()
+    public MonteCarloQuizHandler(QuizContext context, MonteCarloAgent agent = null)
     {
-        currQuestionIndex = 0;
+        ctx = context;
+        mcAgent = agent ?? new MonteCarloAgent();
+        totalQuestions = ctx.NumberOfQuestions;
+        questionsPerEpisode = ctx.MccQuestionsPerEpisode;
+        episode = new List<(string, QuestionComponent.DifficultyClass, float)>();
+    }
+
+    public void StartQuiz()
+    {
+        ctx.CurrQuestionIndex = 0;
+        ctx.QuestionsToAnswer.Clear();
+        // pre-load a question 
         LoadNextQuestion();
     }
 
-    public void UpdateQuestionText()
+    public void Update()
     {
-        int num = questionsToAnswer[currQuestionIndex].GetNumberOfPitchesToAnswer();
-        questText.text = $"Guess the {num} pitches correctly";
-        PlayQuestionPitches();
+        Debug.Log("Current: " + ctx.QuestionsToAnswer.Count);
     }
 
-    public void PlayQuestionPitches()
+    public void ReceivePlayerAnswers(List<string> answers)
     {
-        List<AudioClip> clips = questionsToAnswer[currQuestionIndex].GetAudioClips();
-        clipPlayer.PlayAllClips(clips);
-    }
-
-    public void ReceivePlayerAnswersAndProcess(List<string> answers)
-    {
-        if (isSessionFinished) return;
-
-        playerAnswers = answers;
-        ProcessAnswers();
-        InitiateWaitPanel();
+        if (IsSessionFinished) return;
+        ctx.PlayerAnswers = new List<string>(answers);
+        ProcessAnswers_MCC();
     }
 
     public void LoadNextQuestion()
     {
-        if (isSessionFinished) return;
-
-        if (currQuestionIndex >= totalQuestions)
+        if (IsSessionFinished) return;
+                
+        if (ctx.QuestionsToAnswer.Count >= totalQuestions)
         {
-            isSessionFinished = true;
+            IsSessionFinished = true;
             return;
         }
 
         string state = GetCurrentState();
-        var action = mcAgent.ChooseAction(state);
+        var action = mcAgent.ChooseAction(state); // returns DifficultyClass
+        var nextQ = ctx.Bank.GetQuestionFromBank(action);
+        ctx.AddQuestion(nextQ);
+        ctx.CurrQuestionIndex = ctx.QuestionsToAnswer.Count - 1;
+        questionsAskedInEpisode++;
 
-        var nextQuestion = bank.GetQuestionFromBank(action);
-        questionsToAnswer.Add(nextQuestion);
+        ctx.PlayerAnswers.Clear();
 
-        currQuestionIndex = questionsToAnswer.Count - 1;
-        questionsAskedInCurrentEpisode++;
-
-        wp.HideParentPanel();
-        this.playerAnswers.Clear();
-        UpdateQuestionText();
-        
+        ctx.UpdateQuestionText();
+        ctx.PlayCurrentQuestionPitches();
     }
 
-    private void InitiateWaitPanel()
+    private void ProcessAnswers_MCC()
     {
-        wp.ExtractCurrentQuestionResult(questionsToAnswer[currQuestionIndex]);
-        wp.ShowParentPanel();
-    }
+        var q = ctx.GetCurrentQuestion();
+        if (q == null) return;
+        q.playerAnswers = new List<string>(ctx.PlayerAnswers);
+        q.CheckAnswers();
 
-    private void ProcessAnswers()
-    {
-        var currQ = questionsToAnswer[currQuestionIndex];
-        currQ.playerAnswers = playerAnswers;
-        currQ.CheckAnswers();
-
-        float reward = currQ.isAnsweredCorrectly ? 1f : -1f;
+        float reward = q.isAnsweredCorrectly ? 1f : -1f;
         string state = GetCurrentState();
-        episode.Add((state, currQ.questionDifficulty, reward));
+        episode.Add((state, q.questionDifficulty, reward));
 
-        // Track accuracy for debugging/analysis purposes
-        float accuracy = (float)questionsToAnswer.FindAll(q => q.isAnsweredCorrectly).Count / (currQuestionIndex + 1);
-         Debug.Log($"Current Accuracy: {accuracy * 100f}% after {currQuestionIndex + 1} questions.");
+        float accuracy = (float)ctx.QuestionsToAnswer.FindAll(q => q.isAnsweredCorrectly).Count / (ctx.CurrQuestionIndex + 1);
+        Debug.Log($"Current Accuracy: {accuracy * 100f}% after {ctx.CurrQuestionIndex + 1} questions.");
 
-        if (currQ.isAnsweredCorrectly)
-            enemy.TakeDamage(player.GetAttackPower());
+        if (q.isAnsweredCorrectly)
+            ctx.Enemy.TakeDamage(ctx.Player.GetAttackPower());
         else
-            player.TakeDamage(enemy.GetAttackPower());
-        if (questionsAskedInCurrentEpisode >= questionsPerEpisode)
+            ctx.Player.TakeDamage(ctx.Enemy.GetAttackPower());
+
+        if (questionsAskedInEpisode >= questionsPerEpisode)
         {
-            EndEpisode();
-            questionsAskedInCurrentEpisode = 0;
+            //end episode
+            mcAgent.UpdatePolicy(episode);
+            episode.Clear();
+            Debug.Log("Episode finished. Policy updated.");
+
+            int correct = ctx.QuestionsToAnswer.FindAll(q => q.isAnsweredCorrectly).Count;
+            int total = ctx.QuestionsToAnswer.Count;
+            float finalAccuracy = (float)correct / total;
+            Debug.Log($"Episode finished. Final Accuracy: {finalAccuracy * 100f}% ({correct}/{total} correct).");
+
+            questionsAskedInEpisode = 0;
         }
 
-        if (currQuestionIndex >= totalQuestions)
-        {
-            isSessionFinished = true;
-            if (episode.Count > 0)
-            {
-                EndEpisode();
-            }    
-            Debug.Log("All questions answered. Session finished.");
-            return;
-        }
+        LoadNextQuestion();
     }
 
     private string GetCurrentState()
     {
-        if (currQuestionIndex == 0) return "START";
-
-        float accuracy = (float)questionsToAnswer.FindAll(q => q.isAnsweredCorrectly).Count / currQuestionIndex;
+        if (ctx.CurrQuestionIndex == 0) return "START";
+        float accuracy = (float)ctx.QuestionsToAnswer.FindAll(q => q.isAnsweredCorrectly).Count / ctx.QuestionsToAnswer.Count;
         if (accuracy < 0.4f) return "LOW";
         if (accuracy < 0.7f) return "MEDIUM";
         return "HIGH";
     }
-
-    private void EndEpisode()
-    {
-        mcAgent.UpdatePolicy(episode);
-        episode.Clear();
-        Debug.Log("Episode finished. Policy updated.");
-
-        int correct = questionsToAnswer.FindAll(q => q.isAnsweredCorrectly).Count;
-        int total = questionsToAnswer.Count;
-        float finalAccuracy = (float)correct / total;
-        Debug.Log($"Episode finished. Final Accuracy: {finalAccuracy * 100f}% ({correct}/{total} correct).");
-    }
-
 }
