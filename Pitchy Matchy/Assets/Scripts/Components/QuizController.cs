@@ -30,10 +30,15 @@ public class QuizController : MonoBehaviour
             ctx = new QuizContext(bank, wp, sPanel, player, enemy, clipPlayer, questText, numberOfQuestions);
             handler = new NormalQuizHandler(ctx);
         }
-        else
+        else if (quizMode == QuizMode.MonteCarloControl)
         {
             ctx = new QuizContext(bank, wp, sPanel, player, enemy, clipPlayer, questText, numberOfQuestions, mccQuestionsPerEpisode);
             handler = new MonteCarloQuizHandler(ctx, new MonteCarloAgent()); // or inject agent instance
+        }
+        else if (quizMode == QuizMode.Sarsa)
+        {
+            ctx = new QuizContext(bank, wp, sPanel, player, enemy, clipPlayer, questText, numberOfQuestions);
+            handler = new SARSAQuizHandler(ctx, new SARSAController());
         }
     }
 

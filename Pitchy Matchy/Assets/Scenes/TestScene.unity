@@ -170,7 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76ddee04193222349bee2a26355a8484, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quizMode: 1
+  quizMode: 2
   bank: {fileID: 127569226}
   wp: {fileID: 534009048}
   sPanel: {fileID: 1087929173}
