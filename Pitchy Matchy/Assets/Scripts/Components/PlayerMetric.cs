@@ -27,6 +27,44 @@ public class PlayerMetric
         }
     }
 
+    private (int total, int correct) CountForDifficulty(QuestionComponent.DifficultyClass difficulty)
+    {
+        int total = 0;
+        int correct = 0;
+
+        foreach (var q in questionsAnswered)
+        {
+            if (q.questionDifficulty == difficulty)
+            {
+                total++;
+                if (q.isAnsweredCorrectly) correct++;
+            }
+        }
+
+        return (total, correct);
+    }
+
+    public double GetAccuracy(QuestionComponent.DifficultyClass difficulty)
+    {
+        var (total, correct) = CountForDifficulty(difficulty);
+        if (total == 0) return 0.0;
+        return (double)correct / total;
+    }
+
+    public int GetCorrect(QuestionComponent.DifficultyClass difficulty)
+    {
+        var (_, correct) = CountForDifficulty(difficulty);
+        return correct;
+    }
+
+    public int GetTotal(QuestionComponent.DifficultyClass difficulty)
+    {
+        var (total, _) = CountForDifficulty(difficulty);
+        return total;
+    }
+
+
+
     public void CalculateTotalAccuracy()
     {
         float totalQuestions = questionsAnswered.Count;
