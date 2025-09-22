@@ -7,12 +7,8 @@ public class PianoHandler : MonoBehaviour
 {
     [Header("Labels")]
     [SerializeField] TMP_Text keyLabel;
-    [Header("Quiz Handler")]
-    //addition from sarsa
-    //[SerializeField] SARSAQuizHandler qh;
-    [SerializeField] QuizHandler qh;
-    //[SerializeField] MonteCarloQuizHandler mc;
-
+    [Header("Quiz Controller")]
+    [SerializeField] QuizController qController;
     private List<string> keys = new List<string>();
 
     public void UpdatePianoKeyPressed(string input)
@@ -41,8 +37,7 @@ public class PianoHandler : MonoBehaviour
 
     public void SendPlayerAnswerToHandler()
     {
-    //merge with qh with mcc
-        qh.ReceivePlayerAnswersAndProcess(new List<string>(keys));
+        qController.OnPlayerSubmitAnswers(new List<string>(keys));
         Debug.Log("Sent player answers to QuizHandler");
         ClearAllKeys();
     }

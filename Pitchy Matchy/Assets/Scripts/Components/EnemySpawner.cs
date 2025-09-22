@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] QuizHandler quizHandler;
+    [SerializeField] QuizController quizHandler;
     [SerializeField] GameObject spawnPoint;
     [SerializeField] GameObject[] enemyVariants;
     [SerializeField] bool isInfiniteSpawning;

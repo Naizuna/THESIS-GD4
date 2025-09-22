@@ -7,7 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 //quiz handler will bridge the PianoHandler (player inputs), question answering and etc.
-public class QuizHandler : MonoBehaviour
+public class QuizHandlerOld : MonoBehaviour
 {
     [Header("Questions Loaded(visible for testing)")]
     [SerializeField] public List<QuestionComponent> questionsToAnswer; //will be dynamically filled up
