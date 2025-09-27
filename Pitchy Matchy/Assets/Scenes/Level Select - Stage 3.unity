@@ -417,7 +417,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 161167481}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7852664552765400886, guid: e8959b8016c67c144a560d8998db6e94, type: 3}
+        m_TargetAssemblyTypeName: SceneController, Assembly-CSharp
+        m_MethodName: LoadScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Level Select - Stage 2
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &161167481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -438,7 +450,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1396582164, guid: 91b0aad574a7ebb4aa3cbceb5403a216, type: 3}
+  m_Sprite: {fileID: -1288731277, guid: 91b0aad574a7ebb4aa3cbceb5403a216, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -736,19 +748,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 415432946}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7852664552765400886, guid: e8959b8016c67c144a560d8998db6e94, type: 3}
-        m_TargetAssemblyTypeName: SceneController, Assembly-CSharp
-        m_MethodName: LoadScene
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Level Select - Stage 2
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &415432946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -769,7 +769,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -75797474, guid: 91b0aad574a7ebb4aa3cbceb5403a216, type: 3}
+  m_Sprite: {fileID: -1290512236, guid: 91b0aad574a7ebb4aa3cbceb5403a216, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1500,7 +1500,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1063028729, guid: c31fc2cbab0b9a34a9013ed1b0f79983, type: 3}
+  m_Sprite: {fileID: 1675267145, guid: c31fc2cbab0b9a34a9013ed1b0f79983, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1788,7 +1788,7 @@ MonoBehaviour:
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: -288192771, guid: 0cd166df913f1fb449f41aec83929b80, type: 3}
+    m_PressedSprite: {fileID: 1379749415, guid: 0cd166df913f1fb449f41aec83929b80, type: 3}
     m_SelectedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
@@ -1834,7 +1834,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 585785097, guid: 0cd166df913f1fb449f41aec83929b80, type: 3}
+  m_Sprite: {fileID: 67760728, guid: 0cd166df913f1fb449f41aec83929b80, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1920,7 +1920,7 @@ MonoBehaviour:
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: -2039639523, guid: 0cd166df913f1fb449f41aec83929b80, type: 3}
+    m_PressedSprite: {fileID: 1984267731, guid: 0cd166df913f1fb449f41aec83929b80, type: 3}
     m_SelectedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
@@ -1966,7 +1966,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1784303698, guid: 0cd166df913f1fb449f41aec83929b80, type: 3}
+  m_Sprite: {fileID: -1101534499, guid: 0cd166df913f1fb449f41aec83929b80, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2217,7 +2217,7 @@ PrefabInstance:
     - target: {fileID: 9120673762557241575, guid: 321ab0b8fb429ae4f919aa69b787342f, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: aa08593997245bd428b3210dccbe42fc, type: 3}
+      objectReference: {fileID: 21300000, guid: 0c886e99cedc690488d03c1e8a939942, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -3069,7 +3069,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 819785739, guid: f9d22fb416c42ff48965f385cb7ab543, type: 3}
+  m_Sprite: {fileID: 1509944102, guid: f9d22fb416c42ff48965f385cb7ab543, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
