@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a328429f0e990ad439da900f18cbf143
+guid: 238ec2d1c83c4f54e97d1ad48471eb32
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -46,8 +46,8 @@ TextureImporter:
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 1
-  spritePivot: {x: 0, y: 1}
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
@@ -97,7 +97,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Corner Buttons_0
+      name: Back Buttons_0
       rect:
         serializedVersion: 2
         x: 0
@@ -111,14 +111,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b7752c7dbcab6cb4596507924e508351
-      internalID: 263061209
+      spriteID: a004e2a360b50404890da1d9c5de4c77
+      internalID: 1946331488
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Corner Buttons_1
+      name: Back Buttons_1
       rect:
         serializedVersion: 2
         x: 11
@@ -132,14 +132,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b3894c58b0134e042a24b759542d03f9
-      internalID: 620993995
+      spriteID: bb7c531ba92a3de44af7fdd57e367da7
+      internalID: 865346342
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Corner Buttons_2
+      name: Back Buttons_2
       rect:
         serializedVersion: 2
         x: 22
@@ -153,14 +153,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cccb8a684c73bff4ea15a668234078e2
-      internalID: 1503093036
+      spriteID: 4d84552cd1c003a4bacc9c80e93871af
+      internalID: 1707693256
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Corner Buttons_3
+      name: Back Buttons_3
       rect:
         serializedVersion: 2
         x: 33
@@ -174,8 +174,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1ac18b35fe4a69045820c5a438e3795a
-      internalID: 1155524688
+      spriteID: bd1e7b66d2d25334e9c933f117a27666
+      internalID: -1353787147
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Back Buttons_4
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 0
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ddee7ff2b007e646b6677826a955270
+      internalID: -1842196993
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Back Buttons_5
+      rect:
+        serializedVersion: 2
+        x: 55
+        y: 0
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc225a2e8ad58f6478a3c0a68d7995d7
+      internalID: 880328927
       vertices: []
       indices: 
       edges: []
@@ -191,10 +233,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Corner Buttons_0: 263061209
-      Corner Buttons_1: 620993995
-      Corner Buttons_2: 1503093036
-      Corner Buttons_3: 1155524688
+      Back Buttons_0: 1946331488
+      Back Buttons_1: 865346342
+      Back Buttons_2: 1707693256
+      Back Buttons_3: -1353787147
+      Back Buttons_4: -1842196993
+      Back Buttons_5: 880328927
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
