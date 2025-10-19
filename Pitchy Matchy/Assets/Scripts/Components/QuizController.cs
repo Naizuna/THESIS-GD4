@@ -16,6 +16,9 @@ public class QuizController : MonoBehaviour
     [SerializeField] private TMPro.TMP_Text questText;
     [SerializeField] private int numberOfQuestions;
 
+    [Header("Reference Pitch")]
+    [SerializeField] private AudioClip referencePitch;
+
     [Header("Monte Carlo Control Options (only valid if MCC mode)")]
     [SerializeField] private int mccQuestionsPerEpisode;
     [SerializeField] List<QuestionComponent> viewQuestions;
@@ -77,6 +80,7 @@ public class QuizController : MonoBehaviour
     {
         ctx.UpdatePlayerMetrics();
         ctx.PrintPlayerMetrics();
+        ctx.ExportPlayerMetricsCSV();
         sPanel.SetResultsText(ctx);
         sPanel.SetLoseScreen();
         sPanel.ShowParentPanel();
@@ -86,6 +90,7 @@ public class QuizController : MonoBehaviour
     {
         ctx.UpdatePlayerMetrics();
         ctx.PrintPlayerMetrics();
+        ctx.ExportPlayerMetricsCSV();
         sPanel.SetResultsText(ctx);
         sPanel.SetWinScreen();
         sPanel.ShowParentPanel();
@@ -105,6 +110,14 @@ public class QuizController : MonoBehaviour
     public void PlayCurrentPitch()
     {
         ctx.PlayCurrentQuestionPitches();
+    }
+
+    public void PlayReferencePitch()
+    {
+        if (ctx.QuestionsToAnswer[ctx.CurrQuestionIndex].questionDifficulty.Equals(QuestionComponent.DifficultyClass.HARD))
+        {
+            clipPlayer.PlaySingleClip(referencePitch);
+        }
     }
 
     // Called by UI to request next question (or handler can call it)
