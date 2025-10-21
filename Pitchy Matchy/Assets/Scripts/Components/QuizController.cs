@@ -18,6 +18,7 @@ public class QuizController : MonoBehaviour
 
     [Header("Monte Carlo Control Options (only valid if MCC mode)")]
     [SerializeField] private int mccQuestionsPerEpisode;
+    [SerializeField] List<QuestionComponent> viewQuestions;
 
     private QuizContext ctx;
     private IQuizHandler handler;
@@ -50,6 +51,8 @@ public class QuizController : MonoBehaviour
 
     void Update()
     {
+        viewQuestions = ctx.QuestionsToAnswer;
+
         // central checks (player death / victory)
         if (HasVictoryOrDefeatScreensShown) return;
 

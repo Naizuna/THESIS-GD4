@@ -25,8 +25,20 @@ public class MonteCarloQuizHandler : IQuizHandler
     {
         ctx.CurrQuestionIndex = 0;
         ctx.QuestionsToAnswer.Clear();
-        // pre-load a question 
-        LoadNextQuestion();
+        
+        for (int i = 0; i < questionsPerEpisode; i++)
+        {
+            string state = GetCurrentState();
+            var action = mcAgent.ChooseAction(state);
+            var question = ctx.Bank.GetQuestionFromBank(action);
+            ctx.AddQuestion(question);
+        }
+
+        ctx.CurrQuestionIndex = 0;
+        questionsAskedInEpisode = 0;
+        ctx.PlayerAnswers.Clear();
+        ctx.UpdateQuestionText(); // Timer starts automatically here
+        ctx.PlayCurrentQuestionPitches();
     }
 
     public void Update()
@@ -37,6 +49,8 @@ public class MonteCarloQuizHandler : IQuizHandler
     public void ReceivePlayerAnswers(List<string> answers)
     {
         if (IsSessionFinished) return;
+
+        ctx.RecordResponseTime(); // Record time before processing answers
         ctx.PlayerAnswers = new List<string>(answers);
         ProcessAnswers_MCC();
     }
@@ -45,22 +59,42 @@ public class MonteCarloQuizHandler : IQuizHandler
     {
         if (IsSessionFinished) return;
                 
-        if (ctx.QuestionsToAnswer.Count >= totalQuestions)
+        if (ctx.CurrQuestionIndex + 1 >= totalQuestions)
         {
             IsSessionFinished = true;
             return;
         }
 
-        string state = GetCurrentState();
-        var action = mcAgent.ChooseAction(state); // returns DifficultyClass
-        var nextQ = ctx.Bank.GetQuestionFromBank(action);
-        ctx.AddQuestion(nextQ);
-        ctx.CurrQuestionIndex = ctx.QuestionsToAnswer.Count - 1;
-        questionsAskedInEpisode++;
+        if (ctx.CurrQuestionIndex + 1 < ctx.QuestionsToAnswer.Count)
+        {
+            ctx.CurrQuestionIndex++;
+        }
+        else
+        {
+            if (questionsAskedInEpisode >= questionsPerEpisode)
+            {
+                //start new episode
+                mcAgent.UpdatePolicy(episode);
+                episode.Clear();
+                Debug.Log("Episode finished. Policy updated.");
+                questionsAskedInEpisode = 0;
+            }
+
+            // Generate another mixed batch for the next episode
+            for (int i = 0; i < questionsPerEpisode; i++)
+            {
+                string state = GetCurrentState();
+                var action = mcAgent.ChooseAction(state);
+                var question = ctx.Bank.GetQuestionFromBank(action);
+                ctx.AddQuestion(question);
+            }
+
+                ctx.CurrQuestionIndex++;
+                questionsAskedInEpisode++;
+            }
 
         ctx.PlayerAnswers.Clear();
-
-        ctx.UpdateQuestionText();
+        ctx.UpdateQuestionText(); // Resets timer for new question
         ctx.PlayCurrentQuestionPitches();
     }
 
@@ -68,10 +102,12 @@ public class MonteCarloQuizHandler : IQuizHandler
     {
         var q = ctx.GetCurrentQuestion();
         if (q == null) return;
+
         q.playerAnswers = new List<string>(ctx.PlayerAnswers);
         q.CheckAnswers();
 
         float reward = q.isAnsweredCorrectly ? 1f : -1f;
+
         string state = GetCurrentState();
         episode.Add((state, q.questionDifficulty, reward));
 
@@ -87,6 +123,7 @@ public class MonteCarloQuizHandler : IQuizHandler
         {
             //end episode
             mcAgent.UpdatePolicy(episode);
+            mcAgent.DecayEpsilon();
             episode.Clear();
             Debug.Log("Episode finished. Policy updated.");
 
@@ -101,12 +138,30 @@ public class MonteCarloQuizHandler : IQuizHandler
         LoadNextQuestion();
     }
 
+    private string GetResponseTimeCategory(float responseTime)
+    {
+        if (responseTime <= 5f) return "FAST";
+        if (responseTime <= 10f) return "AVERAGE";
+        return "SLOW";
+    }
+
     private string GetCurrentState()
     {
         if (ctx.CurrQuestionIndex == 0) return "START";
+
         float accuracy = (float)ctx.QuestionsToAnswer.FindAll(q => q.isAnsweredCorrectly).Count / ctx.QuestionsToAnswer.Count;
-        if (accuracy < 0.4f) return "LOW";
-        if (accuracy < 0.7f) return "MEDIUM";
-        return "HIGH";
+
+        float latestResponseTime = ctx.ResponseTimes.Count > 0
+        ? ctx.ResponseTimes[ctx.ResponseTimes.Count - 1]
+        : 0f;
+
+        string timeCategory = GetResponseTimeCategory(latestResponseTime);
+
+        string accLabel;
+        if (accuracy < 0.4f) accLabel = "LOW";
+        else if (accuracy < 0.7f) accLabel =  "MEDIUM";
+        else accLabel = "HIGH";
+
+        return $"{accLabel}_{timeCategory}";
     }
 }

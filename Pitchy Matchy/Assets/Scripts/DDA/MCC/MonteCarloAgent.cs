@@ -6,6 +6,17 @@ using UnityEngine;
 
 public class MonteCarloAgent
 {
+    private float epsilon = 0.1f;
+    private float minEpsilon = 0.01f;
+    private float decayRate = 0.99f;
+    
+    public void DecayEpsilon()
+    {
+        epsilon = Mathf.Max(minEpsilon, epsilon * decayRate);
+    }
+    // Optional property for logging
+    public float CurrentEpsilon => epsilon;
+
     // Q[state, action] = value
     private Dictionary<(string state, QuestionComponent.DifficultyClass action), float> Q
         = new Dictionary<(string, QuestionComponent.DifficultyClass), float>();
@@ -15,7 +26,7 @@ public class MonteCarloAgent
 
     private System.Random rng = new System.Random();
 
-    public QuestionComponent.DifficultyClass ChooseAction(string state, float epsilon = 0.1f)
+    public QuestionComponent.DifficultyClass ChooseAction(string state)
     {
         // Explore
         if (rng.NextDouble() < epsilon || !HasState(state))
