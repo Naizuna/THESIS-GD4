@@ -12,6 +12,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] bool autoSpawn;
     [SerializeField] float zSpawnOffset;
     private GameObject spawnedEnemy;
+    private EnemyComponent spawnedEnemyComponent;
     private int variantCount;
 
     void Start()
@@ -27,7 +28,14 @@ public class EnemySpawner : MonoBehaviour
         if (autoSpawn)
         {
             if (spawnedEnemy == null)
+            {
                 TrySpawn();
+                quizHandler.playerInputEnabled = true;
+            }
+            if (spawnedEnemyComponent.isDefeated)
+            {
+                quizHandler.playerInputEnabled = false;
+            }
         }
     }
 
@@ -51,6 +59,7 @@ public class EnemySpawner : MonoBehaviour
             Quaternion.identity
         );
         spawnedEnemy = temp;
+        spawnedEnemyComponent = spawnedEnemy.GetComponent<EnemyComponent>();
         quizHandler.SetEnemy(spawnedEnemy.GetComponent<EnemyComponent>());
     }
 }

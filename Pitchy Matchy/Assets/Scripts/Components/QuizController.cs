@@ -26,6 +26,7 @@ public class QuizController : MonoBehaviour
     private QuizContext ctx;
     private IQuizHandler handler;
     private bool HasVictoryOrDefeatScreensShown = false;
+    public bool playerInputEnabled { get; set; }
 
     void Awake()
     {
@@ -50,6 +51,7 @@ public class QuizController : MonoBehaviour
     {
         sPanel.HideParentPanel();
         handler.StartQuiz();
+        playerInputEnabled = true;
     }
 
     void Update()
@@ -57,6 +59,7 @@ public class QuizController : MonoBehaviour
         viewQuestions = ctx.QuestionsToAnswer;
         // central checks (player death / victory)
         if (HasVictoryOrDefeatScreensShown) return;
+        Debug.Log("is input enabled: " + playerInputEnabled);
 
         if (player.IsPlayerDefeated())
         {
@@ -104,6 +107,8 @@ public class QuizController : MonoBehaviour
     // Called from UI to submit answers
     public void OnPlayerSubmitAnswers(List<string> answers)
     {
+        if (!playerInputEnabled) return;
+
         handler.ReceivePlayerAnswers(answers);
     }
 
