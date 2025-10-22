@@ -6,8 +6,12 @@ using UnityEngine;
 public class PlayerMetric
 {
     string levelName;
-    float totalAccuracy;
+    double totalAccuracy;
     List<QuestionComponent> questionsAnswered;
+
+    public double easyAccuracy { get; private set; }
+    public double mediumAccuracy { get; private set; }
+    public double hardAccuracy { get; private set; }
 
     public void WriteToFile()
     {
@@ -77,6 +81,13 @@ public class PlayerMetric
         }
 
         totalAccuracy = totalCorrect / totalQuestions;
+    }
+
+    public void CalculateDifficultyAccuracy()
+    {
+        easyAccuracy = GetAccuracy(QuestionComponent.DifficultyClass.EASY);
+        mediumAccuracy = GetAccuracy(QuestionComponent.DifficultyClass.MEDIUM);
+        hardAccuracy = GetAccuracy(QuestionComponent.DifficultyClass.HARD);
     }
 
     public void SetQuestionsAnswered(List<QuestionComponent> questions)

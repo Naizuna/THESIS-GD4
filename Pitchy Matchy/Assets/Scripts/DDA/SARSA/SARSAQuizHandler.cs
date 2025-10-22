@@ -138,9 +138,9 @@ public class SARSAQuizHandler : IQuizHandler
         if (answeredCount == 0) return "START";
 
         float accuracy = (float)ctx.QuestionsToAnswer.FindAll(q => q.isAnsweredCorrectly).Count / Math.Max(1, ctx.CurrQuestionIndex);
-        if (accuracy < 0.4f) return "LOW";
+        if (accuracy < 0.4f) return "EASY";
         if (accuracy < 0.7f) return "MEDIUM";
-        return "HIGH";
+        return "HARD";
     }
 
     private string GetNextState()
@@ -150,8 +150,8 @@ public class SARSAQuizHandler : IQuizHandler
         int correctAnswers = ctx.QuestionsToAnswer.FindAll(q => q.isAnsweredCorrectly).Count;
         float projectedAccuracy = (float)(correctAnswers + 1) / (ctx.CurrQuestionIndex + 2); // optimistic projection
 
-        if (projectedAccuracy < 0.4f) return "LOW";
+        if (projectedAccuracy < 0.4f) return "EASY";
         if (projectedAccuracy < 0.7f) return "MEDIUM";
-        return "HIGH";
+        return "HARD";
     }
 }

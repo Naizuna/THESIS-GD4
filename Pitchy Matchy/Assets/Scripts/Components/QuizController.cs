@@ -52,7 +52,6 @@ public class QuizController : MonoBehaviour
     void Update()
     {
         viewQuestions = ctx.QuestionsToAnswer;
-
         // central checks (player death / victory)
         if (HasVictoryOrDefeatScreensShown) return;
 
@@ -76,18 +75,20 @@ public class QuizController : MonoBehaviour
 
     private void HandlePlayerDefeat()
     {
-        sPanel.SetLoseScreen();
-        sPanel.ShowParentPanel();
         ctx.UpdatePlayerMetrics();
         ctx.PrintPlayerMetrics();
+        sPanel.SetResultsText(ctx);
+        sPanel.SetLoseScreen();
+        sPanel.ShowParentPanel();
     }
 
     private void HandlePlayerVictory()
     {
-        sPanel.SetWinScreen();
-        sPanel.ShowParentPanel();
         ctx.UpdatePlayerMetrics();
         ctx.PrintPlayerMetrics();
+        sPanel.SetResultsText(ctx);
+        sPanel.SetWinScreen();
+        sPanel.ShowParentPanel();
     }
     
     public void SetEnemy(EnemyComponent enemy)

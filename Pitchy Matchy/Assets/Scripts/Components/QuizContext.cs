@@ -129,6 +129,7 @@ public class QuizContext
     {
         PlyrMetric.SetQuestionsAnswered(QuestionsToAnswer);
         PlyrMetric.CalculateTotalAccuracy();
+        PlyrMetric.CalculateDifficultyAccuracy();
     }
 
     public void PrintPlayerMetrics()
