@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4f1f06b131bbc4b4b9928f1e2ec23bd7
+guid: fdbfa12ff278c2f48893fd3fbdb490e1
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -46,8 +46,8 @@ TextureImporter:
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 1
-  spritePivot: {x: 0, y: 1}
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
@@ -97,64 +97,127 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Category question_0
+      name: Category question 1_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 35
+        width: 171
+        height: 7
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 56da82e2802139041a43d35c10496917
+      internalID: 1669262373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Category question 1_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 28
+        width: 171
+        height: 7
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc9be73803f3c794aae9750a160bc477
+      internalID: 1662538431
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Category question 1_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 21
+        width: 171
+        height: 7
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db54a4723793231439453a74a9dcb3df
+      internalID: -449859289
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Category question 1_3
       rect:
         serializedVersion: 2
         x: 0
         y: 14
         width: 171
         height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 1
+      pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d77673615ac903348ae5aabc290d6f0a
-      internalID: 1637291782
+      spriteID: 313f9ee5927b5684a9ec945e667948ae
+      internalID: -1367647286
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Category question_1
+      name: Category question 1_4
       rect:
         serializedVersion: 2
         x: 0
         y: 7
         width: 171
         height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 1
+      pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: deffb5df75e1c9142873dc567911bd17
-      internalID: -1434470557
+      spriteID: 6667e0e4498f1644993dbbb2f8b9669a
+      internalID: -1243071264
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Category question_2
+      name: Category question 1_5
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 171
         height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 1
+      pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2478df10c7f56f645b42dacb2fcabd81
-      internalID: -211022355
+      spriteID: 1753a84f6496ba342b5e56419a2f026e
+      internalID: 1312030848
       vertices: []
       indices: 
       edges: []
@@ -170,9 +233,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Category question_0: 1637291782
-      Category question_1: -1434470557
-      Category question_2: -211022355
+      Category question 1_0: 1669262373
+      Category question 1_1: 1662538431
+      Category question 1_2: -449859289
+      Category question 1_3: -1367647286
+      Category question 1_4: -1243071264
+      Category question 1_5: 1312030848
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
