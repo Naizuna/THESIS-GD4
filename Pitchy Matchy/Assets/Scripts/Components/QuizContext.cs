@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Video;
 
 public class QuizContext
 {
@@ -23,6 +24,10 @@ public class QuizContext
 
     //MCC related stuff
     public int MccQuestionsPerEpisode { get; }
+
+    // Response Time Tracking
+    public List<float> ResponseTimes { get; private set; }
+    private float questionStartTime;
 
     public QuizContext(QuestionsBank bank,
                        WaitingPanel wp,
@@ -46,6 +51,9 @@ public class QuizContext
         PlayerAnswers = new List<string>();
         PlyrMetric = new PlayerMetric();
         CurrQuestionIndex = 0;
+
+        ResponseTimes = new List<float>();
+        questionStartTime = Time.time;
     }
 
     //mcc variant constructor
@@ -74,6 +82,9 @@ public class QuizContext
         PlayerAnswers = new List<string>();
         PlyrMetric = new PlayerMetric();
         CurrQuestionIndex = 0;
+
+        ResponseTimes = new List<float>();
+        questionStartTime = Time.time;
     }
 
     public QuestionComponent GetCurrentQuestion()
@@ -90,6 +101,9 @@ public class QuizContext
         if (q == null) { QuestText.text = "No question"; return; }
         int num = q.GetNumberOfPitchesToAnswer();
         QuestText.text = $"Guess the {num} pitches correctly";
+
+        // Reset response time tracking for the new question
+        StartQuestionTimer();
     }
 
     public void PlayCurrentQuestionPitches()
@@ -97,6 +111,18 @@ public class QuizContext
         var q = GetCurrentQuestion();
         if (q == null) return;
         ClipPlayer.PlayAllClips(q.GetAudioClips());
+    }
+
+    public void StartQuestionTimer()
+    {
+        questionStartTime = Time.time;
+    }
+
+    public void RecordResponseTime()
+    {
+        float responseTime = Time.time - questionStartTime;
+        ResponseTimes.Add(responseTime);
+        Debug.Log($"Response Time for Question {CurrQuestionIndex + 1}: {responseTime:F2} seconds");
     }
 
     public void UpdatePlayerMetrics()

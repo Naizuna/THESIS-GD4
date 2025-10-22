@@ -50,6 +50,31 @@ public class QuestionsBank : MonoBehaviour
         return question;
     }
 
+    public List<QuestionComponent> GetQuestionsFromBank(QuestionComponent.DifficultyClass difficulty, int count)
+    {
+        List<QuestionComponent> questions = difficulty switch
+        {
+            QuestionComponent.DifficultyClass.EASY => new List<QuestionComponent>(easyQuestionsPool),
+            QuestionComponent.DifficultyClass.MEDIUM => new List<QuestionComponent>(mediumQuestionsPool),
+            QuestionComponent.DifficultyClass.HARD => new List<QuestionComponent>(hardQuestionsPool),
+            _ => null
+        };
+
+        if (questions == null || questions.Count == 0) return new List<QuestionComponent>();
+
+        count = Mathf.Min(count, questions.Count);
+
+        List<QuestionComponent> result = new List<QuestionComponent>(count);
+
+        for (int i = 0; i < count; i++)
+        {
+            int index = Random.Range(0, questions.Count);
+            result.Add(new QuestionComponent(questions[index]));
+        }
+
+        return result;
+    }
+
     private void SortIntoDifficulties()
     {
         foreach (var question in availableQuestionsPool)
