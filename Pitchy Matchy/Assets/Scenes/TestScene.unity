@@ -2704,13 +2704,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 169996646}
-        m_TargetAssemblyTypeName: ClipPlayer, Assembly-CSharp
-        m_MethodName: PlaySingleClip
-        m_Mode: 2
+      - m_Target: {fileID: 28850802}
+        m_TargetAssemblyTypeName: QuizController, Assembly-CSharp
+        m_MethodName: PlayReferencePitch
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

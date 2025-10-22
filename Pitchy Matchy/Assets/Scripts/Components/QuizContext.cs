@@ -136,6 +136,12 @@ public class QuizContext
     {
         PlyrMetric.TestPrint();
     }
+
+    public void ExportPlayerMetricsCSV()
+    {
+        PlyrMetric.levelName = "levelTest";
+        PlyrMetric.WriteToFile("test");
+    }
     public void SetEnemy(EnemyComponent enemy)
     {
         Enemy = enemy;

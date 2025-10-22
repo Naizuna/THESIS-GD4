@@ -5,17 +5,28 @@ using UnityEngine;
 
 public class PlayerMetric
 {
-    string levelName;
-    double totalAccuracy;
+    public string levelName { get; set; }
+    public double totalAccuracy { get; private set; }
     List<QuestionComponent> questionsAnswered;
+    DataExporter dataExporter = new DataExporter();
 
     public double easyAccuracy { get; private set; }
     public double mediumAccuracy { get; private set; }
     public double hardAccuracy { get; private set; }
 
-    public void WriteToFile()
+    public void WriteToFile(string filename)
     {
-        //todo
+        if (questionsAnswered == null)
+        {
+            throw new InvalidOperationException("List is null.");
+        }
+        if (questionsAnswered.Count == 0)
+        {
+            throw new InvalidOperationException("List is empty.");
+        }
+
+        string realFileName = levelName + "_" + filename;
+        dataExporter.PlayerMetricWriteToCSV(realFileName, this);
     }
 
     public void TestPrint()
