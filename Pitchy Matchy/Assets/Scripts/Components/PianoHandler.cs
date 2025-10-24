@@ -1,38 +1,37 @@
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class PianoHandler : MonoBehaviour
 {
-    [Header("Labels")]
-    [SerializeField] TMP_Text keyLabel;
     [Header("Quiz Controller")]
     [SerializeField] QuizController qController;
+
     private List<string> keys = new List<string>();
 
-    public void UpdatePianoKeyPressed(string input)
+    public void AddKey(string input)
     {
         if (keys.Count >= 3)
         {
-            Debug.Log("Inputs full");
+            Debug.Log("Limit reached (3 keys).");
             return;
         }
 
         keys.Add(input);
-        string txt = string.Empty;
-        for (int i = 0; i < keys.Count; i++)
-        {
-            if (i == 0)
-            {
-                txt += keys[i];
-                continue;
-            }
-            txt += $", {keys[i]}";
-        }
+        Debug.Log("Key Added: " + input);
+    }
 
-        keyLabel.text = txt;
-        Debug.Log(input);
+    public void RemoveKey(string input)
+    {
+        if (keys.Contains(input))
+        {
+            keys.Remove(input);
+            Debug.Log("Key Removed: " + input);
+        }
+    }
+
+    public List<string> GetAllPianoKeysPressed()
+    {
+        return keys;
     }
 
     public void SendPlayerAnswerToHandler()
@@ -41,15 +40,15 @@ public class PianoHandler : MonoBehaviour
         Debug.Log("Sent player answers to QuizHandler");
         ClearAllKeys();
     }
-    public List<string> GetAllPianoKeysPressed()
-    {
-        return keys;
-    }
 
     public void ClearAllKeys()
     {
         keys.Clear();
-        Debug.Log("Answers Cleared");
-        keyLabel.text = "None";
+
+        // Deselect all visual buttons
+        foreach (var btn in FindObjectsOfType<AnswerButtons>())
+            btn.Deselect();
+
+        Debug.Log("Keys Cleared");
     }
 }

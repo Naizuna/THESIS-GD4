@@ -100,7 +100,7 @@ public class QuizContext
         var q = GetCurrentQuestion();
         if (q == null) { QuestText.text = "No question"; return; }
         int num = q.GetNumberOfPitchesToAnswer();
-        QuestText.text = $"Guess the {num} pitches correctly";
+        QuestText.text = $"guess the {num} pitches";
 
         // Reset response time tracking for the new question
         StartQuestionTimer();

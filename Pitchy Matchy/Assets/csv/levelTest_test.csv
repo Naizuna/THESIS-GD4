@@ -1,6 +1,6 @@
 ﻿PLAYER DATA
 EASY,MED,HARD
-1/1	,0/0	,2/3	
+0/2	,0/1	,1/2	
 EASY_ACC,MED_ACC,HARD_ACC
-1,0,0.666666666666667
-Total Accuracy: 0.75
+0,0,0.5
+Total Accuracy: 0.2
