@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1e884f648c1390145a2d9b30393e4d38
+guid: 93f4939450f77834bb8bba1a4fca3104
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,13 +97,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SeveredFangIdle001-Sheet_0
+      name: Enemy1_Death_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 128
-        height: 128
+        width: 160
+        height: 144
       alignment: 1
       pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -111,20 +111,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bd8a43c3c4fdfc540b10487751ba098a
-      internalID: 1756080206
+      spriteID: 4903837ece7548347a88dd58ff3bd99f
+      internalID: -250987940
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SeveredFangIdle001-Sheet_1
+      name: Enemy1_Death_1
       rect:
         serializedVersion: 2
-        x: 128
+        x: 160
         y: 0
-        width: 128
-        height: 128
+        width: 160
+        height: 144
       alignment: 1
       pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -132,20 +132,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5e66c362637a7464aa977266bf31fdbe
-      internalID: -1259558282
+      spriteID: 94fae5da73e3b494abf36598afbc6661
+      internalID: -2027437606
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SeveredFangIdle001-Sheet_2
+      name: Enemy1_Death_2
       rect:
         serializedVersion: 2
-        x: 256
+        x: 320
         y: 0
-        width: 128
-        height: 128
+        width: 160
+        height: 144
       alignment: 1
       pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,20 +153,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 62d3c13af4f5f484385a77edcdd52313
-      internalID: 180316810
+      spriteID: ab255bc2f64d87f46b7d56ef0937b156
+      internalID: 150857747
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SeveredFangIdle001-Sheet_3
+      name: Enemy1_Death_3
       rect:
         serializedVersion: 2
-        x: 384
+        x: 480
         y: 0
-        width: 128
-        height: 128
+        width: 160
+        height: 144
       alignment: 1
       pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -174,41 +174,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 80af7349a3f3f7948867c7f9cd80aeac
-      internalID: -1610373658
+      spriteID: 7021a698d45697c49917dd06e2400c07
+      internalID: -54539
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SeveredFangIdle001-Sheet_4
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 0
-        width: 128
-        height: 128
-      alignment: 1
-      pivot: {x: 0, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 202ba4629d6a00f4f904b0d7978191dd
-      internalID: -299081247
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SeveredFangIdle001-Sheet_5
+      name: Enemy1_Death_4
       rect:
         serializedVersion: 2
         x: 640
         y: 0
-        width: 128
-        height: 128
+        width: 160
+        height: 144
       alignment: 1
       pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -216,8 +195,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5b7dc7a9909e78e40a0cc1bbe19e47f2
-      internalID: 750213766
+      spriteID: ef1e7b4d97ec7bc42ba2dbf0206ebb92
+      internalID: 1952162095
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy1_Death_5
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 0
+        width: 160
+        height: 144
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c40000274aa6f3e4db6c9f37574f4a49
+      internalID: -1027540332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy1_Death_6
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 0
+        width: 160
+        height: 144
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: afff894e5784b7e44bcb04c490f9b280
+      internalID: -1940133398
       vertices: []
       indices: 
       edges: []
@@ -233,12 +254,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      SeveredFangIdle001-Sheet_0: 1756080206
-      SeveredFangIdle001-Sheet_1: -1259558282
-      SeveredFangIdle001-Sheet_2: 180316810
-      SeveredFangIdle001-Sheet_3: -1610373658
-      SeveredFangIdle001-Sheet_4: -299081247
-      SeveredFangIdle001-Sheet_5: 750213766
+      Enemy1_Death_0: -250987940
+      Enemy1_Death_1: -2027437606
+      Enemy1_Death_2: 150857747
+      Enemy1_Death_3: -54539
+      Enemy1_Death_4: 1952162095
+      Enemy1_Death_5: -1027540332
+      Enemy1_Death_6: -1940133398
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
