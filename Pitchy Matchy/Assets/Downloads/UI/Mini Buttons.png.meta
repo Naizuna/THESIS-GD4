@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b953d19fccb8ef740909aed8ca75c936
+guid: c3cf8a656c0d7204d91020816dddf385
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,7 +97,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Repeat Button 1_0
+      name: Mini Buttons_0
       rect:
         serializedVersion: 2
         x: 0
@@ -111,14 +111,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c979361d07dd6f2479c1d9bd5de2df77
-      internalID: 351491690
+      spriteID: 3a869d9326eff1942afcfbb66b02d657
+      internalID: 1876438353
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Repeat Button 1_1
+      name: Mini Buttons_1
       rect:
         serializedVersion: 2
         x: 10
@@ -132,8 +132,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ae881dfe7480b2842a8560b1b35d44e1
-      internalID: -592131620
+      spriteID: 124e6f4f6334fd949b87242a0ef7387f
+      internalID: 1907687630
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mini Buttons_2
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 0
+        width: 10
+        height: 9
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a2080d7c2ed3fb44bd61e7031cab26f
+      internalID: -1978409211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mini Buttons_3
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 0
+        width: 10
+        height: 9
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c1127303579a9c40928d4c92f12b283
+      internalID: -220990252
       vertices: []
       indices: 
       edges: []
@@ -149,8 +191,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Repeat Button 1_0: 351491690
-      Repeat Button 1_1: -592131620
+      Mini Buttons_0: 1876438353
+      Mini Buttons_1: 1907687630
+      Mini Buttons_2: -1978409211
+      Mini Buttons_3: -220990252
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
