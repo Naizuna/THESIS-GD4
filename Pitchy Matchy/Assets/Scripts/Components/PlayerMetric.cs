@@ -5,13 +5,28 @@ using UnityEngine;
 
 public class PlayerMetric
 {
-    string levelName;
-    float totalAccuracy;
+    public string levelName { get; set; }
+    public double totalAccuracy { get; private set; }
     List<QuestionComponent> questionsAnswered;
+    DataExporter dataExporter = new DataExporter();
 
-    public void WriteToFile()
+    public double easyAccuracy { get; private set; }
+    public double mediumAccuracy { get; private set; }
+    public double hardAccuracy { get; private set; }
+
+    public void WriteToFile(string filename)
     {
-        //todo
+        if (questionsAnswered == null)
+        {
+            throw new InvalidOperationException("List is null.");
+        }
+        if (questionsAnswered.Count == 0)
+        {
+            throw new InvalidOperationException("List is empty.");
+        }
+
+        string realFileName = levelName + "_" + filename;
+        dataExporter.PlayerMetricWriteToCSV(realFileName, this);
     }
 
     public void TestPrint()
@@ -27,6 +42,44 @@ public class PlayerMetric
         }
     }
 
+    private (int total, int correct) CountForDifficulty(QuestionComponent.DifficultyClass difficulty)
+    {
+        int total = 0;
+        int correct = 0;
+
+        foreach (var q in questionsAnswered)
+        {
+            if (q.questionDifficulty == difficulty)
+            {
+                total++;
+                if (q.isAnsweredCorrectly) correct++;
+            }
+        }
+
+        return (total, correct);
+    }
+
+    public double GetAccuracy(QuestionComponent.DifficultyClass difficulty)
+    {
+        var (total, correct) = CountForDifficulty(difficulty);
+        if (total == 0) return 0.0;
+        return (double)correct / total;
+    }
+
+    public int GetCorrect(QuestionComponent.DifficultyClass difficulty)
+    {
+        var (_, correct) = CountForDifficulty(difficulty);
+        return correct;
+    }
+
+    public int GetTotal(QuestionComponent.DifficultyClass difficulty)
+    {
+        var (total, _) = CountForDifficulty(difficulty);
+        return total;
+    }
+
+
+
     public void CalculateTotalAccuracy()
     {
         float totalQuestions = questionsAnswered.Count;
@@ -39,6 +92,13 @@ public class PlayerMetric
         }
 
         totalAccuracy = totalCorrect / totalQuestions;
+    }
+
+    public void CalculateDifficultyAccuracy()
+    {
+        easyAccuracy = GetAccuracy(QuestionComponent.DifficultyClass.EASY);
+        mediumAccuracy = GetAccuracy(QuestionComponent.DifficultyClass.MEDIUM);
+        hardAccuracy = GetAccuracy(QuestionComponent.DifficultyClass.HARD);
     }
 
     public void SetQuestionsAnswered(List<QuestionComponent> questions)

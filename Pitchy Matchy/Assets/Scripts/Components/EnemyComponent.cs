@@ -1,17 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class EnemyComponent : MonoBehaviour
 {
     [SerializeField] SpriteRenderer enemySprite;
+    [SerializeField] ParticleSystem hurtEffect;
+    [SerializeField] ParticleSystem deathEffect;
     [SerializeField] Color damagedColor;
     [SerializeField] float damagedFlashDuration;
     [SerializeField] float enemyHP;
     [SerializeField] int attackPower;
     [SerializeField] Slider hpBar;
-    private bool isDefeated;
+    [SerializeField] float deathDuration;
+    public bool isDefeated  {  get; private set; }
     private Color defaultColor;
     float maxhp;
     void Update()
@@ -41,7 +45,7 @@ public class EnemyComponent : MonoBehaviour
         {
             isDefeated = true;
             enemyHP = 0;
-            Death();
+            StartCoroutine(Death());
             return;
         }
 
@@ -51,15 +55,40 @@ public class EnemyComponent : MonoBehaviour
     private IEnumerator HurtFlash()
     {
         enemySprite.color = damagedColor;
+        PlayHitEffect();
         yield return new WaitForSeconds(damagedFlashDuration);
         enemySprite.color = defaultColor;
     }
 
-    public void Death()
+    public IEnumerator Death()
     {
+        enemySprite.enabled = false;
+        PlayDeathEffect();
+        yield return new WaitForSeconds(deathDuration);
         Destroy(gameObject);
     }
 
+    void PlayHitEffect() 
+    {
+        ParticleSystem instance = Instantiate(
+            hurtEffect, transform.position,
+            Quaternion.identity
+        );
+        Destroy(instance.gameObject,
+        instance.main.duration + 
+        instance.main.startLifetime.constantMax);
+    }
+
+    void PlayDeathEffect() 
+    {
+        ParticleSystem instance = Instantiate(
+            deathEffect, transform.position,
+            Quaternion.identity
+        );
+        Destroy(instance.gameObject,
+        instance.main.duration + 
+        instance.main.startLifetime.constantMax);
+    }
 
     public bool IsDefeated()
     {
