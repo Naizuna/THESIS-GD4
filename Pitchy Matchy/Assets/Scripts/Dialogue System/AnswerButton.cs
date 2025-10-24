@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Unity.VisualScripting;
 
 public class AnswerButton : MonoBehaviour
 {
@@ -13,12 +12,12 @@ public class AnswerButton : MonoBehaviour
     [HideInInspector] public DialogueController controller;
 
     [Header("Visuals")]
-    [SerializeField] private Color normalColor = Color.white;
-    [SerializeField] private Color selectedColor = Color.yellow;
+    [SerializeField] private Sprite normalSprite;
+    [SerializeField] private Sprite selectedSprite;
+
     private bool isSelected;
     private Button button;
     private Image image;
-
 
     void Awake()
     {
@@ -33,9 +32,8 @@ public class AnswerButton : MonoBehaviour
         if (!isSelected)
         {
             if (!controller.CanSelectMoreAnswers())
-            {
                 return;
-            }
+
             isSelected = true;
             controller.AddSelectedAnswer(noteValue);
         }
@@ -57,7 +55,7 @@ public class AnswerButton : MonoBehaviour
     {
         if (image != null)
         {
-            image.color = isSelected ? selectedColor : normalColor;
+            image.sprite = isSelected ? selectedSprite : normalSprite;
         }
     }
 }
