@@ -6,13 +6,13 @@ using UnityEngine;
 public class PlayerMetric
 {
     public string levelName { get; set; }
-    public float totalAccuracy { get; private set; }
+    public double totalAccuracy { get; private set; }
     List<QuestionComponent> questionsAnswered;
     DataExporter dataExporter = new DataExporter();
 
-    public float easyAccuracy { get; private set; }
-    public float mediumAccuracy { get; private set; }
-    public float hardAccuracy { get; private set; }
+    public double easyAccuracy { get; private set; }
+    public double mediumAccuracy { get; private set; }
+    public double hardAccuracy { get; private set; }
 
     public void WriteToFile(string filename)
     {
@@ -59,11 +59,11 @@ public class PlayerMetric
         return (total, correct);
     }
 
-    public float GetAccuracy(QuestionComponent.DifficultyClass difficulty)
+    public double GetAccuracy(QuestionComponent.DifficultyClass difficulty)
     {
         var (total, correct) = CountForDifficulty(difficulty);
-        if (total == 0) return 0.0f;
-        return (float) System.Math.Round((float) correct / total, 2);
+        if (total == 0) return 0.0;
+        return (double)correct / total;
     }
 
     public int GetCorrect(QuestionComponent.DifficultyClass difficulty)
@@ -91,7 +91,7 @@ public class PlayerMetric
                 totalCorrect++;
         }
 
-        totalAccuracy = (float) System.Math.Round(totalCorrect / totalQuestions, 2);
+        totalAccuracy = totalCorrect / totalQuestions;
     }
 
     public void CalculateDifficultyAccuracy()

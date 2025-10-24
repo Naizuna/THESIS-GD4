@@ -43,6 +43,7 @@ public class QuizHandlerOld : MonoBehaviour
     public void Start()
     {
         currQuestionIndex = 0;
+        sPanel.HideParentPanel();
         LoadRandomQuestions(numberOfQuestions);
         UpdateQuestionText();
     }
@@ -72,7 +73,8 @@ public class QuizHandlerOld : MonoBehaviour
     public void PlayerDefeat()
     {
         Debug.Log("Player Defeat");
-
+        sPanel.SetLoseScreen();
+        sPanel.ShowParentPanel();
         playerMetric.SetQuestionsAnswered(questionsToAnswer);
         playerMetric.CalculateTotalAccuracy();
         playerMetric.TestPrint();
@@ -81,7 +83,8 @@ public class QuizHandlerOld : MonoBehaviour
     public void PlayerVictory()
     {
         Debug.Log("Player Victory");
-
+        sPanel.SetWinScreen();
+        sPanel.ShowParentPanel();
         playerMetric.SetQuestionsAnswered(questionsToAnswer);
         playerMetric.CalculateTotalAccuracy();
         playerMetric.TestPrint();

@@ -74,6 +74,7 @@ public class QuizHandlerMerge : MonoBehaviour
     {
         // Original QuizHandler Start behaviour
         currQuestionIndex = 0;
+        sPanel.HideParentPanel();
         LoadRandomQuestions(numberOfQuestions);
         UpdateQuestionText();
 
@@ -107,7 +108,8 @@ public class QuizHandlerMerge : MonoBehaviour
     public void PlayerDefeat()
     {
         Debug.Log("Player Defeat");
-
+        sPanel.SetLoseScreen();
+        sPanel.ShowParentPanel();
         playerMetric.SetQuestionsAnswered(questionsToAnswer);
         playerMetric.CalculateTotalAccuracy();
         playerMetric.TestPrint();
@@ -116,7 +118,8 @@ public class QuizHandlerMerge : MonoBehaviour
     public void PlayerVictory()
     {
         Debug.Log("Player Victory");
-
+        sPanel.SetWinScreen();
+        sPanel.ShowParentPanel();
         playerMetric.SetQuestionsAnswered(questionsToAnswer);
         playerMetric.CalculateTotalAccuracy();
         playerMetric.TestPrint();

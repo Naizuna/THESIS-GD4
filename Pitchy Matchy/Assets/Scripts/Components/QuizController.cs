@@ -11,13 +11,10 @@ public class QuizController : MonoBehaviour
     [SerializeField] private WaitingPanel wp;
     [SerializeField] private ScreensPanel sPanel;
     [SerializeField] private PlayerComponent player;
-    [SerializeField] private GameObject PlayerObject;
     [SerializeField] private EnemyComponent enemy;
     [SerializeField] private ClipPlayer clipPlayer;
     [SerializeField] private TMPro.TMP_Text questText;
     [SerializeField] private int numberOfQuestions;
-    [SerializeField] private EnemySpawner enemySpawner;
-
 
     [Header("Reference Pitch")]
     [SerializeField] private AudioClip referencePitch;
@@ -30,11 +27,10 @@ public class QuizController : MonoBehaviour
     [SerializeField] private DifficultySpriteChanger difficultySpriteChanger;
 
 
-    public QuizContext ctx { private set; get; }
+    private QuizContext ctx;
     private IQuizHandler handler;
     private bool HasVictoryOrDefeatScreensShown = false;
     public bool playerInputEnabled { get; set; }
-    private GameObject enemyObject;
 
     void Awake()
     {
@@ -59,6 +55,7 @@ public class QuizController : MonoBehaviour
 
     void Start()
     {
+        sPanel.HideParentPanel();
         handler.StartQuiz();
         UpdateDifficultyVisual();
         playerInputEnabled = true;
@@ -92,35 +89,27 @@ public class QuizController : MonoBehaviour
 
     private void HandlePlayerDefeat()
     {
-        enemySpawner.StopSpawn();
         ctx.UpdatePlayerMetrics();
         ctx.PrintPlayerMetrics();
         ctx.ExportPlayerMetricsCSV();
-        sPanel.SetLoseScreen(ctx);
-        PlayerObject.SetActive(false);
-        enemyObject.SetActive(false);
+        sPanel.SetResultsText(ctx);
+        sPanel.SetLoseScreen();
+        sPanel.ShowParentPanel();
     }
 
     private void HandlePlayerVictory()
     {
-        enemySpawner.StopSpawn();
         ctx.UpdatePlayerMetrics();
         ctx.PrintPlayerMetrics();
         ctx.ExportPlayerMetricsCSV();
-        sPanel.SetWinScreen(ctx);
-        PlayerObject.SetActive(false);
-        enemyObject.SetActive(false);
+        sPanel.SetResultsText(ctx);
+        sPanel.SetWinScreen();
+        sPanel.ShowParentPanel();
     }
-
+    
     public void SetEnemy(EnemyComponent enemy)
     {
         ctx.SetEnemy(enemy);
-        enemyObject = enemy.gameObject;
-    }
-
-    public PlayerMetric GetPlayerMetric()
-    {
-        return ctx.PlyrMetric;
     }
 
     // Called from UI to submit answers

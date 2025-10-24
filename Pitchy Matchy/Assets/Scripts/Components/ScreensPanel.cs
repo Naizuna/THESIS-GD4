@@ -5,28 +5,43 @@ using UnityEngine;
 
 public class ScreensPanel : MonoBehaviour
 {
-
-    [SerializeField] GameObject winBanner;
-    [SerializeField] GameObject loseBanner;
+    [SerializeField] GameObject parentPanel;
+    [SerializeField] TMP_Text textObj;
+    [SerializeField] TMP_Text resultsObj;
+    [SerializeField] string winText;
+    [SerializeField] string loseText;
     [SerializeField] string resultsText;
 
-    void Start()
+    public void HideParentPanel()
     {
-        UIUtils.HideUIComponents(winBanner);
-        UIUtils.HideUIComponents(loseBanner);
+        UIUtils.HideUIComponents(parentPanel);
     }
 
-    public void SetWinScreen(QuizContext ctx)
+    public void ShowParentPanel()
     {
-        BannerData bannerData = winBanner.GetComponent<BannerData>();
-        bannerData.SetResultsText(ctx);
-        UIUtils.ShowUIComponents(winBanner);
+        UIUtils.ShowUIComponents(parentPanel);
     }
 
-    public void SetLoseScreen(QuizContext ctx)
+    //change accuracy total later
+    public void SetResultsText(QuizContext ctx)
     {
-        BannerData bannerData = loseBanner.GetComponent<BannerData>();
-        bannerData.SetResultsText(ctx);
-        UIUtils.ShowUIComponents(loseBanner);
+        PlayerMetric plyrmetric = ctx.PlyrMetric;
+        resultsObj.text =
+         "Results:\n" +
+         $"Easy: {plyrmetric.GetCorrect(QuestionComponent.DifficultyClass.EASY)}/{plyrmetric.GetTotal(QuestionComponent.DifficultyClass.EASY)}\n" +
+         $"Medium: {plyrmetric.GetCorrect(QuestionComponent.DifficultyClass.MEDIUM)}/{plyrmetric.GetTotal(QuestionComponent.DifficultyClass.MEDIUM)}\n" +
+         $"Hard: {plyrmetric.GetCorrect(QuestionComponent.DifficultyClass.HARD)}/{plyrmetric.GetTotal(QuestionComponent.DifficultyClass.HARD)}\n" +
+         $"Easy Accuracy: {plyrmetric.easyAccuracy}\n" +
+         $"Medium Accuracy: {plyrmetric.mediumAccuracy}\n" +
+         $"Hard Accuracy: {plyrmetric.hardAccuracy}\n" ;
+    }
+    public void SetWinScreen()
+    {
+        textObj.text = winText;
+    }
+
+    public void SetLoseScreen()
+    {
+        textObj.text = loseText;
     }
 }
