@@ -5,43 +5,28 @@ using UnityEngine;
 
 public class ScreensPanel : MonoBehaviour
 {
-    [SerializeField] GameObject parentPanel;
-    [SerializeField] TMP_Text textObj;
-    [SerializeField] TMP_Text resultsObj;
-    [SerializeField] string winText;
-    [SerializeField] string loseText;
+
+    [SerializeField] GameObject winBanner;
+    [SerializeField] GameObject loseBanner;
     [SerializeField] string resultsText;
 
-    public void HideParentPanel()
+    void Start()
     {
-        UIUtils.HideUIComponents(parentPanel);
+        UIUtils.HideUIComponents(winBanner);
+        UIUtils.HideUIComponents(loseBanner);
     }
 
-    public void ShowParentPanel()
+    public void SetWinScreen(QuizContext ctx)
     {
-        UIUtils.ShowUIComponents(parentPanel);
+        BannerData bannerData = winBanner.GetComponent<BannerData>();
+        bannerData.SetResultsText(ctx);
+        UIUtils.ShowUIComponents(winBanner);
     }
 
-    //change accuracy total later
-    public void SetResultsText(QuizContext ctx)
+    public void SetLoseScreen(QuizContext ctx)
     {
-        PlayerMetric plyrmetric = ctx.PlyrMetric;
-        resultsObj.text =
-         "Results:\n" +
-         $"Easy: {plyrmetric.GetCorrect(QuestionComponent.DifficultyClass.EASY)}/{plyrmetric.GetTotal(QuestionComponent.DifficultyClass.EASY)}\n" +
-         $"Medium: {plyrmetric.GetCorrect(QuestionComponent.DifficultyClass.MEDIUM)}/{plyrmetric.GetTotal(QuestionComponent.DifficultyClass.MEDIUM)}\n" +
-         $"Hard: {plyrmetric.GetCorrect(QuestionComponent.DifficultyClass.HARD)}/{plyrmetric.GetTotal(QuestionComponent.DifficultyClass.HARD)}\n" +
-         $"Easy Accuracy: {plyrmetric.easyAccuracy}\n" +
-         $"Medium Accuracy: {plyrmetric.mediumAccuracy}\n" +
-         $"Hard Accuracy: {plyrmetric.hardAccuracy}\n" ;
-    }
-    public void SetWinScreen()
-    {
-        textObj.text = winText;
-    }
-
-    public void SetLoseScreen()
-    {
-        textObj.text = loseText;
+        BannerData bannerData = loseBanner.GetComponent<BannerData>();
+        bannerData.SetResultsText(ctx);
+        UIUtils.ShowUIComponents(loseBanner);
     }
 }
