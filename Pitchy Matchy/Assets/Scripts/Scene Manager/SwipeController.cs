@@ -16,17 +16,20 @@ public class SwipeController : MonoBehaviour, IEndDragHandler
     [SerializeField] float tweenTime;
     [SerializeField] LeanTweenType tweenType;
     float dragThreshold;
-    [SerializeField] Button previousButton, nextButton;
+
+    // NEW: Arrays to allow different buttons per page
+    [SerializeField] private Button[] previousButtons;
+    [SerializeField] private Button[] nextButtons;
+
     [SerializeField] TMP_Text[] pageTexts;
     [SerializeField] string[] pageDescriptions;
-
 
     void Awake()
     {
         currentPage = 1;
         targetPos = levelPagesRect.localPosition;
         dragThreshold = Screen.width / 15;
-        UpdateArrowButton();
+        UpdateButtonStates();
         UpdatePageText();
     }
 
@@ -34,16 +37,14 @@ public class SwipeController : MonoBehaviour, IEndDragHandler
     {
         // Hide all text objects first
         foreach (TMP_Text text in pageTexts)
-        {
             text.gameObject.SetActive(false);
-        }
-        
+
         // Show only the text for current page
         if (currentPage - 1 < pageTexts.Length)
         {
             pageTexts[currentPage - 1].gameObject.SetActive(true);
-            
-            // Update the text content if you have descriptions
+
+            // Update the text content if descriptions exist
             if (currentPage - 1 < pageDescriptions.Length && !string.IsNullOrEmpty(pageDescriptions[currentPage - 1]))
             {
                 pageTexts[currentPage - 1].text = pageDescriptions[currentPage - 1];
@@ -70,15 +71,14 @@ public class SwipeController : MonoBehaviour, IEndDragHandler
             MovePage();
         }
     }
-    //Adjusts pages
+
     void MovePage()
     {
         levelPagesRect.LeanMoveLocal(targetPos, tweenTime).setEase(tweenType);
-        UpdateArrowButton();
-        UpdatePageText(); 
+        UpdateButtonStates();
+        UpdatePageText();
     }
 
-    //For Dragging the mouse on screen
     public void OnEndDrag(PointerEventData eventData)
     {
         if (Mathf.Abs(eventData.position.x - eventData.pressPosition.x) > dragThreshold)
@@ -89,11 +89,31 @@ public class SwipeController : MonoBehaviour, IEndDragHandler
         else MovePage();
     }
 
-    public void UpdateArrowButton()
+    // NEW: Controls which buttons show per page
+    public void UpdateButtonStates()
     {
-        nextButton.interactable = true;
-        previousButton.interactable = true;
-        if (currentPage == 1) previousButton.interactable = false;
-        else if(currentPage == maxPage) nextButton.interactable = false;
-    }    
+        // Hide ALL previous buttons
+        foreach (Button btn in previousButtons)
+            if (btn != null) btn.gameObject.SetActive(false);
+
+        // Hide ALL next buttons
+        foreach (Button btn in nextButtons)
+            if (btn != null) btn.gameObject.SetActive(false);
+
+        int index = currentPage - 1;
+
+        // Show the correct previous button
+        if (index < previousButtons.Length && previousButtons[index] != null)
+        {
+            previousButtons[index].gameObject.SetActive(true);
+            previousButtons[index].interactable = currentPage > 1;
+        }
+
+        // Show the correct next button
+        if (index < nextButtons.Length && nextButtons[index] != null)
+        {
+            nextButtons[index].gameObject.SetActive(true);
+            nextButtons[index].interactable = currentPage < maxPage;
+        }
+    }
 }
