@@ -14,6 +14,7 @@ public class QuizContext
     public EnemyComponent Enemy { get; private set; }
     public ClipPlayer ClipPlayer { get; }
     public TMP_Text QuestText { get; }
+    public DifficultySpriteChanger DifficultyUI;
 
     // Mutable session state that handlers share via the context
     public List<QuestionComponent> QuestionsToAnswer { get; }
