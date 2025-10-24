@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PlayerComponent : MonoBehaviour
 {
-    [SerializeField] int hp; //equivalent to no. of tries
+    [SerializeField] public int hp; //equivalent to no. of tries
+    [SerializeField] public int currHp { get; private set; }
     [SerializeField] SpriteRenderer playerSprite;
     [SerializeField] Color damagedColor;
     [SerializeField] int attackPower;
@@ -17,15 +18,15 @@ public class PlayerComponent : MonoBehaviour
         Debug.Log($"Player takes {damage} damage!");
         StartCoroutine(HurtFlash());
 
-        if ((hp - damage) <= 0)
+        if ((currHp - damage) <= 0)
         {
             playerDefeated = true;
-            hp = 0;
+            currHp = 0;
             Death();
             return;
         }
 
-        hp -= damage;
+        currHp -= damage;
     }
 
     public bool IsPlayerDefeated()
@@ -38,11 +39,6 @@ public class PlayerComponent : MonoBehaviour
         return attackPower;
     }
 
-    public int GetHP()
-    {
-        return hp;
-    }
-
     public void Death()
     {
         this.gameObject.SetActive(false);
@@ -52,6 +48,7 @@ public class PlayerComponent : MonoBehaviour
     {
         playerDefeated = false;
         defaultColor = playerSprite.color;
+        currHp = hp;
     }
 
     void Update()
