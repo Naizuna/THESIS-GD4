@@ -110,7 +110,7 @@ public class QuizHandler : MonoBehaviour
     {
 
         currQuestionIndex = 0;
-        sPanel.HideParentPanel();
+
 
         mode = (quizMode == QuizMode.Normal) ?
             (IQuizMode)new NormalQuizMode() : new MonteCarloControlQuizMode();
@@ -145,8 +145,7 @@ public class QuizHandler : MonoBehaviour
     public void PlayerDefeat()
     {
         Debug.Log("Player Defeat");
-        sPanel.SetLoseScreen();
-        sPanel.ShowParentPanel();
+
         playerMetric.SetQuestionsAnswered(questionsToAnswer);
         playerMetric.CalculateTotalAccuracy();
         playerMetric.TestPrint();
@@ -155,8 +154,7 @@ public class QuizHandler : MonoBehaviour
     public void PlayerVictory()
     {
         Debug.Log("Player Victory");
-        sPanel.SetWinScreen();
-        sPanel.ShowParentPanel();
+
         playerMetric.SetQuestionsAnswered(questionsToAnswer);
         playerMetric.CalculateTotalAccuracy();
         playerMetric.TestPrint();
