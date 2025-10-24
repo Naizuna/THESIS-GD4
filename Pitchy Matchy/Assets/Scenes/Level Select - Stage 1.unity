@@ -427,7 +427,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Level Select - Stage 1
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &161167481
@@ -450,7 +450,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1670936166, guid: 91b0aad574a7ebb4aa3cbceb5403a216, type: 3}
+  m_Sprite: {fileID: -1396582164, guid: 91b0aad574a7ebb4aa3cbceb5403a216, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -758,7 +758,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Level Select - Stage 3
+          m_StringArgument: Level Select - Stage 2
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &415432946
@@ -781,7 +781,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -533303819, guid: 91b0aad574a7ebb4aa3cbceb5403a216, type: 3}
+  m_Sprite: {fileID: -75797474, guid: 91b0aad574a7ebb4aa3cbceb5403a216, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1512,7 +1512,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 737044207, guid: c31fc2cbab0b9a34a9013ed1b0f79983, type: 3}
+  m_Sprite: {fileID: 1063028729, guid: c31fc2cbab0b9a34a9013ed1b0f79983, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1800,7 +1800,7 @@ MonoBehaviour:
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: -1353787147, guid: 238ec2d1c83c4f54e97d1ad48471eb32, type: 3}
+    m_PressedSprite: {fileID: 865346342, guid: 238ec2d1c83c4f54e97d1ad48471eb32, type: 3}
     m_SelectedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
@@ -1846,7 +1846,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1707693256, guid: 238ec2d1c83c4f54e97d1ad48471eb32, type: 3}
+  m_Sprite: {fileID: 1946331488, guid: 238ec2d1c83c4f54e97d1ad48471eb32, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1932,7 +1932,7 @@ MonoBehaviour:
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 21206532, guid: 0cd166df913f1fb449f41aec83929b80, type: 3}
+    m_PressedSprite: {fileID: -288192771, guid: 0cd166df913f1fb449f41aec83929b80, type: 3}
     m_SelectedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
@@ -1978,7 +1978,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1828472702, guid: 0cd166df913f1fb449f41aec83929b80, type: 3}
+  m_Sprite: {fileID: 585785097, guid: 0cd166df913f1fb449f41aec83929b80, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2064,7 +2064,7 @@ MonoBehaviour:
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: -588563054, guid: 0cd166df913f1fb449f41aec83929b80, type: 3}
+    m_PressedSprite: {fileID: -2039639523, guid: 0cd166df913f1fb449f41aec83929b80, type: 3}
     m_SelectedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
@@ -2110,7 +2110,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 935117481, guid: 0cd166df913f1fb449f41aec83929b80, type: 3}
+  m_Sprite: {fileID: 1784303698, guid: 0cd166df913f1fb449f41aec83929b80, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2361,7 +2361,7 @@ PrefabInstance:
     - target: {fileID: 9120673762557241575, guid: 321ab0b8fb429ae4f919aa69b787342f, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 26b21de068b8e9f49829b314c714bcf9, type: 3}
+      objectReference: {fileID: 21300000, guid: aa08593997245bd428b3210dccbe42fc, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -3216,7 +3216,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 757813096, guid: f9d22fb416c42ff48965f385cb7ab543, type: 3}
+  m_Sprite: {fileID: 819785739, guid: f9d22fb416c42ff48965f385cb7ab543, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

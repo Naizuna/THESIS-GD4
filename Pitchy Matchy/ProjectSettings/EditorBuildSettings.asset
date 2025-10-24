@@ -27,6 +27,9 @@ EditorBuildSettings:
     path: Assets/Scenes/LVL-2.unity
     guid: ef343967e7590014bbdb2cf15bd76982
   - enabled: 1
+    path: Assets/Scenes/Level Select - Stage 1.unity
+    guid: 35ada4a8b3e4ce94bba384c5b4aff41a
+  - enabled: 1
     path: Assets/Scenes/Level Select - Stage 2.unity
     guid: 10fbed6c6ff649943b75a06cdab9a98c
   - enabled: 1
