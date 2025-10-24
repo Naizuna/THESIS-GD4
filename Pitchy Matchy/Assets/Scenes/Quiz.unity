@@ -3411,7 +3411,7 @@ MonoBehaviour:
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: -592131620, guid: b953d19fccb8ef740909aed8ca75c936, type: 3}
+    m_PressedSprite: {fileID: 1907687630, guid: c3cf8a656c0d7204d91020816dddf385, type: 3}
     m_SelectedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
@@ -3457,7 +3457,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 351491690, guid: b953d19fccb8ef740909aed8ca75c936, type: 3}
+  m_Sprite: {fileID: 1876438353, guid: c3cf8a656c0d7204d91020816dddf385, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3804,6 +3804,7 @@ GameObject:
   - component: {fileID: 1520724464}
   - component: {fileID: 1520724466}
   - component: {fileID: 1520724465}
+  - component: {fileID: 1520724467}
   m_Layer: 5
   m_Name: QuestionBanner
   m_TagString: Untagged
@@ -3868,6 +3869,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1520724463}
   m_CullTransparentMesh: 1
+--- !u!114 &1520724467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520724463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9da7d643f2bee1f4b912a744b2f109d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetImage: {fileID: 1520724465}
+  easySprite: {fileID: -1367647286, guid: fdbfa12ff278c2f48893fd3fbdb490e1, type: 3}
+  mediumSprite: {fileID: -1243071264, guid: fdbfa12ff278c2f48893fd3fbdb490e1, type: 3}
+  hardSprite: {fileID: 1312030848, guid: fdbfa12ff278c2f48893fd3fbdb490e1, type: 3}
 --- !u!1001 &1556395194
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3879,6 +3896,10 @@ PrefabInstance:
     - target: {fileID: 106207307156542432, guid: ace058462ce200749aa328e7c436b2cf, type: 3}
       propertyPath: m_Name
       value: ScreensPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 106207307156542432, guid: ace058462ce200749aa328e7c436b2cf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7318954382110613693, guid: ace058462ce200749aa328e7c436b2cf, type: 3}
       propertyPath: m_Pivot.x
@@ -4557,6 +4578,10 @@ PrefabInstance:
       propertyPath: clipPlayer
       value: 
       objectReference: {fileID: 740273492}
+    - target: {fileID: 7342208303930620530, guid: 2002375044e67a14fbe5c1130c043c27, type: 3}
+      propertyPath: referencePitch
+      value: 
+      objectReference: {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

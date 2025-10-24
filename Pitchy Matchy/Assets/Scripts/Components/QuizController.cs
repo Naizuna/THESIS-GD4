@@ -23,6 +23,10 @@ public class QuizController : MonoBehaviour
     [SerializeField] private int mccQuestionsPerEpisode;
     [SerializeField] List<QuestionComponent> viewQuestions;
 
+    [Header("Difficulty Sprite Changer")]
+    [SerializeField] private DifficultySpriteChanger difficultySpriteChanger;
+
+
     private QuizContext ctx;
     private IQuizHandler handler;
     private bool HasVictoryOrDefeatScreensShown = false;
@@ -45,12 +49,15 @@ public class QuizController : MonoBehaviour
             ctx = new QuizContext(bank, wp, sPanel, player, enemy, clipPlayer, questText, numberOfQuestions);
             handler = new SARSAQuizHandler(ctx, new SARSAController());
         }
+
+        ctx.DifficultyUI = difficultySpriteChanger;
     }
 
     void Start()
     {
         sPanel.HideParentPanel();
         handler.StartQuiz();
+        UpdateDifficultyVisual();
         playerInputEnabled = true;
     }
 
@@ -77,6 +84,7 @@ public class QuizController : MonoBehaviour
             return;
         }
         handler.Update();
+        UpdateDifficultyVisual();
     }
 
     private void HandlePlayerDefeat()
@@ -126,5 +134,20 @@ public class QuizController : MonoBehaviour
     }
 
     // Called by UI to request next question (or handler can call it)
-    public void OnRequestNextQuestion() => handler.LoadNextQuestion();
+    public void OnRequestNextQuestion()
+    {
+        handler.LoadNextQuestion();
+        UpdateDifficultyVisual();
+
+    }
+
+    private void UpdateDifficultyVisual()
+    {
+        var q = ctx.GetCurrentQuestion();
+        if (q != null && difficultySpriteChanger != null)
+            difficultySpriteChanger.ApplyDifficulty(q.questionDifficulty);
+    }
+
+
+
 }
