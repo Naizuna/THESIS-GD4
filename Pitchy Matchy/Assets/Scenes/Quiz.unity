@@ -322,8 +322,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4280714749
-  m_fontColor: {r: 0.9921569, g: 0.52156866, b: 0.14901961, a: 1}
+    rgba: 4285145492
+  m_fontColor: {r: 0.5803922, g: 0.12941177, b: 0.41568628, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1436,7 +1436,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   totals: {fileID: 596105541}
   accuracies: {fileID: 556045712}
-  score: {fileID: 218833457}
+  score: {fileID: 79979449}
 --- !u!1 &329981493
 GameObject:
   m_ObjectHideFlags: 0
@@ -3375,7 +3375,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &841575699
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5910,7 +5910,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   totals: {fileID: 2057773599}
   accuracies: {fileID: 910532806}
-  score: {fileID: 218833457}
+  score: {fileID: 1342711289}
 --- !u!1 &1482712716
 GameObject:
   m_ObjectHideFlags: 0
@@ -6420,7 +6420,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1682433191
 RectTransform:
   m_ObjectHideFlags: 0
