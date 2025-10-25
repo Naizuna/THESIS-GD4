@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SARSAQuizHandler : IQuizHandler
@@ -10,6 +11,10 @@ public class SARSAQuizHandler : IQuizHandler
 
     private int totalQuestions;
     private int questionsAskedInEpisode = 0;
+
+    // --- NEW: store the state/action used when presenting the current question ---
+    private string lastStateForCurrentQuestion = null;
+    private QuestionComponent.DifficultyClass lastActionForCurrentQuestion;
 
     public bool IsSessionFinished { get; set; } = false;
 
@@ -43,11 +48,14 @@ public class SARSAQuizHandler : IQuizHandler
     {
         if (IsSessionFinished) return;
 
+        // Record response time for the question (important before learning/metrics)
+        ctx.RecordResponseTime();
+
         ctx.PlayerAnswers = new List<string>(answers ?? new List<string>());
         ProcessAnswerAndLearn();
 
-        // Show the result/wait panel for the current question
-        //InitiateWaitPanel();
+        // Optionally show wait/result panel
+        // InitiateWaitPanel();
     }
 
     public void LoadNextQuestion()
@@ -55,15 +63,20 @@ public class SARSAQuizHandler : IQuizHandler
         if (IsSessionFinished) return;
 
         // If we've already loaded enough questions, finish the session.
-        // Check BEFORE adding a new question so the final question remains answerable.
         if (ctx.QuestionsToAnswer.Count >= totalQuestions)
         {
             IsSessionFinished = true;
             return;
         }
 
-        string state = GetCurrentState();
-        var action = sarsaAgent.ChooseAction(state);
+        // Compute the state *at the moment of presenting the question*.
+        // This uses the latest recorded response-time (i.e. from the previous question).
+        string stateWhenAsked = GetCurrentState();
+        lastStateForCurrentQuestion = stateWhenAsked;
+
+        // Choose action using that state and remember it so the SARSA update later uses the same (s,a).
+        var action = sarsaAgent.ChooseAction(stateWhenAsked);
+        lastActionForCurrentQuestion = action;
 
         var nextQ = ctx.Bank.GetQuestionFromBank(action);
         ctx.AddQuestion(nextQ);
@@ -72,8 +85,10 @@ public class SARSAQuizHandler : IQuizHandler
 
         ctx.PlayerAnswers.Clear();
 
-        ctx.UpdateQuestionText();
+        ctx.UpdateQuestionText(); // also calls StartQuestionTimer()
         ctx.PlayCurrentQuestionPitches();
+
+        Debug.Log($"[SARSA] Presented question idx={ctx.CurrQuestionIndex} stateAtAsk={stateWhenAsked} actionChosen={action}");
     }
 
     private void ProcessAnswerAndLearn()
@@ -85,16 +100,18 @@ public class SARSAQuizHandler : IQuizHandler
         q.playerAnswers = new List<string>(ctx.PlayerAnswers);
         q.CheckAnswers();
 
+        // reward as before
         float reward = q.isAnsweredCorrectly ? 1f : -1f;
 
-        // current state/action
-        string state = GetCurrentState();
-        var currentAction = q.questionDifficulty;
-        Debug.Log($"CurrentState:{state} CurrentAction{currentAction}");
+        string state = lastStateForCurrentQuestion ?? GetCurrentState(); // fallback just in case
+        var currentAction = lastActionForCurrentQuestion; // if null/unset, it'll be default enum (shouldn't happen normally)
+        Debug.Log($"[SARSA] Update using s={state}, a={currentAction}, reward={reward}");
+
         // next state/action (for SARSA update)
         string nextState = GetNextState();
         var nextAction = sarsaAgent.ChooseAction(nextState);
-        Debug.Log($"NextState:{nextState} NextAction:{nextAction}");
+        Debug.Log($"[SARSA] s'={nextState}, a'={nextAction}");
+
         // perform SARSA update on agent
         sarsaAgent.UpdateQValue(state, currentAction, reward, nextState, nextAction);
 
@@ -111,14 +128,14 @@ public class SARSAQuizHandler : IQuizHandler
         ctx.PlyrMetric?.SetQuestionsAnswered(ctx.QuestionsToAnswer);
         ctx.PlyrMetric?.CalculateTotalAccuracy();
 
-        // If we've finished loading the maximum number of questions, end session after processing
+        // If finished loading the maximum number of questions, end session after processing
         if (ctx.QuestionsToAnswer.Count >= totalQuestions)
         {
             IsSessionFinished = true;
             return;
         }
 
-        // otherwise auto-load next question (matches previous behavior)
+        // otherwise auto-load next question
         LoadNextQuestion();
     }
 
@@ -130,28 +147,68 @@ public class SARSAQuizHandler : IQuizHandler
         ctx.WP.ShowParentPanel();
     }
 
+    //Categorize response time
+    private string GetResponseTimeCategory(float responseTime)
+    {
+        // thresholds: <=5 fast, <=10 average, >10 slow
+        if (responseTime <= 5f) return "FAST";
+        if (responseTime <= 10f) return "AVERAGE";
+        return "SLOW";
+    }
+
+    
     private string GetCurrentState()
     {
-        if (ctx.CurrQuestionIndex == 0) return "START";
+        // Treat START only when there are no questions answered/presented yet
+        if (ctx.QuestionsToAnswer.Count == 0) return "START";
 
-        int answeredCount = ctx.QuestionsToAnswer.Count;
-        if (answeredCount == 0) return "START";
+        int correctCount = ctx.QuestionsToAnswer.FindAll(q => q.isAnsweredCorrectly).Count;
+        int totalAnswered = Math.Max(1, ctx.CurrQuestionIndex + 1); // number of questions up to current index inclusive
 
-        float accuracy = (float)ctx.QuestionsToAnswer.FindAll(q => q.isAnsweredCorrectly).Count / Math.Max(1, ctx.CurrQuestionIndex);
-        if (accuracy < 0.4f) return "EASY";
-        if (accuracy < 0.7f) return "MEDIUM";
-        return "HARD";
+        float accuracy = (float)correctCount / totalAnswered;
+
+        string accLabel;
+        if (accuracy < 0.4f) accLabel = "EASY";
+        else if (accuracy < 0.7f) accLabel = "MEDIUM";
+        else accLabel = "HARD";
+
+        // Use last recorded response time (from previous question) when presenting a new question.
+        // If none, default to AVERAGE (safer).
+        float latestResponseTime = ctx.ResponseTimes.Count > 0
+            ? ctx.ResponseTimes[ctx.ResponseTimes.Count - 1]
+            : float.NaN;
+
+        string timeCat = float.IsNaN(latestResponseTime)
+            ? "AVERAGE"
+            : GetResponseTimeCategory(latestResponseTime);
+
+        return $"{accLabel}_{timeCat}";
     }
 
     private string GetNextState()
     {
+        // terminal check
         if (ctx.CurrQuestionIndex >= totalQuestions - 1) return "TERMINAL";
 
+        // Use conservative projection: assume the next answer may be incorrect.
+        // This makes the agent respond to failures quicker (less optimistic).
         int correctAnswers = ctx.QuestionsToAnswer.FindAll(q => q.isAnsweredCorrectly).Count;
-        float projectedAccuracy = (float)(correctAnswers + 1) / (ctx.CurrQuestionIndex + 2); // optimistic projection
+        // Conservative projection: project that next question will be incorrect
+        float projectedAccuracy = (float)(correctAnswers) / (ctx.CurrQuestionIndex + 2); // no +1 optimistic
 
-        if (projectedAccuracy < 0.4f) return "EASY";
-        if (projectedAccuracy < 0.7f) return "MEDIUM";
-        return "HARD";
+        string accLabel;
+        if (projectedAccuracy < 0.4f) accLabel = "EASY";
+        else if (projectedAccuracy < 0.7f) accLabel = "MEDIUM";
+        else accLabel = "HARD";
+
+        float latestResponseTime = ctx.ResponseTimes.Count > 0
+            ? ctx.ResponseTimes[ctx.ResponseTimes.Count - 1]
+            : float.NaN;
+
+        string timeCat = float.IsNaN(latestResponseTime)
+            ? "AVERAGE"
+            : GetResponseTimeCategory(latestResponseTime);
+
+        return $"{accLabel}_{timeCat}";
     }
 }
