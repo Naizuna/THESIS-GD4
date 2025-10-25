@@ -85,9 +85,8 @@ GameObject:
   m_Component:
   - component: {fileID: 94422531320658525}
   - component: {fileID: 7183481425546900612}
-  - component: {fileID: 487838880063102903}
   m_Layer: 0
-  m_Name: ENEMY
+  m_Name: ENEMY(DEPRECATED)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -161,27 +160,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &487838880063102903
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 313901636418427762}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8166933ba70c46b47bc2dcbc557f65b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemySprite: {fileID: 7183481425546900612}
-  hurtEffect: {fileID: 8816233978110218446, guid: 61db99fb6ca512449a9c42fbc4402ac8, type: 3}
-  deathEffect: {fileID: 8816233978110218446, guid: 3f058480b1ebd4e45a5ae9777d0a5982, type: 3}
-  damagedColor: {r: 1, g: 0, b: 0, a: 1}
-  damagedFlashDuration: 0.2
-  enemyHP: 3
-  attackPower: 10
-  hpBar: {fileID: 958040542949371904}
-  deathDuration: 2
 --- !u!1 &1499401014807614862
 GameObject:
   m_ObjectHideFlags: 0

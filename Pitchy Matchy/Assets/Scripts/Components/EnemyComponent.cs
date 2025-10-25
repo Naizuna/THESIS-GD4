@@ -6,21 +6,20 @@ using UnityEngine.UI;
 
 public class EnemyComponent : MonoBehaviour
 {
-    [SerializeField] SpriteRenderer enemySprite;
+    SpriteRenderer enemySprite;
     [SerializeField] ParticleSystem hurtEffect;
     [SerializeField] ParticleSystem deathEffect;
     [SerializeField] Color damagedColor;
     [SerializeField] float damagedFlashDuration;
-    [SerializeField] float enemyHP;
+    [SerializeField] public int maxhp;
+    public int currHP { get; private set; }
     [SerializeField] int attackPower;
-    [SerializeField] Slider hpBar;
     [SerializeField] float deathDuration;
     public bool isDefeated  {  get; private set; }
     private Color defaultColor;
-    float maxhp;
+    
     void Update()
     {
-        hpBar.value = Mathf.Clamp01(enemyHP / maxhp);
         ///testing purposes
         ///
         if (isDefeated)
@@ -31,9 +30,10 @@ public class EnemyComponent : MonoBehaviour
 
     private void Start()
     {
+        enemySprite = GetComponent<SpriteRenderer>();
         isDefeated = false;
         defaultColor = enemySprite.color;
-        maxhp = enemyHP;
+        currHP = maxhp;
     }
     public void TakeDamage(int damage)
     {
@@ -41,15 +41,15 @@ public class EnemyComponent : MonoBehaviour
 
         StartCoroutine(HurtFlash());
 
-        if ((enemyHP - damage) <= 0)
+        if ((currHP - damage) <= 0)
         {
             isDefeated = true;
-            enemyHP = 0;
+            currHP = 0;
             StartCoroutine(Death());
             return;
         }
 
-        enemyHP -= damage;
+        currHP -= damage;
     }
 
     private IEnumerator HurtFlash()

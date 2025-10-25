@@ -53,14 +53,26 @@ public class EnemySpawner : MonoBehaviour
     public void SpawnEnemy()
     {
         int i = Random.Range(0, variantCount);
+        /*
         GameObject temp = Instantiate(
             enemyVariants[i],
             new Vector3(spawnPoint.transform.position.x, spawnPoint.transform.position.y, zSpawnOffset),
             Quaternion.identity
-        );
+        );*/
+        Debug.Log($"SpawnPoint name: {spawnPoint.name}");
+        Debug.Log($"SpawnPoint world position: {spawnPoint.transform.position}");
+
+        Vector3 spawnPos = new Vector3(spawnPoint.transform.position.x, spawnPoint.transform.position.y, zSpawnOffset);
+        Debug.Log($"Calculated spawn position: {spawnPos}");
+
+        GameObject temp = Instantiate(enemyVariants[i], spawnPos, Quaternion.identity);
+
+        Debug.Log($"Enemy position immediately after Instantiate: {temp.transform.position}");
         spawnedEnemy = temp;
         spawnedEnemyComponent = spawnedEnemy.GetComponent<EnemyComponent>();
         quizHandler.SetEnemy(spawnedEnemy.GetComponent<EnemyComponent>());
+
+        
     }
 
     public void StopSpawn()
