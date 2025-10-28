@@ -61,8 +61,8 @@ public class EnemySpawner : MonoBehaviour
             Quaternion.identity
         );
         spawnedEnemy = temp;
-        spawnedEnemyComponent = spawnedEnemy.GetComponent<EnemyComponent>();
-        quizHandler.SetEnemy(spawnedEnemy.GetComponent<EnemyComponent>());
+        spawnedEnemyComponent = spawnedEnemy.GetComponentInChildren<EnemyComponent>();
+        quizHandler.SetEnemy(spawnedEnemyComponent);
     }
 
     public void StopSpawn()
