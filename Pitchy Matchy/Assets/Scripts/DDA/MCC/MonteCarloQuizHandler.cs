@@ -25,16 +25,12 @@ public class MonteCarloQuizHandler : IQuizHandler
     {
         ctx.CurrQuestionIndex = 0;
         ctx.QuestionsToAnswer.Clear();
-        
+
         for (int i = 0; i < questionsPerEpisode; i++)
         {
-            string state = GetCurrentState();
-            var action = mcAgent.ChooseAction(state);
-            var question = ctx.Bank.GetQuestionFromBank(action);
-            ctx.AddQuestion(question);
+            AddQuestionWithEpisodeTracking();
         }
 
-        ctx.CurrQuestionIndex = 0;
         questionsAskedInEpisode = 0;
         ctx.PlayerAnswers.Clear();
         ctx.UpdateQuestionText(); // Timer starts automatically here
@@ -44,6 +40,21 @@ public class MonteCarloQuizHandler : IQuizHandler
     public void Update()
     {
         Debug.Log("Current: " + ctx.QuestionsToAnswer.Count);
+        Debug.Log("questions asked: " + questionsAskedInEpisode);
+    }
+    
+     private void AddQuestionWithEpisodeTracking()
+    {
+        string state = GetCurrentState();
+        var action = mcAgent.ChooseAction(state);
+        var question = ctx.Bank.GetQuestionsFromBank(action);
+
+        // Use actual difficulty chosen after fallback
+        var actualDifficulty = question.questionDifficulty;
+        ctx.AddQuestion(question);
+
+        // Store this step in the episode (reward recorded after answer)
+        episode.Add((state, actualDifficulty, 0f)); // reward assigned later when answered
     }
 
     public void ReceivePlayerAnswers(List<string> answers)
@@ -55,10 +66,89 @@ public class MonteCarloQuizHandler : IQuizHandler
         ProcessAnswers_MCC();
     }
 
+    private void ProcessAnswers_MCC()
+    {
+        var q = ctx.GetCurrentQuestion();
+        if (q == null) return;
+
+        q.playerAnswers = new List<string>(ctx.PlayerAnswers);
+        q.CheckAnswers();
+
+        // Base reward depending on correctness
+        float baseReward = q.isAnsweredCorrectly ? 1f : -1f;
+
+        // Difficulty multiplier
+        float difficultyMultiplier = 1f;
+        switch (q.questionDifficulty)
+        {
+            case QuestionComponent.DifficultyClass.EASY:
+                difficultyMultiplier = 1f;
+                break;
+            case QuestionComponent.DifficultyClass.MEDIUM:
+                difficultyMultiplier = 1.5f;
+                break;
+            case QuestionComponent.DifficultyClass.HARD:
+                difficultyMultiplier = 2f;
+                break;
+        }
+
+        // Response time bonus
+        float timeBonus = 0f;
+        float responseTime = ctx.ResponseTimes.Count > 0 ? ctx.ResponseTimes[ctx.ResponseTimes.Count - 1] : 0f;
+        if (responseTime <= 5f) timeBonus = 0.5f;
+        else if (responseTime <= 10f) timeBonus = 0.2f;
+
+        float reward = baseReward * difficultyMultiplier + timeBonus;
+
+        // Old logic (before episode tracking)
+        // string state = GetCurrentState();
+        // episode.Add((state, q.questionDifficulty, reward));
+
+        // Apply reward to the **most recent** episode entry
+        if (episode.Count > 0)
+        {
+            int last = episode.Count - 1;
+            episode[last] = (episode[last].state, episode[last].action, reward);
+        }
+        else
+        {
+            Debug.LogWarning("Episode entry missing when applying reward. This means no question was added before answers were processed.");
+        }
+
+        questionsAskedInEpisode++;
+        Debug.Log($"Answered {questionsAskedInEpisode}/{questionsPerEpisode} this episode.");
+
+        float accuracy = (float)ctx.QuestionsToAnswer.FindAll(q => q.isAnsweredCorrectly).Count / (ctx.CurrQuestionIndex + 1);
+        Debug.Log($"Current Accuracy: {accuracy * 100f}% after {ctx.CurrQuestionIndex + 1} questions.");
+
+        if (q.isAnsweredCorrectly)
+            ctx.Enemy.TakeDamage(ctx.Player.GetAttackPower());
+        else
+            ctx.Player.TakeDamage(ctx.Enemy.GetAttackPower());
+
+        LoadNextQuestion();
+    }
+
     public void LoadNextQuestion()
     {
         if (IsSessionFinished) return;
-                
+
+        if (questionsAskedInEpisode >= questionsPerEpisode)
+        {
+            //end episode
+            mcAgent.UpdatePolicy(episode);
+            mcAgent.DecayEpsilon();
+            Debug.Log("Episode finished. Policy updated.");
+
+            int correct = ctx.QuestionsToAnswer.FindAll(q => q.isAnsweredCorrectly).Count;
+            int total = ctx.QuestionsToAnswer.Count;
+            float finalAccuracy = (float)correct / total;
+            Debug.Log($"Episode finished. Final Accuracy: {finalAccuracy * 100f}% ({correct}/{total} correct).");
+
+            episode.Clear();
+            questionsAskedInEpisode = 0;
+        }
+
         if (ctx.CurrQuestionIndex + 1 >= totalQuestions)
         {
             IsSessionFinished = true;
@@ -71,71 +161,16 @@ public class MonteCarloQuizHandler : IQuizHandler
         }
         else
         {
-            if (questionsAskedInEpisode >= questionsPerEpisode)
-            {
-                //start new episode
-                mcAgent.UpdatePolicy(episode);
-                episode.Clear();
-                Debug.Log("Episode finished. Policy updated.");
-                questionsAskedInEpisode = 0;
-            }
-
             // Generate another mixed batch for the next episode
             for (int i = 0; i < questionsPerEpisode; i++)
-            {
-                string state = GetCurrentState();
-                var action = mcAgent.ChooseAction(state);
-                var question = ctx.Bank.GetQuestionFromBank(action);
-                ctx.AddQuestion(question);
-            }
+                AddQuestionWithEpisodeTracking();
 
-                ctx.CurrQuestionIndex++;
-                questionsAskedInEpisode++;
-            }
+            ctx.CurrQuestionIndex++;
+        }
 
         ctx.PlayerAnswers.Clear();
         ctx.UpdateQuestionText(); // Resets timer for new question
         ctx.PlayCurrentQuestionPitches();
-    }
-
-    private void ProcessAnswers_MCC()
-    {
-        var q = ctx.GetCurrentQuestion();
-        if (q == null) return;
-
-        q.playerAnswers = new List<string>(ctx.PlayerAnswers);
-        q.CheckAnswers();
-
-        float reward = q.isAnsweredCorrectly ? 1f : -1f;
-
-        string state = GetCurrentState();
-        episode.Add((state, q.questionDifficulty, reward));
-
-        float accuracy = (float)ctx.QuestionsToAnswer.FindAll(q => q.isAnsweredCorrectly).Count / (ctx.CurrQuestionIndex + 1);
-        Debug.Log($"Current Accuracy: {accuracy * 100f}% after {ctx.CurrQuestionIndex + 1} questions.");
-
-        if (q.isAnsweredCorrectly)
-            ctx.Enemy.TakeDamage(ctx.Player.GetAttackPower());
-        else
-            ctx.Player.TakeDamage(ctx.Enemy.GetAttackPower());
-
-        if (questionsAskedInEpisode >= questionsPerEpisode)
-        {
-            //end episode
-            mcAgent.UpdatePolicy(episode);
-            mcAgent.DecayEpsilon();
-            episode.Clear();
-            Debug.Log("Episode finished. Policy updated.");
-
-            int correct = ctx.QuestionsToAnswer.FindAll(q => q.isAnsweredCorrectly).Count;
-            int total = ctx.QuestionsToAnswer.Count;
-            float finalAccuracy = (float)correct / total;
-            Debug.Log($"Episode finished. Final Accuracy: {finalAccuracy * 100f}% ({correct}/{total} correct).");
-
-            questionsAskedInEpisode = 0;
-        }
-
-        LoadNextQuestion();
     }
 
     private string GetResponseTimeCategory(float responseTime)

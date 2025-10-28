@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2071294393497919835
+--- !u!1 &7451984308784062468
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1851904725181103409}
-  - component: {fileID: 5702958151009383423}
+  - component: {fileID: 7516021024557887967}
+  - component: {fileID: 7843473367712762663}
   m_Layer: 5
   m_Name: QuestionBank
   m_TagString: Untagged
@@ -17,32 +17,32 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &1851904725181103409
+--- !u!224 &7516021024557887967
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2071294393497919835}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_GameObject: {fileID: 7451984308784062468}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -1440}
+  m_LocalScale: {x: 16, y: 16, z: 16}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -2.5}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &5702958151009383423
+--- !u!114 &7843473367712762663
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2071294393497919835}
+  m_GameObject: {fileID: 7451984308784062468}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 86674fae6589e7a40bd992c681ad53fb, type: 3}
@@ -50,32 +50,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   availableQuestionsPool:
   - questionText: Easy1
-    questionDifficulty: 0
-    soundClips:
-    - {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
-    - {fileID: 8300000, guid: 72779edddd809e549b6629379c09077f, type: 3}
-    test:
-      playerAnswers: []
-    correctAnswers:
-    - C4
-    - E4
-    playerAnswers: []
-    isAnsweredCorrectly: 0
-    hasBeenAnswered: 0
-  - questionText: Easy2
-    questionDifficulty: 0
-    soundClips:
-    - {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
-    - {fileID: 8300000, guid: 50ebd3ac255cd164aa72f9da4fa46a91, type: 3}
-    test:
-      playerAnswers: []
-    correctAnswers:
-    - C4
-    - G4
-    playerAnswers: []
-    isAnsweredCorrectly: 0
-    hasBeenAnswered: 0
-  - questionText: Easy3
     questionDifficulty: 0
     soundClips:
     - {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
@@ -88,7 +62,20 @@ MonoBehaviour:
     playerAnswers: []
     isAnsweredCorrectly: 0
     hasBeenAnswered: 0
-  - questionText: Easy4
+  - questionText: Easy2
+    questionDifficulty: 0
+    soundClips:
+    - {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
+    - {fileID: 8300000, guid: 72779edddd809e549b6629379c09077f, type: 3}
+    test:
+      playerAnswers: []
+    correctAnswers:
+    - C4
+    - E4
+    playerAnswers: []
+    isAnsweredCorrectly: 0
+    hasBeenAnswered: 0
+  - questionText: Easy3
     questionDifficulty: 0
     soundClips:
     - {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
@@ -98,6 +85,19 @@ MonoBehaviour:
     correctAnswers:
     - C4
     - F4
+    playerAnswers: []
+    isAnsweredCorrectly: 0
+    hasBeenAnswered: 0
+  - questionText: Easy4
+    questionDifficulty: 0
+    soundClips:
+    - {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
+    - {fileID: 8300000, guid: 50ebd3ac255cd164aa72f9da4fa46a91, type: 3}
+    test:
+      playerAnswers: []
+    correctAnswers:
+    - C4
+    - G4
     playerAnswers: []
     isAnsweredCorrectly: 0
     hasBeenAnswered: 0
@@ -140,28 +140,13 @@ MonoBehaviour:
     playerAnswers: []
     isAnsweredCorrectly: 0
     hasBeenAnswered: 0
-  - questionText: Easy7
-    questionDifficulty: 0
-    soundClips:
-    - {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
-    - {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
-    test:
-      playerAnswers: []
-    correctAnswers:
-    - C4
-    - C4
-    playerAnswers: []
-    isAnsweredCorrectly: 0
-    hasBeenAnswered: 0
   - questionText: Medium1
     questionDifficulty: 1
     soundClips:
     - {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
-    - {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
     test:
       playerAnswers: []
     correctAnswers:
-    - C4
     - C4
     playerAnswers: []
     isAnsweredCorrectly: 0
@@ -169,24 +154,22 @@ MonoBehaviour:
   - questionText: Medium2
     questionDifficulty: 1
     soundClips:
-    - {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
-    - {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
+    - {fileID: 8300000, guid: 9b016761919b89e41821fd72dd1346b3, type: 3}
     test:
       playerAnswers: []
     correctAnswers:
-    - C4
+    - D4
     playerAnswers: []
     isAnsweredCorrectly: 0
     hasBeenAnswered: 0
   - questionText: Medium3
     questionDifficulty: 1
     soundClips:
-    - {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
-    - {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
+    - {fileID: 8300000, guid: 72779edddd809e549b6629379c09077f, type: 3}
     test:
       playerAnswers: []
     correctAnswers:
-    - C4
+    - E4
     playerAnswers: []
     isAnsweredCorrectly: 0
     hasBeenAnswered: 0
@@ -204,27 +187,27 @@ MonoBehaviour:
   - questionText: Medium5
     questionDifficulty: 1
     soundClips:
-    - {fileID: 8300000, guid: 0dda36852c989a3469dbe267be1dec0d, type: 3}
+    - {fileID: 8300000, guid: 50ebd3ac255cd164aa72f9da4fa46a91, type: 3}
     test:
       playerAnswers: []
     correctAnswers:
-    - F4
+    - G4
     playerAnswers: []
     isAnsweredCorrectly: 0
     hasBeenAnswered: 0
-  - questionText: Hard1
-    questionDifficulty: 2
+  - questionText: Medium6
+    questionDifficulty: 1
     soundClips:
-    - {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
+    - {fileID: 8300000, guid: 09ad1a3aae6a5ff48bbfee177e4632e5, type: 3}
     test:
       playerAnswers: []
     correctAnswers:
-    - C4
+    - A4
     playerAnswers: []
     isAnsweredCorrectly: 0
     hasBeenAnswered: 0
-  - questionText: Hard2
-    questionDifficulty: 2
+  - questionText: Medium7
+    questionDifficulty: 1
     soundClips:
     - {fileID: 8300000, guid: c112bf6a39e220a42afaecfc6bfeebd8, type: 3}
     test:
@@ -234,36 +217,104 @@ MonoBehaviour:
     playerAnswers: []
     isAnsweredCorrectly: 0
     hasBeenAnswered: 0
-  - questionText: Hard3
-    questionDifficulty: 2
+  - questionText: Medium8
+    questionDifficulty: 1
     soundClips:
-    - {fileID: 8300000, guid: 0dda36852c989a3469dbe267be1dec0d, type: 3}
+    - {fileID: 8300000, guid: 5df02bbeadf6740458957e59a9c491d3, type: 3}
     test:
       playerAnswers: []
     correctAnswers:
-    - F4
+    - C5
     playerAnswers: []
     isAnsweredCorrectly: 0
     hasBeenAnswered: 0
-  - questionText: Hard4
+  - questionText: Major Hard 1
     questionDifficulty: 2
     soundClips:
-    - {fileID: 8300000, guid: 0dda36852c989a3469dbe267be1dec0d, type: 3}
+    - {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
+    - {fileID: 8300000, guid: 72779edddd809e549b6629379c09077f, type: 3}
+    - {fileID: 8300000, guid: 50ebd3ac255cd164aa72f9da4fa46a91, type: 3}
     test:
       playerAnswers: []
     correctAnswers:
-    - F4
+    - C4
+    - E4
+    - G4
     playerAnswers: []
     isAnsweredCorrectly: 0
     hasBeenAnswered: 0
-  - questionText: Hard5
+  - questionText: Major Hard 2
     questionDifficulty: 2
     soundClips:
     - {fileID: 8300000, guid: 0dda36852c989a3469dbe267be1dec0d, type: 3}
+    - {fileID: 8300000, guid: 09ad1a3aae6a5ff48bbfee177e4632e5, type: 3}
+    - {fileID: 8300000, guid: 5df02bbeadf6740458957e59a9c491d3, type: 3}
     test:
       playerAnswers: []
     correctAnswers:
     - F4
+    - A4
+    - C5
+    playerAnswers: []
+    isAnsweredCorrectly: 0
+    hasBeenAnswered: 0
+  - questionText: Major Hard 3
+    questionDifficulty: 2
+    soundClips:
+    - {fileID: 8300000, guid: 9b016761919b89e41821fd72dd1346b3, type: 3}
+    - {fileID: 8300000, guid: 50ebd3ac255cd164aa72f9da4fa46a91, type: 3}
+    - {fileID: 8300000, guid: c112bf6a39e220a42afaecfc6bfeebd8, type: 3}
+    test:
+      playerAnswers: []
+    correctAnswers:
+    - D4
+    - G4
+    - B4
+    playerAnswers: []
+    isAnsweredCorrectly: 0
+    hasBeenAnswered: 0
+  - questionText: Minor Hard 4
+    questionDifficulty: 2
+    soundClips:
+    - {fileID: 8300000, guid: 9b016761919b89e41821fd72dd1346b3, type: 3}
+    - {fileID: 8300000, guid: 0dda36852c989a3469dbe267be1dec0d, type: 3}
+    - {fileID: 8300000, guid: 09ad1a3aae6a5ff48bbfee177e4632e5, type: 3}
+    test:
+      playerAnswers: []
+    correctAnswers:
+    - D4
+    - F4
+    - A4
+    playerAnswers: []
+    isAnsweredCorrectly: 0
+    hasBeenAnswered: 0
+  - questionText: Minor Hard 5
+    questionDifficulty: 2
+    soundClips:
+    - {fileID: 8300000, guid: 72779edddd809e549b6629379c09077f, type: 3}
+    - {fileID: 8300000, guid: 50ebd3ac255cd164aa72f9da4fa46a91, type: 3}
+    - {fileID: 8300000, guid: c112bf6a39e220a42afaecfc6bfeebd8, type: 3}
+    test:
+      playerAnswers: []
+    correctAnswers:
+    - E4
+    - G4
+    - B4
+    playerAnswers: []
+    isAnsweredCorrectly: 0
+    hasBeenAnswered: 0
+  - questionText: Minor Hard 6
+    questionDifficulty: 2
+    soundClips:
+    - {fileID: 8300000, guid: 72779edddd809e549b6629379c09077f, type: 3}
+    - {fileID: 8300000, guid: 09ad1a3aae6a5ff48bbfee177e4632e5, type: 3}
+    - {fileID: 8300000, guid: 5df02bbeadf6740458957e59a9c491d3, type: 3}
+    test:
+      playerAnswers: []
+    correctAnswers:
+    - E4
+    - A4
+    - C5
     playerAnswers: []
     isAnsweredCorrectly: 0
     hasBeenAnswered: 0

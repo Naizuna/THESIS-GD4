@@ -9,6 +9,7 @@ public class MonteCarloAgent
     private float epsilon = 0.1f;
     private float minEpsilon = 0.01f;
     private float decayRate = 0.99f;
+    float gamma = 0.95f;
     
     public void DecayEpsilon()
     {
@@ -45,7 +46,6 @@ public class MonteCarloAgent
     {
         HashSet<(string, QuestionComponent.DifficultyClass)> visited = new HashSet<(string, QuestionComponent.DifficultyClass)>();
         float G = 0; // return
-        float gamma = 1f;
 
         for (int t = episode.Count - 1; t >= 0; t--)
         {

@@ -50,29 +50,32 @@ public class QuestionsBank : MonoBehaviour
         return question;
     }
 
-    public List<QuestionComponent> GetQuestionsFromBank(QuestionComponent.DifficultyClass difficulty, int count)
+    public QuestionComponent GetQuestionsFromBank (QuestionComponent.DifficultyClass difficulty)
     {
-        List<QuestionComponent> questions = difficulty switch
+        QuestionComponent TryGet(List<QuestionComponent> pool)
         {
-            QuestionComponent.DifficultyClass.EASY => new List<QuestionComponent>(easyQuestionsPool),
-            QuestionComponent.DifficultyClass.MEDIUM => new List<QuestionComponent>(mediumQuestionsPool),
-            QuestionComponent.DifficultyClass.HARD => new List<QuestionComponent>(hardQuestionsPool),
+            if (pool == null || pool.Count == 0) return null;
+            return new QuestionComponent(pool[Random.Range(0, pool.Count)]);
+        }
+
+        QuestionComponent q = difficulty switch
+        {
+            QuestionComponent.DifficultyClass.EASY =>
+                TryGet(easyQuestionsPool) ?? TryGet(mediumQuestionsPool) ?? TryGet(hardQuestionsPool),
+
+            QuestionComponent.DifficultyClass.MEDIUM =>
+                TryGet(mediumQuestionsPool) ?? TryGet(easyQuestionsPool) ?? TryGet(hardQuestionsPool),
+
+            QuestionComponent.DifficultyClass.HARD =>
+                TryGet(hardQuestionsPool) ?? TryGet(mediumQuestionsPool) ?? TryGet(easyQuestionsPool),
+
             _ => null
         };
 
-        if (questions == null || questions.Count == 0) return new List<QuestionComponent>();
+        if (q == null)
+            Debug.LogWarning("No questions available in any difficulty!");
 
-        count = Mathf.Min(count, questions.Count);
-
-        List<QuestionComponent> result = new List<QuestionComponent>(count);
-
-        for (int i = 0; i < count; i++)
-        {
-            int index = Random.Range(0, questions.Count);
-            result.Add(new QuestionComponent(questions[index]));
-        }
-
-        return result;
+        return q;
     }
 
     private void SortIntoDifficulties()

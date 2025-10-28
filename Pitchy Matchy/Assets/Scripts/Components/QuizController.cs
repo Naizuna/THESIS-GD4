@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 public class QuizController : MonoBehaviour
 {
-    [Header("Mode")]
-    [SerializeField] private QuizMode quizMode;
+    // [Header("Mode")]
+    // [SerializeField] private QuizMode quizMode;
 
     [Header("Scene References")]
     [SerializeField] private QuestionsBank bank;
@@ -38,20 +38,39 @@ public class QuizController : MonoBehaviour
 
     void Awake()
     {
-        if (quizMode == QuizMode.Normal)
-        {
-            ctx = new QuizContext(bank, wp, sPanel, player, enemy, clipPlayer, questText, numberOfQuestions);
-            handler = new NormalQuizHandler(ctx);
-        }
-        else if (quizMode == QuizMode.MonteCarloControl)
+        // Before change:
+        // if (quizMode == QuizMode.Normal)
+        // {
+        //     ctx = new QuizContext(bank, wp, sPanel, player, enemy, clipPlayer, questText, numberOfQuestions);
+        //     handler = new NormalQuizHandler(ctx);
+        // }
+        // else if (quizMode == QuizMode.MonteCarloControl)
+        // {
+        //     ctx = new QuizContext(bank, wp, sPanel, player, enemy, clipPlayer, questText, numberOfQuestions, mccQuestionsPerEpisode);
+        //     handler = new MonteCarloQuizHandler(ctx, new MonteCarloAgent()); // or inject agent instance
+        // }
+        // else if (quizMode == QuizMode.Sarsa)
+        // {
+        //     ctx = new QuizContext(bank, wp, sPanel, player, enemy, clipPlayer, questText, numberOfQuestions);
+        //     handler = new SARSAQuizHandler(ctx, new SARSAController());
+        // }
+
+        // After change:
+        // Create context (always the same unless MCC needs extra)
+        if (GameVersionManager.Instance.SelectedVersion == GameVersionManager.VersionType.MCC)
         {
             ctx = new QuizContext(bank, wp, sPanel, player, enemy, clipPlayer, questText, numberOfQuestions, mccQuestionsPerEpisode);
-            handler = new MonteCarloQuizHandler(ctx, new MonteCarloAgent()); // or inject agent instance
+            handler = new MonteCarloQuizHandler(ctx, new MonteCarloAgent());
         }
-        else if (quizMode == QuizMode.Sarsa)
+        else if (GameVersionManager.Instance.SelectedVersion == GameVersionManager.VersionType.SARSA)
         {
             ctx = new QuizContext(bank, wp, sPanel, player, enemy, clipPlayer, questText, numberOfQuestions);
             handler = new SARSAQuizHandler(ctx, new SARSAController());
+        }
+        else // Normal (Control Group)
+        {
+            ctx = new QuizContext(bank, wp, sPanel, player, enemy, clipPlayer, questText, numberOfQuestions);
+            handler = new NormalQuizHandler(ctx);
         }
 
         ctx.DifficultyUI = difficultySpriteChanger;
