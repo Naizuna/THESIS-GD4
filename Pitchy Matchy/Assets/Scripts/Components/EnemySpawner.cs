@@ -33,10 +33,6 @@ public class EnemySpawner : MonoBehaviour
                 TrySpawn();
                 quizHandler.playerInputEnabled = true;
             }
-            if (spawnedEnemyComponent.isDefeated)
-            {
-                quizHandler.playerInputEnabled = false;
-            }
         }
     }
 
@@ -62,7 +58,7 @@ public class EnemySpawner : MonoBehaviour
         );
         spawnedEnemy = temp;
         spawnedEnemyComponent = spawnedEnemy.GetComponentInChildren<EnemyComponent>();
-        quizHandler.SetEnemy(spawnedEnemyComponent);
+        quizHandler.SetEnemy(spawnedEnemy.GetComponentInChildren<EnemyComponent>());
     }
 
     public void StopSpawn()
