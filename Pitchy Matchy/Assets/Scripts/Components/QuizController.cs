@@ -112,9 +112,7 @@ public class QuizController : MonoBehaviour
     private void HandlePlayerDefeat()
     {
         enemySpawner.StopSpawn();
-        ctx.UpdatePlayerMetrics();
-        ctx.PrintPlayerMetrics();
-        ctx.ExportPlayerMetricsCSV();
+        HandlePlayerMetrics();
         sPanel.SetLoseScreen(ctx);
         PlayerObject.SetActive(false);
         enemyObject.SetActive(false);
@@ -123,12 +121,32 @@ public class QuizController : MonoBehaviour
     private void HandlePlayerVictory()
     {
         enemySpawner.StopSpawn();
-        ctx.UpdatePlayerMetrics();
-        ctx.PrintPlayerMetrics();
-        ctx.ExportPlayerMetricsCSV();
+        HandlePlayerMetrics();
         sPanel.SetWinScreen(ctx);
         PlayerObject.SetActive(false);
         enemyObject.SetActive(false);
+    }
+
+    private void HandlePlayerMetrics()
+    {
+        string verType = "";
+
+        if (handler is MonteCarloQuizHandler)
+        {
+            verType = "MCC";
+        }
+        else if (handler is SARSAQuizHandler)
+        {
+            verType = "SARSA";
+        }
+        else
+        {
+            verType = "NOALGO";
+        }
+
+        ctx.UpdatePlayerMetrics();
+        ctx.PrintPlayerMetrics();
+        ctx.ExportPlayerMetricsCSV(verType);
     }
 
     public void SetEnemy(EnemyComponent enemy)
