@@ -152,6 +152,7 @@ public class QuizController : MonoBehaviour
     public void SetEnemy(EnemyComponent enemy)
     {
         ctx.SetEnemy(enemy);
+        this.enemy = enemy;
         enemyObject = enemy.gameObject;
     }
 
