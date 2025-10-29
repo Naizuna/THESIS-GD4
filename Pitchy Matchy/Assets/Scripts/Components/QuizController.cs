@@ -182,6 +182,14 @@ public class QuizController : MonoBehaviour
         }
     }
 
+    //use for stage3quiz and final quiz
+    public void PlayReferencePitchFinals()
+    {
+        //only allows medium and hard difficulty to have pitch ref fr
+        if (ctx.QuestionsToAnswer[ctx.CurrQuestionIndex].questionDifficulty.Equals(QuestionComponent.DifficultyClass.EASY)) return;
+        clipPlayer.PlaySingleClip(referencePitch);
+    }
+
     // Called by UI to request next question (or handler can call it)
     public void OnRequestNextQuestion()
     {
