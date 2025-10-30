@@ -129,6 +129,8 @@ public class QuizController : MonoBehaviour
         sPanel.SetWinScreen(ctx);
         PlayerObject.SetActive(false);
         enemyObject.SetActive(false);
+
+        LevelCompletionManager.UnlockNextLevel();
     }
 
     public void SetEnemy(EnemyComponent enemy)

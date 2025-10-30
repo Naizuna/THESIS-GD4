@@ -20,6 +20,7 @@ public class ScreensPanel : MonoBehaviour
     {
         BannerData bannerData = winBanner.GetComponent<BannerData>();
         bannerData.SetResultsText(ctx);
+        SoundManager.Instance.PlayWinMusic();
         UIUtils.ShowUIComponents(winBanner);
     }
 
@@ -27,6 +28,7 @@ public class ScreensPanel : MonoBehaviour
     {
         BannerData bannerData = loseBanner.GetComponent<BannerData>();
         bannerData.SetResultsText(ctx);
+        SoundManager.Instance.PlayLoseMusic();
         UIUtils.ShowUIComponents(loseBanner);
     }
 }
