@@ -19,6 +19,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip loseMusic;
 
     [Header("Volume Settings")]
+    [Range(0f, 1f)] public float masterVolume = 1f;
     [Range(0f, 1f)] public float sfxVolume = 1f;
     [Range(0f, 1f)] public float bgmVolume = 0.5f;
 
@@ -29,6 +30,7 @@ public class SoundManager : MonoBehaviour
     private string currentSceneName;
     private AudioClip currentBGM;
     private bool isEventMusicPlaying = false;
+    private float bgmPlaybackTime = 0f;
 
     [System.Serializable]
     public class SceneBGM
@@ -56,6 +58,7 @@ public class SoundManager : MonoBehaviour
             bgmSource.loop = true;
             eventSource.loop = false;
 
+            LoadVolumeSettings();
             ApplyVolumeSettings();
         }
         else
@@ -86,31 +89,54 @@ public class SoundManager : MonoBehaviour
         PlaySceneBGM(scene.name);
     }
 
+    // 🎚 Volume control
     private void ApplyVolumeSettings()
     {
-        sfxSource.volume = sfxVolume;
-        bgmSource.volume = bgmVolume;
-        eventSource.volume = bgmVolume;
+        sfxSource.volume = sfxVolume * masterVolume;
+        bgmSource.volume = bgmVolume * masterVolume;
+        eventSource.volume = bgmVolume * masterVolume;
+    }
+
+    public void SetMasterVolume(float volume)
+    {
+        masterVolume = volume;
+        SaveVolumeSettings();
+        ApplyVolumeSettings();
     }
 
     public void SetSFXVolume(float volume)
     {
         sfxVolume = volume;
-        sfxSource.volume = volume;
+        SaveVolumeSettings();
+        ApplyVolumeSettings();
     }
 
     public void SetBGMVolume(float volume)
     {
         bgmVolume = volume;
-        bgmSource.volume = volume;
-        eventSource.volume = volume;
+        SaveVolumeSettings();
+        ApplyVolumeSettings();
+    }
+
+    private void SaveVolumeSettings()
+    {
+        PlayerPrefs.SetFloat("MasterVol", masterVolume);
+        PlayerPrefs.SetFloat("SFXVol", sfxVolume);
+        PlayerPrefs.SetFloat("BGMVol", bgmVolume);
+    }
+
+    private void LoadVolumeSettings()
+    {
+        masterVolume = PlayerPrefs.GetFloat("MasterVol", 1f);
+        sfxVolume = PlayerPrefs.GetFloat("SFXVol", 1f);
+        bgmVolume = PlayerPrefs.GetFloat("BGMVol", 0.5f);
     }
 
     // 🔊 General SFX
     public void PlaySFX(AudioClip clip)
     {
         if (clip != null)
-            sfxSource.PlayOneShot(clip, sfxVolume);
+            sfxSource.PlayOneShot(clip, sfxVolume * masterVolume);
     }
 
     // 🖱️ Auto-attach click sounds
@@ -139,18 +165,16 @@ public class SoundManager : MonoBehaviour
 
         if (found != null && found.bgmClip != null)
         {
+            // ✅ If the same BGM is already playing, continue
             if (currentBGM == found.bgmClip && bgmSource.isPlaying)
-            {
-                // Same clip — just keep playing
                 return;
-            }
-            // Otherwise crossfade into new clip
+
             currentBGM = found.bgmClip;
             CrossfadeBGM(found.bgmClip);
         }
         else
         {
-            // No BGM for this scene → fade out
+            // ❌ No BGM assigned → fade out
             if (bgmSource.isPlaying)
                 StartCoroutine(FadeOutAndStop(1f));
             currentBGM = null;
@@ -180,11 +204,11 @@ public class SoundManager : MonoBehaviour
 
         for (float t = 0; t < fadeTime; t += Time.unscaledDeltaTime)
         {
-            bgmSource.volume = Mathf.Lerp(0f, bgmVolume, t / fadeTime);
+            bgmSource.volume = Mathf.Lerp(0f, bgmVolume * masterVolume, t / fadeTime);
             yield return null;
         }
 
-        bgmSource.volume = bgmVolume;
+        bgmSource.volume = bgmVolume * masterVolume;
     }
 
     // 🌙 Fade out for silent scenes
@@ -197,7 +221,7 @@ public class SoundManager : MonoBehaviour
             yield return null;
         }
         bgmSource.Stop();
-        bgmSource.volume = bgmVolume;
+        bgmSource.volume = bgmVolume * masterVolume;
     }
 
     // 🔁 Restart current BGM
@@ -213,34 +237,13 @@ public class SoundManager : MonoBehaviour
 
     // 🏁 Event Music Handlers ---------------------------------------
 
-    /// <summary>
-    /// Plays tutorial complete music once, pausing current BGM.
-    /// </summary>
-    public void PlayTutorialCompleteMusic()
-    {
-        PlayEventMusic(tutorialCompleteMusic);
-    }
-
-    /// <summary>
-    /// Plays win music once, pausing current BGM.
-    /// </summary>
-    public void PlayWinMusic()
-    {
-        PlayEventMusic(winMusic);
-    }
-
-    /// <summary>
-    /// Plays lose music once, pausing current BGM.
-    /// </summary>
-    public void PlayLoseMusic()
-    {
-        PlayEventMusic(loseMusic);
-    }
+    public void PlayTutorialCompleteMusic() => PlayEventMusic(tutorialCompleteMusic);
+    public void PlayWinMusic() => PlayEventMusic(winMusic);
+    public void PlayLoseMusic() => PlayEventMusic(loseMusic);
 
     private void PlayEventMusic(AudioClip clip)
     {
         if (clip == null) return;
-
         StartCoroutine(PlayEventRoutine(clip));
     }
 
@@ -248,21 +251,19 @@ public class SoundManager : MonoBehaviour
     {
         isEventMusicPlaying = true;
 
-        // Fade out background music first
         yield return StartCoroutine(FadeOutAndPauseBGM(0.5f));
 
-        // Play the event clip
         eventSource.clip = clip;
         eventSource.Play();
 
-        // Wait until event music finishes
         yield return new WaitWhile(() => eventSource.isPlaying);
 
         isEventMusicPlaying = false;
 
-        // Resume background music if available
         if (currentBGM != null)
         {
+            // ✅ Resume BGM where it left off
+            bgmSource.time = bgmPlaybackTime;
             bgmSource.UnPause();
         }
     }
@@ -277,7 +278,10 @@ public class SoundManager : MonoBehaviour
             yield return null;
         }
 
+        // 🎯 Save playback time and pause
+        bgmPlaybackTime = bgmSource.time;
+
         bgmSource.Pause();
-        bgmSource.volume = bgmVolume;
+        bgmSource.volume = bgmVolume * masterVolume;
     }
 }
