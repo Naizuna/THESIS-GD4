@@ -120,9 +120,15 @@ public class SARSAQuizHandler : IQuizHandler
 
         // apply gameplay effects
         if (q.isAnsweredCorrectly)
-            ctx.Enemy?.TakeDamage(ctx.Player.GetAttackPower());
+        {
+            ctx.Player.PlayAttack();
+            ctx.Enemy.TakeDamage(ctx.Player.GetAttackPower());
+        }
         else
-            ctx.Player?.TakeDamage(ctx.Enemy.GetAttackPower());
+        {
+            ctx.Enemy.PlayAttack();
+            ctx.Player.TakeDamage(ctx.Enemy.GetAttackPower());
+        }
 
         // update player metrics if present in context
         ctx.PlyrMetric?.SetQuestionsAnswered(ctx.QuestionsToAnswer);

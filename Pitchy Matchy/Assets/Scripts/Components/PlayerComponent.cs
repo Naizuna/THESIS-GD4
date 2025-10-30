@@ -12,17 +12,18 @@ public class PlayerComponent : MonoBehaviour
     [SerializeField] float damagedFlashDuration;
     private bool playerDefeated;
     private Color defaultColor;
+    private Animator animator;
 
     public void TakeDamage(int damage)
     {
         Debug.Log($"Player takes {damage} damage!");
-        StartCoroutine(HurtFlash());
+        HurtFlash();
 
         if ((currHp - damage) <= 0)
         {
             playerDefeated = true;
             currHp = 0;
-            Death();
+            PlayDeath();
             return;
         }
 
@@ -39,13 +40,30 @@ public class PlayerComponent : MonoBehaviour
         return attackPower;
     }
 
-    public void Death()
+    public void PlayDeath()
     {
-        this.gameObject.SetActive(false);
+        animator.SetBool("isDeath", true);
+    }
+
+    public void PlayAttack()
+    {
+        animator.SetBool("isAttacking", true);
+    }
+
+    public void StopAttack()
+    {
+        animator.SetBool("isAttacking", false);
+    }
+
+    public void OnDeathAnimationFinish()
+    {
+        animator.SetBool("isDeath", false);
+        Destroy(gameObject);
     }
 
     void Start()
     {
+        animator = GetComponent<Animator>();
         playerDefeated = false;
         defaultColor = playerSprite.color;
         currHp = hp;
@@ -61,10 +79,13 @@ public class PlayerComponent : MonoBehaviour
         }
     }
 
-    private IEnumerator HurtFlash()
+    public void HurtFlash()
     {
-        playerSprite.color = damagedColor;
-        yield return new WaitForSeconds(damagedFlashDuration);
-        playerSprite.color = defaultColor;
+        animator.SetBool("isHurt", true);
+    }
+
+    public void StopHurtFlash()
+    {
+        animator.SetBool("isHurt", false);
     }
 }
