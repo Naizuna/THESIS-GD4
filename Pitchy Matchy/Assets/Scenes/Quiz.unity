@@ -5829,6 +5829,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3467519810414639399, guid: 9a79c20da7f782447b24423acdb5f2a1, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3467519810414639399, guid: 9a79c20da7f782447b24423acdb5f2a1, type: 3}
       propertyPath: spawnPoint
       value: 
       objectReference: {fileID: 1928386020}
@@ -5863,6 +5867,10 @@ PrefabInstance:
     - target: {fileID: 7588937899577784632, guid: 9a79c20da7f782447b24423acdb5f2a1, type: 3}
       propertyPath: m_Name
       value: EnemySpawner
+      objectReference: {fileID: 0}
+    - target: {fileID: 7588937899577784632, guid: 9a79c20da7f782447b24423acdb5f2a1, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6848,7 +6856,7 @@ SpriteRenderer:
   m_SortingLayerID: 1433349717
   m_SortingLayer: -2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: a466d8ef96868174187cc8c08c4d4763, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7cc8755d212cf2c4595fab018c76e7d3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

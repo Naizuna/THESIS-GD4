@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameVersionManager : MonoBehaviour
 {
@@ -9,7 +8,6 @@ public class GameVersionManager : MonoBehaviour
 
     public static GameVersionManager Instance { get; private set; }
 
-    // NEW: Track if the player already selected a version
     public bool HasChosenVersion { get; private set; } = false;
 
     private void Awake()
@@ -25,15 +23,44 @@ public class GameVersionManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        // 🔄 Press F5 to reset all unlocked levels and reload the scene
+        if (Input.GetKeyDown(KeyCode.F5))
+        {
+            ResetLevelProgressAndReload();
+        }
+    }
+
     public void SetVersion(int v)
     {
         SelectedVersion = (VersionType)v;
-        HasChosenVersion = true; // Mark version as chosen
+        HasChosenVersion = true;
     }
 
-    // Optional: if you ever want a reset button in main menu later
     public void ResetVersionSelection()
     {
         HasChosenVersion = false;
+    }
+
+    private void ResetLevelProgressAndReload()
+    {
+        // Clear PlayerPrefs progress
+        PlayerPrefs.DeleteKey("UnlockedLevel");
+        PlayerPrefs.Save();
+
+        Debug.Log("🔁 Level progress reset — all levels locked again.");
+
+        // 🔃 Try to reload scene safely
+        SceneController sceneController = FindObjectOfType<SceneController>();
+        if (sceneController != null)
+        {
+            sceneController.ReloadCurrentScene();
+        }
+        else
+        {
+            // fallback if no SceneController is in the current scene
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 }

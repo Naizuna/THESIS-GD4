@@ -226,6 +226,9 @@ public class DialogueController : MonoBehaviour
     
     void EndTutorial()
     {
+        SoundManager.Instance.PlayTutorialCompleteMusic();
         tutorialCompletePanel.SetActive(true);
+        
+        LevelCompletionManager.UnlockNextLevel();
     }
 }
