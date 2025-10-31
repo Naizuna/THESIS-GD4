@@ -112,9 +112,7 @@ public class QuizController : MonoBehaviour
     private void HandlePlayerDefeat()
     {
         enemySpawner.StopSpawn();
-        ctx.UpdatePlayerMetrics();
-        ctx.PrintPlayerMetrics();
-        ctx.ExportPlayerMetricsCSV();
+        HandlePlayerMetrics();
         sPanel.SetLoseScreen(ctx);
         PlayerObject.SetActive(false);
         enemyObject.SetActive(false);
@@ -123,9 +121,7 @@ public class QuizController : MonoBehaviour
     private void HandlePlayerVictory()
     {
         enemySpawner.StopSpawn();
-        ctx.UpdatePlayerMetrics();
-        ctx.PrintPlayerMetrics();
-        ctx.ExportPlayerMetricsCSV();
+        HandlePlayerMetrics();
         sPanel.SetWinScreen(ctx);
         PlayerObject.SetActive(false);
         enemyObject.SetActive(false);
@@ -133,9 +129,32 @@ public class QuizController : MonoBehaviour
         LevelCompletionManager.UnlockNextLevel();
     }
 
+    private void HandlePlayerMetrics()
+    {
+        string verType = "";
+
+        if (handler is MonteCarloQuizHandler)
+        {
+            verType = "MCC";
+        }
+        else if (handler is SARSAQuizHandler)
+        {
+            verType = "SARSA";
+        }
+        else
+        {
+            verType = "NOALGO";
+        }
+
+        ctx.UpdatePlayerMetrics();
+        ctx.PrintPlayerMetrics();
+        ctx.ExportPlayerMetricsCSV(verType);
+    }
+
     public void SetEnemy(EnemyComponent enemy)
     {
         ctx.SetEnemy(enemy);
+        this.enemy = enemy;
         enemyObject = enemy.gameObject;
     }
 
@@ -163,6 +182,14 @@ public class QuizController : MonoBehaviour
         {
             clipPlayer.PlaySingleClip(referencePitch);
         }
+    }
+
+    //use for stage3quiz and final quiz
+    public void PlayReferencePitchFinals()
+    {
+        //only allows medium and hard difficulty to have pitch ref fr
+        if (ctx.QuestionsToAnswer[ctx.CurrQuestionIndex].questionDifficulty.Equals(QuestionComponent.DifficultyClass.EASY)) return;
+        clipPlayer.PlaySingleClip(referencePitch);
     }
 
     // Called by UI to request next question (or handler can call it)

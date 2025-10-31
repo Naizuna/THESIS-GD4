@@ -62,7 +62,7 @@ public class EnemySpawner : MonoBehaviour
         );
         spawnedEnemy = temp;
         spawnedEnemyComponent = spawnedEnemy.GetComponent<EnemyComponent>();
-        quizHandler.SetEnemy(spawnedEnemy.GetComponent<EnemyComponent>());
+        quizHandler.SetEnemy(spawnedEnemyComponent);
     }
 
     public void StopSpawn()

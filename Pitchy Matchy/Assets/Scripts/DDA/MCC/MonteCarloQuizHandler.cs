@@ -122,9 +122,15 @@ public class MonteCarloQuizHandler : IQuizHandler
         Debug.Log($"Current Accuracy: {accuracy * 100f}% after {ctx.CurrQuestionIndex + 1} questions.");
 
         if (q.isAnsweredCorrectly)
+        {
+            ctx.Player.PlayAttack();
             ctx.Enemy.TakeDamage(ctx.Player.GetAttackPower());
+        }
         else
+        {
+            ctx.Enemy.PlayAttack();
             ctx.Player.TakeDamage(ctx.Enemy.GetAttackPower());
+        }
 
         LoadNextQuestion();
     }

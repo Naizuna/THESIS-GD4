@@ -69,8 +69,16 @@ public class NormalQuizHandler : IQuizHandler
         q.playerAnswers = new List<string>(ctx.PlayerAnswers);
         q.CheckAnswers();
 
-        if (q.isAnsweredCorrectly) ctx.Enemy.TakeDamage(ctx.Player.GetAttackPower());
-        else ctx.Player.TakeDamage(ctx.Enemy.GetAttackPower());
+        if (q.isAnsweredCorrectly)
+        {
+            ctx.Player.PlayAttack();
+            ctx.Enemy.TakeDamage(ctx.Player.GetAttackPower());
+        }
+        else
+        {
+            ctx.Enemy.PlayAttack();
+            ctx.Player.TakeDamage(ctx.Enemy.GetAttackPower());
+        }
 
         LoadNextQuestion();
     }

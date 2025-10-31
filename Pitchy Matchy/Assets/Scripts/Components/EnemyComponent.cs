@@ -6,7 +6,8 @@ using UnityEngine.UI;
 
 public class EnemyComponent : MonoBehaviour
 {
-    SpriteRenderer enemySprite;
+    [SerializeField] SpriteRenderer enemySprite;
+    [SerializeField] Animator animator;
     [SerializeField] ParticleSystem hurtEffect;
     [SerializeField] ParticleSystem deathEffect;
     [SerializeField] Color damagedColor;
@@ -17,6 +18,7 @@ public class EnemyComponent : MonoBehaviour
     [SerializeField] float deathDuration;
     public bool isDefeated  {  get; private set; }
     private Color defaultColor;
+    private GameObject enemySpriteParentObj;
     
     void Update()
     {
@@ -30,9 +32,9 @@ public class EnemyComponent : MonoBehaviour
 
     private void Start()
     {
-        enemySprite = GetComponent<SpriteRenderer>();
         isDefeated = false;
         defaultColor = enemySprite.color;
+        enemySpriteParentObj = enemySprite.gameObject;
         currHP = maxhp;
     }
     public void TakeDamage(int damage)
@@ -52,18 +54,33 @@ public class EnemyComponent : MonoBehaviour
         currHP -= damage;
     }
 
+    public void PlayAttack()
+    {
+        animator.SetBool("isAttacking", true);
+    }
+
+    public void StopAttack()
+    {
+        animator.SetBool("isAttacking", false);
+    }
+
+    public void StopDeathAnim()
+    {
+        animator.SetBool("isDeath", false);
+    }
+
     private IEnumerator HurtFlash()
     {
-        enemySprite.color = damagedColor;
         PlayHitEffect();
+        animator.SetBool("isHurt", true);
         yield return new WaitForSeconds(damagedFlashDuration);
-        enemySprite.color = defaultColor;
+        animator.SetBool("isHurt", false);
     }
 
     public IEnumerator Death()
     {
-        enemySprite.enabled = false;
         PlayDeathEffect();
+        animator.SetBool("isDeath", true);
         yield return new WaitForSeconds(deathDuration);
         Destroy(gameObject);
     }
@@ -71,7 +88,7 @@ public class EnemyComponent : MonoBehaviour
     void PlayHitEffect() 
     {
         ParticleSystem instance = Instantiate(
-            hurtEffect, transform.position,
+            hurtEffect, enemySpriteParentObj.transform.position,
             Quaternion.identity
         );
         Destroy(instance.gameObject,
@@ -82,7 +99,7 @@ public class EnemyComponent : MonoBehaviour
     void PlayDeathEffect() 
     {
         ParticleSystem instance = Instantiate(
-            deathEffect, transform.position,
+            deathEffect, enemySpriteParentObj.transform.position,
             Quaternion.identity
         );
         Destroy(instance.gameObject,

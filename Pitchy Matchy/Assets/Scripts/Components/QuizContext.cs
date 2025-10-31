@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.Video;
+using UnityEngine.SceneManagement;
 
 public class QuizContext
 {
@@ -138,10 +139,10 @@ public class QuizContext
         PlyrMetric.TestPrint();
     }
 
-    public void ExportPlayerMetricsCSV()
+    public void ExportPlayerMetricsCSV(string filename)
     {
-        PlyrMetric.levelName = "levelTest";
-        PlyrMetric.WriteToFile("test");
+        PlyrMetric.levelName = SceneManager.GetActiveScene().name;
+        PlyrMetric.WriteToFile(filename);
     }
     public void SetEnemy(EnemyComponent enemy)
     {

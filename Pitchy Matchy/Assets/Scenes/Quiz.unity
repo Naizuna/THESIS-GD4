@@ -5851,7 +5851,7 @@ PrefabInstance:
     - target: {fileID: 3467519810414639399, guid: 9a79c20da7f782447b24423acdb5f2a1, type: 3}
       propertyPath: enemyVariants.Array.data[1]
       value: 
-      objectReference: {fileID: 3457148905547378434, guid: 8be3a59a33b656b4b9e9e4f5ab212e8a, type: 3}
+      objectReference: {fileID: 5747550771774001195, guid: ae07a05cbf580de4bb86cd6f56d00c47, type: 3}
     - target: {fileID: 3467519810414639399, guid: 9a79c20da7f782447b24423acdb5f2a1, type: 3}
       propertyPath: enemyVariants.Array.data[2]
       value: 
