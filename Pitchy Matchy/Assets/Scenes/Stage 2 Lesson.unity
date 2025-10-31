@@ -192,10 +192,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2139497567}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 83, y: 0}
+  m_SizeDelta: {x: 77, y: 20}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &15724427
 MonoBehaviour:
@@ -2953,8 +2953,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lines:
-  - text: "Welcome to Pitchy Matchy, where we\u2019ll learn how to recognize the
-      pitches in the C MAJOR scale!"
+  - text: "already on your second lesson? good job! let\u2019s kick it up a notch."
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -2963,8 +2962,7 @@ MonoBehaviour:
     allowPlayerInput: 0
     correctAnswer: []
     isTypingFinished: 0
-  - text: 'The most often used scale in Western music is C Major, which uses the
-      keyboard''s white keys to express pitch intervals. '
+  - text: "remember C4? our reference pitch? let\u2019s build up from that.\r\n"
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -2973,26 +2971,58 @@ MonoBehaviour:
     allowPlayerInput: 0
     correctAnswer: []
     isTypingFinished: 0
-  - text: "Let\u2019s hear the C scale first. Memorize the sound of your scale since
-      this will be the foundation of your musical journey!"
+  - text: try pressing each one as I play them.
     wrongAnswerText: 
+    pitchSounds: []
+    pitchLabel: 
+    showRepeatButton: 0
+    showContinueButton: 1
+    allowPlayerInput: 0
+    correctAnswer: []
+    isTypingFinished: 0
+  - text: 'now, listen closely. this is A4. now you try.
+
+'
+    wrongAnswerText: "that\u2019s incorrect, but don\u2019t lose focus. try to find
+      a4"
     pitchSounds:
-    - {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
-    - {fileID: 8300000, guid: 9b016761919b89e41821fd72dd1346b3, type: 3}
-    - {fileID: 8300000, guid: 72779edddd809e549b6629379c09077f, type: 3}
-    - {fileID: 8300000, guid: 0dda36852c989a3469dbe267be1dec0d, type: 3}
-    - {fileID: 8300000, guid: 50ebd3ac255cd164aa72f9da4fa46a91, type: 3}
     - {fileID: 8300000, guid: 09ad1a3aae6a5ff48bbfee177e4632e5, type: 3}
+    pitchLabel: 
+    showRepeatButton: 1
+    showContinueButton: 1
+    allowPlayerInput: 1
+    correctAnswer:
+    - A4
+    isTypingFinished: 0
+  - text: 'nice! now this is B4. try pressing the key on your keyboard
+
+'
+    wrongAnswerText: "good effort, but that\u2019s not quite the correct answer I\u2019m
+      looking for. try and look for B4"
+    pitchSounds:
     - {fileID: 8300000, guid: c112bf6a39e220a42afaecfc6bfeebd8, type: 3}
+    pitchLabel: 
+    showRepeatButton: 1
+    showContinueButton: 1
+    allowPlayerInput: 1
+    correctAnswer:
+    - B4
+    isTypingFinished: 0
+  - text: awesome! now, for the last one for this lesson, this is C5, which is an
+      octave higher than C4.
+    wrongAnswerText: "not this time, but you\u2019re getting closer. try to look
+      for c5"
+    pitchSounds:
     - {fileID: 8300000, guid: 5df02bbeadf6740458957e59a9c491d3, type: 3}
     pitchLabel: 
-    showRepeatButton: 0
+    showRepeatButton: 1
     showContinueButton: 1
-    allowPlayerInput: 0
-    correctAnswer: []
+    allowPlayerInput: 1
+    correctAnswer:
+    - C5
     isTypingFinished: 0
-  - text: "To recognize pitches easily, we\u2019ll start by hearing C4, E4, and G4,
-      the stable foundation of the C Major scale."
+  - text: "great work! now that you learned the notes from C4 to C5, you\u2019ve
+      actually covered one full scale! "
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -3001,84 +3031,8 @@ MonoBehaviour:
     allowPlayerInput: 0
     correctAnswer: []
     isTypingFinished: 0
-  - text: C4 will be played as your reference pitch to help you identify the next
-      notes. You can sing along the scale to check your accuracy.
-    wrongAnswerText: 
-    pitchSounds:
-    - {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
-    pitchLabel: 
-    showRepeatButton: 0
-    showContinueButton: 1
-    allowPlayerInput: 0
-    correctAnswer: []
-    isTypingFinished: 0
-  - text: "This is the starting pitch in the C Major scale, and we\u2019ll use it
-      as our guide for the rest of the pitches."
-    wrongAnswerText: 
-    pitchSounds: []
-    pitchLabel: 
-    showRepeatButton: 0
-    showContinueButton: 1
-    allowPlayerInput: 0
-    correctAnswer: []
-    isTypingFinished: 0
-  - text: You can hear this reference pitch whenever you want by pressing the blue
-      circle button below.
-    wrongAnswerText: 
-    pitchSounds:
-    - {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
-    pitchLabel: 
-    showRepeatButton: 1
-    showContinueButton: 1
-    allowPlayerInput: 0
-    correctAnswer: []
-    isTypingFinished: 0
-  - text: "Now, try pressing C4 first on the keyboard below. Remember, C4 is the
-      first C you\u2019ll see on the keyboard."
-    wrongAnswerText: "Oops! Try again. Remember, C4 is the first C you\u2019ll see
-      on the keyboard. "
-    pitchSounds:
-    - {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
-    pitchLabel: 
-    showRepeatButton: 1
-    showContinueButton: 1
-    allowPlayerInput: 1
-    correctAnswer:
-    - C4
-    isTypingFinished: 0
-  - text: "Great! Next up is E4\u2026 Your turn! Press E4 on the keyboard."
-    wrongAnswerText: not quite. let's try again
-    pitchSounds:
-    - {fileID: 8300000, guid: 72779edddd809e549b6629379c09077f, type: 3}
-    pitchLabel: 
-    showRepeatButton: 1
-    showContinueButton: 1
-    allowPlayerInput: 1
-    correctAnswer:
-    - E4
-    isTypingFinished: 0
-  - text: "Nice! Lastly, this is G4\u2026"
-    wrongAnswerText: a small mistake, but you're close. try again
-    pitchSounds:
-    - {fileID: 8300000, guid: 50ebd3ac255cd164aa72f9da4fa46a91, type: 3}
-    pitchLabel: 
-    showRepeatButton: 1
-    showContinueButton: 1
-    allowPlayerInput: 1
-    correctAnswer:
-    - G4
-    isTypingFinished: 0
-  - text: 'Great! Now you managed to learn the first few pitches of the C Major scale.
-      Let''s proceed to the quiz to test what you just learned. '
-    wrongAnswerText: 
-    pitchSounds: []
-    pitchLabel: 
-    showRepeatButton: 0
-    showContinueButton: 1
-    allowPlayerInput: 0
-    correctAnswer: []
-    isTypingFinished: 0
-  - text: Keep a keen ear, we might throw you a challenge here and there. Good luck!
+  - text: "nice! let\u2019s test what you\u2019ve learned! proceed to the quiz when
+      you\u2019re ready. good luck, and see you in the next lesson!"
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -3590,7 +3544,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1226447405
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4244,10 +4198,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2139497567}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 77, y: 20}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1579685303
 MonoBehaviour:

@@ -192,10 +192,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2139497567}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 83, y: 0}
+  m_SizeDelta: {x: 77, y: 20}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &15724427
 MonoBehaviour:
@@ -2953,8 +2953,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lines:
-  - text: "Welcome to Pitchy Matchy, where we\u2019ll learn how to recognize the
-      pitches in the C MAJOR scale!"
+  - text: welcome to your final lesson.
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -2963,8 +2962,8 @@ MonoBehaviour:
     allowPlayerInput: 0
     correctAnswer: []
     isTypingFinished: 0
-  - text: 'The most often used scale in Western music is C Major, which uses the
-      keyboard''s white keys to express pitch intervals. '
+  - text: "you have already mastered the pitches in the C major scale, now it\u2019s
+      time to use them together."
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -2973,103 +2972,138 @@ MonoBehaviour:
     allowPlayerInput: 0
     correctAnswer: []
     isTypingFinished: 0
-  - text: "Let\u2019s hear the C scale first. Memorize the sound of your scale since
-      this will be the foundation of your musical journey!"
+  - text: "let\u2019s learn about some basic major and minor chords that you can
+      make with the pitches you have learned previously."
     wrongAnswerText: 
+    pitchSounds: []
+    pitchLabel: 
+    showRepeatButton: 0
+    showContinueButton: 1
+    allowPlayerInput: 0
+    correctAnswer: []
+    isTypingFinished: 0
+  - text: but first, what is even a chord?
+    wrongAnswerText: 
+    pitchSounds: []
+    pitchLabel: 
+    showRepeatButton: 0
+    showContinueButton: 1
+    allowPlayerInput: 0
+    correctAnswer: []
+    isTypingFinished: 0
+  - text: a chord is a group of notes played together at the same time.
+    wrongAnswerText: 
+    pitchSounds: []
+    pitchLabel: 
+    showRepeatButton: 0
+    showContinueButton: 1
+    allowPlayerInput: 0
+    correctAnswer: []
+    isTypingFinished: 0
+  - text: "but to make things simpler for you, we\u2019ll only play the notes of
+      a chord one by one, and you guess the set of notes being played. "
+    wrongAnswerText: 
+    pitchSounds: []
+    pitchLabel: 
+    showRepeatButton: 0
+    showContinueButton: 1
+    allowPlayerInput: 0
+    correctAnswer: []
+    isTypingFinished: 0
+  - text: "let\u2019s start with major chords based on the 1st, 3rd, and 5th notes
+      of the major scale."
+    wrongAnswerText: 
+    pitchSounds: []
+    pitchLabel: 
+    showRepeatButton: 0
+    showContinueButton: 1
+    allowPlayerInput: 0
+    correctAnswer: []
+    isTypingFinished: 0
+  - text: to put it simply, major chords are those chords that sound happy because
+      of their bright sound.
+    wrongAnswerText: 
+    pitchSounds: []
+    pitchLabel: 
+    showRepeatButton: 0
+    showContinueButton: 1
+    allowPlayerInput: 0
+    correctAnswer: []
+    isTypingFinished: 0
+  - text: 'Do you remember the first lesson where we learned about C4, E4, and G4?
+      if we play these together, we get the C major Chord! '
+    wrongAnswerText: 
+    pitchSounds: []
+    pitchLabel: 
+    showRepeatButton: 0
+    showContinueButton: 1
+    allowPlayerInput: 0
+    correctAnswer: []
+    isTypingFinished: 0
+  - text: can you press the 3 keys again that make up the C major chord?
+    wrongAnswerText: almost there. try again. can you press the 3 keys again that
+      make up the C major chord?
     pitchSounds:
     - {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
-    - {fileID: 8300000, guid: 9b016761919b89e41821fd72dd1346b3, type: 3}
     - {fileID: 8300000, guid: 72779edddd809e549b6629379c09077f, type: 3}
-    - {fileID: 8300000, guid: 0dda36852c989a3469dbe267be1dec0d, type: 3}
     - {fileID: 8300000, guid: 50ebd3ac255cd164aa72f9da4fa46a91, type: 3}
-    - {fileID: 8300000, guid: 09ad1a3aae6a5ff48bbfee177e4632e5, type: 3}
-    - {fileID: 8300000, guid: c112bf6a39e220a42afaecfc6bfeebd8, type: 3}
-    - {fileID: 8300000, guid: 5df02bbeadf6740458957e59a9c491d3, type: 3}
-    pitchLabel: 
-    showRepeatButton: 0
-    showContinueButton: 1
-    allowPlayerInput: 0
-    correctAnswer: []
-    isTypingFinished: 0
-  - text: "To recognize pitches easily, we\u2019ll start by hearing C4, E4, and G4,
-      the stable foundation of the C Major scale."
-    wrongAnswerText: 
-    pitchSounds: []
-    pitchLabel: 
-    showRepeatButton: 0
-    showContinueButton: 1
-    allowPlayerInput: 0
-    correctAnswer: []
-    isTypingFinished: 0
-  - text: C4 will be played as your reference pitch to help you identify the next
-      notes. You can sing along the scale to check your accuracy.
-    wrongAnswerText: 
-    pitchSounds:
-    - {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
-    pitchLabel: 
-    showRepeatButton: 0
-    showContinueButton: 1
-    allowPlayerInput: 0
-    correctAnswer: []
-    isTypingFinished: 0
-  - text: "This is the starting pitch in the C Major scale, and we\u2019ll use it
-      as our guide for the rest of the pitches."
-    wrongAnswerText: 
-    pitchSounds: []
-    pitchLabel: 
-    showRepeatButton: 0
-    showContinueButton: 1
-    allowPlayerInput: 0
-    correctAnswer: []
-    isTypingFinished: 0
-  - text: You can hear this reference pitch whenever you want by pressing the blue
-      circle button below.
-    wrongAnswerText: 
-    pitchSounds:
-    - {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
-    pitchLabel: 
-    showRepeatButton: 1
-    showContinueButton: 1
-    allowPlayerInput: 0
-    correctAnswer: []
-    isTypingFinished: 0
-  - text: "Now, try pressing C4 first on the keyboard below. Remember, C4 is the
-      first C you\u2019ll see on the keyboard."
-    wrongAnswerText: "Oops! Try again. Remember, C4 is the first C you\u2019ll see
-      on the keyboard. "
-    pitchSounds:
-    - {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
     pitchLabel: 
     showRepeatButton: 1
     showContinueButton: 1
     allowPlayerInput: 1
     correctAnswer:
     - C4
-    isTypingFinished: 0
-  - text: "Great! Next up is E4\u2026 Your turn! Press E4 on the keyboard."
-    wrongAnswerText: not quite. let's try again
-    pitchSounds:
-    - {fileID: 8300000, guid: 72779edddd809e549b6629379c09077f, type: 3}
-    pitchLabel: 
-    showRepeatButton: 1
-    showContinueButton: 1
-    allowPlayerInput: 1
-    correctAnswer:
     - E4
-    isTypingFinished: 0
-  - text: "Nice! Lastly, this is G4\u2026"
-    wrongAnswerText: a small mistake, but you're close. try again
-    pitchSounds:
-    - {fileID: 8300000, guid: 50ebd3ac255cd164aa72f9da4fa46a91, type: 3}
-    pitchLabel: 
-    showRepeatButton: 1
-    showContinueButton: 1
-    allowPlayerInput: 1
-    correctAnswer:
     - G4
     isTypingFinished: 0
-  - text: 'Great! Now you managed to learn the first few pitches of the C Major scale.
-      Let''s proceed to the quiz to test what you just learned. '
+  - text: "nice one! let\u2019s keep this going. Now if I play F4, A4, C5.... We
+      get the F major chord!"
+    wrongAnswerText: 
+    pitchSounds:
+    - {fileID: 8300000, guid: 0dda36852c989a3469dbe267be1dec0d, type: 3}
+    - {fileID: 8300000, guid: 09ad1a3aae6a5ff48bbfee177e4632e5, type: 3}
+    - {fileID: 8300000, guid: 5df02bbeadf6740458957e59a9c491d3, type: 3}
+    pitchLabel: 
+    showRepeatButton: 1
+    showContinueButton: 1
+    allowPlayerInput: 0
+    correctAnswer: []
+    isTypingFinished: 0
+  - text: can you press the correct notes for the f major chords again?
+    wrongAnswerText: ooh so close, let's try that again. can you press the correct
+      notes for the f major chord again?
+    pitchSounds:
+    - {fileID: 8300000, guid: 0dda36852c989a3469dbe267be1dec0d, type: 3}
+    - {fileID: 8300000, guid: 09ad1a3aae6a5ff48bbfee177e4632e5, type: 3}
+    - {fileID: 8300000, guid: 5df02bbeadf6740458957e59a9c491d3, type: 3}
+    pitchLabel: 
+    showRepeatButton: 1
+    showContinueButton: 1
+    allowPlayerInput: 1
+    correctAnswer:
+    - F4
+    - A4
+    - C5
+    isTypingFinished: 0
+  - text: Nailed it! Now, if we play D4, G4, and B4... you get the G major chord.
+      try it out!
+    wrongAnswerText: ooh so close, let's try that again. can you press the correct
+      notes for the G major chord again?
+    pitchSounds:
+    - {fileID: 8300000, guid: 9b016761919b89e41821fd72dd1346b3, type: 3}
+    - {fileID: 8300000, guid: 50ebd3ac255cd164aa72f9da4fa46a91, type: 3}
+    - {fileID: 8300000, guid: c112bf6a39e220a42afaecfc6bfeebd8, type: 3}
+    pitchLabel: 
+    showRepeatButton: 1
+    showContinueButton: 1
+    allowPlayerInput: 1
+    correctAnswer:
+    - D4
+    - G4
+    - B4
+    isTypingFinished: 0
+  - text: "correct! now that you have identified the sound of a major chord, it\u2019s
+      time for us to move on to minor chords."
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -3078,7 +3112,78 @@ MonoBehaviour:
     allowPlayerInput: 0
     correctAnswer: []
     isTypingFinished: 0
-  - text: Keep a keen ear, we might throw you a challenge here and there. Good luck!
+  - text: minor chords use different intervals, creating a darker, sadder sound.
+    wrongAnswerText: 
+    pitchSounds: []
+    pitchLabel: 
+    showRepeatButton: 0
+    showContinueButton: 1
+    allowPlayerInput: 0
+    correctAnswer: []
+    isTypingFinished: 0
+  - text: "now, let\u2019s begin with D minor. we get it by playing D4, F4, and A4
+      together. try it!"
+    wrongAnswerText: ooh so close, let's try that again. can you press the correct
+      notes for the D minor chord again?
+    pitchSounds:
+    - {fileID: 8300000, guid: 9b016761919b89e41821fd72dd1346b3, type: 3}
+    - {fileID: 8300000, guid: 0dda36852c989a3469dbe267be1dec0d, type: 3}
+    - {fileID: 8300000, guid: 09ad1a3aae6a5ff48bbfee177e4632e5, type: 3}
+    pitchLabel: 
+    showRepeatButton: 1
+    showContinueButton: 1
+    allowPlayerInput: 1
+    correctAnswer:
+    - D4
+    - F4
+    - A4
+    isTypingFinished: 0
+  - text: Well done! Next is E Minor! We get it by playing E4, G4, and B4. Can you
+      do that for me?
+    wrongAnswerText: ooh so close, let's try that again. can you press the correct
+      notes for the E minor chord again?
+    pitchSounds:
+    - {fileID: 8300000, guid: 72779edddd809e549b6629379c09077f, type: 3}
+    - {fileID: 8300000, guid: 50ebd3ac255cd164aa72f9da4fa46a91, type: 3}
+    - {fileID: 8300000, guid: c112bf6a39e220a42afaecfc6bfeebd8, type: 3}
+    pitchLabel: 
+    showRepeatButton: 1
+    showContinueButton: 1
+    allowPlayerInput: 1
+    correctAnswer:
+    - E4
+    - G4
+    - B4
+    isTypingFinished: 0
+  - text: "you\u2019ve got it! keep it up! now we\u2019re finally down to our last
+      chord for this lesson.  "
+    wrongAnswerText: 
+    pitchSounds: []
+    pitchLabel: 
+    showRepeatButton: 0
+    showContinueButton: 1
+    allowPlayerInput: 0
+    correctAnswer: []
+    isTypingFinished: 0
+  - text: if we play E4. A4, and C5, we get the A Minor Chord! try to recall and
+      try it yourself.
+    wrongAnswerText: ooh so close, let's try that again. can you press the correct
+      notes for the A minor chord again?
+    pitchSounds:
+    - {fileID: 8300000, guid: 72779edddd809e549b6629379c09077f, type: 3}
+    - {fileID: 8300000, guid: 09ad1a3aae6a5ff48bbfee177e4632e5, type: 3}
+    - {fileID: 8300000, guid: 5df02bbeadf6740458957e59a9c491d3, type: 3}
+    pitchLabel: 
+    showRepeatButton: 1
+    showContinueButton: 1
+    allowPlayerInput: 1
+    correctAnswer:
+    - E4
+    - A4
+    - C5
+    isTypingFinished: 0
+  - text: "very good! now that I have taught you everything, let\u2019s identify
+      which is which in your quiz. ready?\r\n"
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -3590,7 +3695,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1226447405
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4244,10 +4349,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2139497567}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 77, y: 20}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1579685303
 MonoBehaviour:
