@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7630771005511856248}
   - component: {fileID: 6277151151096733776}
   - component: {fileID: 1451215009779028752}
-  - component: {fileID: 9108829514800444179}
+  - component: {fileID: 4468541389991582888}
   m_Layer: 0
   m_Name: BossEnemy Sprite
   m_TagString: Untagged
@@ -107,7 +107,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &9108829514800444179
+--- !u!114 &4468541389991582888
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -116,16 +116,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2121303247756021459}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8166933ba70c46b47bc2dcbc557f65b1, type: 3}
+  m_Script: {fileID: 11500000, guid: 6fca9110268bfe3428e3354289639791, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hurtEffect: {fileID: 8816233978110218446, guid: 61db99fb6ca512449a9c42fbc4402ac8, type: 3}
-  deathEffect: {fileID: 8816233978110218446, guid: 3f058480b1ebd4e45a5ae9777d0a5982, type: 3}
-  damagedColor: {r: 1, g: 0, b: 0, a: 1}
-  damagedFlashDuration: 0.2
-  maxhp: 3
-  attackPower: 10
-  deathDuration: 2
+  _scriptOnOtherObject: {fileID: 905081699641417239}
 --- !u!1 &4196444808994170886
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,6 +129,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4835856007668568298}
+  - component: {fileID: 905081699641417239}
   m_Layer: 5
   m_Name: BossEnemy
   m_TagString: Untagged
@@ -163,6 +158,27 @@ RectTransform:
   m_AnchoredPosition: {x: 1.75, y: 3.8125}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &905081699641417239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4196444808994170886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8166933ba70c46b47bc2dcbc557f65b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemySprite: {fileID: 6277151151096733776}
+  animator: {fileID: 1451215009779028752}
+  hurtEffect: {fileID: 8816233978110218446, guid: 61db99fb6ca512449a9c42fbc4402ac8, type: 3}
+  deathEffect: {fileID: 8816233978110218446, guid: 3f058480b1ebd4e45a5ae9777d0a5982, type: 3}
+  damagedColor: {r: 1, g: 0, b: 0, a: 1}
+  damagedFlashDuration: 0.2
+  maxhp: 3
+  attackPower: 10
+  deathDuration: 2
 --- !u!1 &4486815270320713825
 GameObject:
   m_ObjectHideFlags: 0
@@ -273,7 +289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95bcdb1cc92599546aa3128b565aea03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 0}
+  enemy: {fileID: 905081699641417239}
   sr: {fileID: 3246024259900122305}
   hpBarSprite:
   - {fileID: -329580178, guid: 8b12d7438179264409debd0d2a5fe05e, type: 3}

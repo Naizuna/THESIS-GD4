@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95bcdb1cc92599546aa3128b565aea03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 0}
+  enemy: {fileID: 3719743460362264825}
   sr: {fileID: 4038528420378512054}
   hpBarSprite:
   - {fileID: -329580178, guid: 8b12d7438179264409debd0d2a5fe05e, type: 3}
@@ -133,6 +133,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9193455794455023707}
+  - component: {fileID: 3719743460362264825}
   m_Layer: 5
   m_Name: Enemy2
   m_TagString: Untagged
@@ -161,6 +162,27 @@ RectTransform:
   m_AnchoredPosition: {x: 1.75, y: 3.8125}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &3719743460362264825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4400695386980806848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8166933ba70c46b47bc2dcbc557f65b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemySprite: {fileID: 6243158086542803212}
+  animator: {fileID: 6926855261012825000}
+  hurtEffect: {fileID: 8816233978110218446, guid: 61db99fb6ca512449a9c42fbc4402ac8, type: 3}
+  deathEffect: {fileID: 8816233978110218446, guid: 3f058480b1ebd4e45a5ae9777d0a5982, type: 3}
+  damagedColor: {r: 1, g: 0, b: 0, a: 1}
+  damagedFlashDuration: 0.2
+  maxhp: 3
+  attackPower: 10
+  deathDuration: 2
 --- !u!1 &7465793146646617008
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,7 +194,7 @@ GameObject:
   - component: {fileID: 5567197681087709220}
   - component: {fileID: 6243158086542803212}
   - component: {fileID: 6926855261012825000}
-  - component: {fileID: 2079867268291783540}
+  - component: {fileID: 7518956718850328103}
   m_Layer: 0
   m_Name: Enemy2 Sprite
   m_TagString: Untagged
@@ -268,7 +290,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &2079867268291783540
+--- !u!114 &7518956718850328103
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -277,13 +299,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7465793146646617008}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8166933ba70c46b47bc2dcbc557f65b1, type: 3}
+  m_Script: {fileID: 11500000, guid: 6fca9110268bfe3428e3354289639791, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hurtEffect: {fileID: 8816233978110218446, guid: 61db99fb6ca512449a9c42fbc4402ac8, type: 3}
-  deathEffect: {fileID: 8816233978110218446, guid: 3f058480b1ebd4e45a5ae9777d0a5982, type: 3}
-  damagedColor: {r: 1, g: 0, b: 0, a: 1}
-  damagedFlashDuration: 0.2
-  maxhp: 3
-  attackPower: 10
-  deathDuration: 2
+  _scriptOnOtherObject: {fileID: 3719743460362264825}
