@@ -178,7 +178,10 @@ public class QuizController : MonoBehaviour
 
     public void PlayReferencePitch()
     {
-        if (ctx.QuestionsToAnswer[ctx.CurrQuestionIndex].questionDifficulty.Equals(QuestionComponent.DifficultyClass.HARD))
+        var difficulty = ctx.QuestionsToAnswer[ctx.CurrQuestionIndex].questionDifficulty;
+
+        if (difficulty == QuestionComponent.DifficultyClass.HARD ||
+            difficulty == QuestionComponent.DifficultyClass.MEDIUM)
         {
             clipPlayer.PlaySingleClip(referencePitch);
         }

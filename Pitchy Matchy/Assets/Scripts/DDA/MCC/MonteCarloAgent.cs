@@ -8,8 +8,8 @@ public class MonteCarloAgent
 {
     private float epsilon = 0.1f;
     private float minEpsilon = 0.01f;
-    private float decayRate = 0.99f;
-    float gamma = 0.95f;
+    private float decayRate = 0.95f;
+    float gamma = 0.99f;
     
     public void DecayEpsilon()
     {
@@ -68,10 +68,18 @@ public class MonteCarloAgent
 
     private bool HasState(string state) => Q.Keys.Any(k => k.state == state);
 
-    private QuestionComponent.DifficultyClass GetBestAction(string state)
+    public QuestionComponent.DifficultyClass GetBestAction(string state)
     {
         var actions = Q.Where(k => k.Key.state == state);
         if (!actions.Any()) return QuestionComponent.DifficultyClass.EASY;
         return actions.OrderByDescending(k => k.Value).First().Key.action;
     }
+
+    public float GetQValue((string state, QuestionComponent.DifficultyClass action) key)
+    {
+        if (Q.ContainsKey(key))
+            return Q[key];
+        return 0f;
+    }
+
 }

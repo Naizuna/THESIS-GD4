@@ -25,7 +25,7 @@ public class GameVersionManager : MonoBehaviour
 
     private void Update()
     {
-        // 🔄 Press F5 to reset all unlocked levels and reload the scene
+        // Press F5 to reset all unlocked levels and reload the scene
         if (Input.GetKeyDown(KeyCode.F5))
         {
             ResetLevelProgressAndReload();

@@ -27,7 +27,9 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
-        if (SceneManager.GetActiveScene().name == "Quiz")
+        if (SceneManager.GetActiveScene().name == "Stage 1 Mini Quiz" ||
+            SceneManager.GetActiveScene().name == "Stage 2 Mini Quiz" ||
+            SceneManager.GetActiveScene().name == "Stage 3 Mini Quiz")
         {
             pauseButton.SetActive(true);
 

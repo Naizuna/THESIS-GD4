@@ -24,10 +24,13 @@ public class SwipeController : MonoBehaviour, IEndDragHandler
     [SerializeField] TMP_Text[] pageTexts;
     [SerializeField] string[] pageDescriptions;
 
+    private Vector3 startPos;
+
     void Awake()
     {
         currentPage = 1;
         targetPos = levelPagesRect.localPosition;
+        startPos = targetPos;
         dragThreshold = Screen.width / 15;
         UpdateButtonStates();
         UpdatePageText();
@@ -70,6 +73,16 @@ public class SwipeController : MonoBehaviour, IEndDragHandler
             targetPos -= pageStep;
             MovePage();
         }
+    }
+
+    public void ResetToFirstPage()
+    {
+        currentPage = 1;
+        targetPos = startPos;
+        levelPagesRect.localPosition = startPos;
+
+        UpdateButtonStates();
+        UpdatePageText();
     }
 
     void MovePage()
