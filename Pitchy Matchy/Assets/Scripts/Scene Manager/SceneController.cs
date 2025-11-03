@@ -19,6 +19,7 @@ public class SceneController : MonoBehaviour
     public void LoadScene(string sceneName)
     {
         SceneManager.LoadSceneAsync(sceneName);
+        Time.timeScale = 1;
     }
 
     public void ReloadCurrentScene()

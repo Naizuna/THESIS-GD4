@@ -6,6 +6,7 @@ public class MonteCarloQuizHandler : IQuizHandler
     private readonly QuizContext ctx;
     private MonteCarloAgent mcAgent;
     private List<(string state, QuestionComponent.DifficultyClass action, float reward)> episode;
+
     private int totalQuestions;
     private int questionsPerEpisode;
     private int questionsAskedInEpisode = 0;
@@ -74,9 +75,9 @@ public class MonteCarloQuizHandler : IQuizHandler
         q.playerAnswers = new List<string>(ctx.PlayerAnswers);
         q.CheckAnswers();
 
+        /* Old
         // Base reward depending on correctness
         float baseReward = q.isAnsweredCorrectly ? 1f : -1f;
-
         // Difficulty multiplier
         float difficultyMultiplier = 1f;
         switch (q.questionDifficulty)
@@ -85,12 +86,30 @@ public class MonteCarloQuizHandler : IQuizHandler
                 difficultyMultiplier = 1f;
                 break;
             case QuestionComponent.DifficultyClass.MEDIUM:
-                difficultyMultiplier = 1.5f;
-                break;
-            case QuestionComponent.DifficultyClass.HARD:
                 difficultyMultiplier = 2f;
                 break;
+            case QuestionComponent.DifficultyClass.HARD:
+                difficultyMultiplier = 3f;
+                break;
         }
+        */
+
+        // New reward logic
+        int difficultyPoints = 1;
+        switch (q.questionDifficulty)
+        {
+            case QuestionComponent.DifficultyClass.EASY:
+                difficultyPoints = 1;
+                break;
+            case QuestionComponent.DifficultyClass.MEDIUM:
+                difficultyPoints = 2;
+                break;
+            case QuestionComponent.DifficultyClass.HARD:
+                difficultyPoints = 3;
+                break;
+        }
+
+        float baseReward = q.isAnsweredCorrectly ? difficultyPoints : -difficultyPoints;
 
         // Response time bonus
         float timeBonus = 0f;
@@ -98,11 +117,9 @@ public class MonteCarloQuizHandler : IQuizHandler
         if (responseTime <= 5f) timeBonus = 0.5f;
         else if (responseTime <= 10f) timeBonus = 0.2f;
 
-        float reward = baseReward * difficultyMultiplier + timeBonus;
+        //Old float reward = baseReward * difficultyMultiplier + timeBonus;
+        float reward = baseReward + timeBonus;
 
-        // Old logic (before episode tracking)
-        // string state = GetCurrentState();
-        // episode.Add((state, q.questionDifficulty, reward));
 
         // Apply reward to the **most recent** episode entry
         if (episode.Count > 0)
@@ -130,6 +147,11 @@ public class MonteCarloQuizHandler : IQuizHandler
         {
             ctx.Enemy.PlayAttack();
             ctx.Player.TakeDamage(ctx.Enemy.GetAttackPower());
+        }
+
+        if (ctx.AllQuestionsAnswered != null && !ctx.AllQuestionsAnswered.Contains(q))
+        {
+            ctx.AllQuestionsAnswered.Add(q);
         }
 
         LoadNextQuestion();

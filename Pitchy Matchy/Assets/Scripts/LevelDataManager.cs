@@ -7,10 +7,12 @@ public static class LevelDataManager
     public static readonly List<string> LevelOrder = new List<string>
     {
         "Stage 1 Lesson",
-        "Quiz",
+        "Stage 1 Mini Quiz",
         "Stage 2 Lesson",
-        "MCCTestScene2",
-        "BossStage"
+        "Stage 2 Mini Quiz",
+        "Stage 3 Lesson",
+        "Stage 3 Mini Quiz",
+        "Final Quiz",
     };
 
     public static int GetLevelIndex(string sceneName)

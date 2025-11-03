@@ -18,15 +18,21 @@ EditorBuildSettings:
     path: Assets/Scenes/Stage 1 Lesson.unity
     guid: 3ccd12575884fb74eb09fb200179f40b
   - enabled: 1
-    path: Assets/Scenes/Quiz.unity
+    path: Assets/Scenes/Stage 1 Mini Quiz.unity
     guid: f5ab73642b13f7648ae0ddeed2a5fdbc
   - enabled: 1
     path: Assets/Scenes/Stage 2 Lesson.unity
-    guid: 8a0b4f6c0d56f7d4faa18bfd755b4da6
+    guid: 348288666a6aa5940ae0c019cbe57a11
   - enabled: 1
-    path: Assets/Scenes/Archive/MCCTestScene2.unity
-    guid: 140fe48c6e4f88149ab83d859332952c
+    path: Assets/Scenes/Stage 2 Mini Quiz.unity
+    guid: 2556ff4fa3d9266449ed8183747d730c
   - enabled: 1
-    path: Assets/Scenes/Archive/Quiz-hszr-changes.unity
-    guid: 2ad512ab5b52f8b4c94f65f78d8590ac
+    path: Assets/Scenes/Stage 3 Lesson.unity
+    guid: ea26224b4f3edaa41bb65cecc3bb58b7
+  - enabled: 1
+    path: Assets/Scenes/Stage 3 Mini Quiz.unity
+    guid: a4dad3edeb38c504788b3d337820dba3
+  - enabled: 1
+    path: Assets/Scenes/Final Quiz.unity
+    guid: 726f9f72f473e494787dfff78b621eed
   m_configObjects: {}

@@ -27,6 +27,10 @@ public class QuizContext
     //MCC related stuff
     public int MccQuestionsPerEpisode { get; }
 
+    // Cumulative record across episodes (new)
+    // stores all questions that have been presented & answered during the entire session
+    public List<QuestionComponent> AllQuestionsAnswered { get; }
+
     // Response Time Tracking
     public List<float> ResponseTimes { get; private set; }
     private float questionStartTime;
@@ -56,6 +60,9 @@ public class QuizContext
 
         ResponseTimes = new List<float>();
         questionStartTime = Time.time;
+
+        // init cumulative list
+        AllQuestionsAnswered = new List<QuestionComponent>();
     }
 
     //mcc variant constructor
@@ -87,6 +94,9 @@ public class QuizContext
 
         ResponseTimes = new List<float>();
         questionStartTime = Time.time;
+
+        // init cumulative list
+        AllQuestionsAnswered = new List<QuestionComponent>();
     }
 
     public QuestionComponent GetCurrentQuestion()
@@ -100,9 +110,17 @@ public class QuizContext
     public void UpdateQuestionText()
     {
         var q = GetCurrentQuestion();
-        if (q == null) { QuestText.text = "No question"; return; }
+        if (q == null) { QuestText.text = "no question"; return; }
         int num = q.GetNumberOfPitchesToAnswer();
-        QuestText.text = $"guess the {num} pitches";
+
+        if (num >= 2)
+        {
+            QuestText.text = $"guess the {num} pitches";
+        }
+        else
+        {
+            QuestText.text = $"guess the {num} pitch";
+        }
 
         // Reset response time tracking for the new question
         StartQuestionTimer();
@@ -129,7 +147,17 @@ public class QuizContext
 
     public void UpdatePlayerMetrics()
     {
-        PlyrMetric.SetQuestionsAnswered(QuestionsToAnswer);
+        // If cumulative list has items, use it so MCC shows total accuracy across episodes.
+        if (AllQuestionsAnswered != null && AllQuestionsAnswered.Count > 0)
+        {
+            PlyrMetric.SetQuestionsAnswered(AllQuestionsAnswered);
+        }
+        else
+        {
+            // fallback (Normal / SARSA behaviour)
+            PlyrMetric.SetQuestionsAnswered(QuestionsToAnswer);
+        }
+        
         PlyrMetric.CalculateTotalAccuracy();
         PlyrMetric.CalculateDifficultyAccuracy();
     }
