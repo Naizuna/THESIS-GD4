@@ -778,7 +778,17 @@ MonoBehaviour:
     bgmClip: {fileID: 8300000, guid: 2573466ef9f0a84498f8172be8a071c8, type: 3}
   - sceneName: Stage 1 Lesson
     bgmClip: {fileID: 8300000, guid: aae4c72366ea929458b5ea76a7c26ed0, type: 3}
-  - sceneName: Quiz
+  - sceneName: Stage 1 Mini Quiz
+    bgmClip: {fileID: 0}
+  - sceneName: Stage 2 Lesson
+    bgmClip: {fileID: 8300000, guid: aae4c72366ea929458b5ea76a7c26ed0, type: 3}
+  - sceneName: Stage 2 Mini Quiz
+    bgmClip: {fileID: 8300000, guid: aae4c72366ea929458b5ea76a7c26ed0, type: 3}
+  - sceneName: Stage 3 Lesson
+    bgmClip: {fileID: 8300000, guid: aae4c72366ea929458b5ea76a7c26ed0, type: 3}
+  - sceneName: Stage 3 Mini Quiz
+    bgmClip: {fileID: 0}
+  - sceneName: Final Quiz
     bgmClip: {fileID: 0}
   tutorialCompleteMusic: {fileID: 8300000, guid: ee8d3aad0abc1e04f859a9e58ab3159c, type: 3}
   winMusic: {fileID: 8300000, guid: ee8d3aad0abc1e04f859a9e58ab3159c, type: 3}
