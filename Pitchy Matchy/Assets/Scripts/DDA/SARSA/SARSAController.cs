@@ -5,18 +5,26 @@ using UnityEngine;
 
 public class SARSAController
 {
-    // Q[state, action] = value
-    private Dictionary<(string state, QuestionComponent.DifficultyClass action), float> Q
+    // Q-table: maps (state, action) to value
+    private Dictionary<(string state, QuestionComponent.DifficultyClass action), float> Q 
         = new Dictionary<(string, QuestionComponent.DifficultyClass), float>();
 
     // Learning parameters
-    private float alpha = 0.1f; // Learning rate
-    private float gamma = 0.9f; // Discount factor
+    private float alpha = 0.1f;    // Learning rate
+    private float gamma = 0.99f;    // Discount factor
+    private float optimisticInit = 0f; // Small positive initialization for unseen pairs
+
+    // Exploration parameters
+    private float epsilon = 0.1f;
+    private float minEpsilon = 0.01f;
+    private float decayRate = 0.95f;
+
     private System.Random rng = new System.Random();
 
-    public QuestionComponent.DifficultyClass ChooseAction(string state, float epsilon = 0.1f)
+    // --- ACTION SELECTION ---
+    public QuestionComponent.DifficultyClass ChooseAction(string state)
     {
-        // Explore
+        // ε-greedy exploration
         if (rng.NextDouble() < epsilon || !HasState(state))
         {
             Array values = Enum.GetValues(typeof(QuestionComponent.DifficultyClass));
@@ -24,34 +32,41 @@ public class SARSAController
         }
         else
         {
-            // Exploit
             return GetBestAction(state);
         }
     }
 
-    public void UpdateQValue(string state, QuestionComponent.DifficultyClass action, float reward, 
-                           string nextState, QuestionComponent.DifficultyClass nextAction)
+    // --- Q-VALUE UPDATE (Standard SARSA) ---
+    public void UpdateQValue(string state, QuestionComponent.DifficultyClass action, float reward,
+                             string nextState, QuestionComponent.DifficultyClass nextAction)
     {
-        // Get current Q-value (or 0 if not exists)
         float currentQ = GetQValue(state, action);
-        
-        // Get next Q-value (or 0 if not exists)
         float nextQ = GetQValue(nextState, nextAction);
-        
-        // SARSA update formula: Q(s,a) = Q(s,a) + α[r + γQ(s',a') - Q(s,a)]
-        float newQ = currentQ + alpha * (reward + gamma * nextQ - currentQ);
-        
-        Q[(state, action)] = newQ;
+        float updated = currentQ + alpha * (reward + gamma * nextQ - currentQ);
+        Q[(state, action)] = updated;
     }
 
-    // Helper method to get Q-value with default value for unseen state-action pairs
+    // --- EPSILON HANDLING ---
+    public void DecayEpsilon()
+    {
+        epsilon = Mathf.Max(minEpsilon, epsilon * decayRate);
+    }
+
+    public void SetEpsilon(float newEpsilon)
+    {
+        epsilon = Mathf.Clamp(newEpsilon, minEpsilon, 1f);
+    }
+
+    public float CurrentEpsilon => epsilon;
+
+    // --- Q-TABLE UTILITIES ---
     private float GetQValue(string state, QuestionComponent.DifficultyClass action)
     {
-        if (Q.TryGetValue((state, action), out float value))
+        if (!Q.ContainsKey((state, action)))
         {
-            return value;
+            Q[(state, action)] = optimisticInit; // optimistic initialization
         }
-        return 0f; // Default value for unseen state-action pairs
+        return Q[(state, action)];
     }
 
     private bool HasState(string state) => Q.Keys.Any(k => k.state == state);
@@ -63,13 +78,11 @@ public class SARSAController
         return actions.OrderByDescending(k => k.Value).First().Key.action;
     }
 
-    // Optional: Method to get all Q-values for debugging/analysis
+    // --- Optional Debug ---
     public Dictionary<(string, QuestionComponent.DifficultyClass), float> GetQTable()
-    {
-        return new Dictionary<(string, QuestionComponent.DifficultyClass), float>(Q);
-    }
+        => new Dictionary<(string, QuestionComponent.DifficultyClass), float>(Q);
 
-    // Optional: Parameter setters
-    public void SetLearningRate(float newAlpha) => alpha = Mathf.Clamp(newAlpha, 0f, 1f);
-    public void SetDiscountFactor(float newGamma) => gamma = Mathf.Clamp(newGamma, 0f, 1f);
+    // --- Optional I/O stubs ---
+    public void SavePolicy(string path) => Debug.Log($"[SARSA] SavePolicy() stub to {path}");
+    public void LoadPolicy(string path) => Debug.Log($"[SARSA] LoadPolicy() stub from {path}");
 }

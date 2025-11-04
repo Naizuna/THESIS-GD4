@@ -6,89 +6,48 @@ using UnityEngine;
 public class SARSAQuizHandler : IQuizHandler
 {
     private readonly QuizContext ctx;
-    private readonly SARSAController sarsaAgent;
-    private readonly List<(string state, QuestionComponent.DifficultyClass action, float reward)> episode;
-
+    private readonly SARSAController agent;
     private int totalQuestions;
-    private int questionsAskedInEpisode = 0;
 
-    // --- NEW: store the state/action used when presenting the current question ---
-    private string lastStateForCurrentQuestion = null;
-    private QuestionComponent.DifficultyClass lastActionForCurrentQuestion;
+    private string lastState = null;
+    private QuestionComponent.DifficultyClass lastAction;
+
+    private int consecutiveFails = 0;
+    private Queue<bool> recentResults = new Queue<bool>();
+    private int accuracyWindow = 5;
 
     public bool IsSessionFinished { get; set; } = false;
 
-    public SARSAQuizHandler(QuizContext context, SARSAController agent = null)
+    public SARSAQuizHandler(QuizContext context, SARSAController sarsaAgent = null)
     {
         ctx = context ?? throw new ArgumentNullException(nameof(context));
-        sarsaAgent = agent ?? new SARSAController();
-
+        agent = sarsaAgent ?? new SARSAController();
         totalQuestions = ctx.NumberOfQuestions;
-        episode = new List<(string, QuestionComponent.DifficultyClass, float)>();
     }
 
     public void StartQuiz()
     {
-        IsSessionFinished = false;
         ctx.CurrQuestionIndex = 0;
         ctx.QuestionsToAnswer.Clear();
-        ctx.PlayerAnswers = new List<string>();
+        ctx.PlayerAnswers.Clear();
+        recentResults.Clear();
+        consecutiveFails = 0;
+        IsSessionFinished = false;
 
-        // Load the first question (if capacity allows)
         LoadNextQuestion();
     }
-
-    public void Update()
+     public void Update()
     {
-        // Handler-level per-frame logic (diagnostics)
-        Debug.Log($"[SARSA] Questions loaded: {ctx.QuestionsToAnswer.Count}/{totalQuestions}");
+        // Optional debug info for runtime monitoring
+        Debug.Log($"[SARSA] Progress {ctx.QuestionsToAnswer.Count}/{totalQuestions} | ε={agent.CurrentEpsilon:F3} | Fails={consecutiveFails}");
     }
-
     public void ReceivePlayerAnswers(List<string> answers)
     {
         if (IsSessionFinished) return;
 
-        // Record response time for the question (important before learning/metrics)
         ctx.RecordResponseTime();
-
         ctx.PlayerAnswers = new List<string>(answers ?? new List<string>());
         ProcessAnswerAndLearn();
-
-        // Optionally show wait/result panel
-        // InitiateWaitPanel();
-    }
-
-    public void LoadNextQuestion()
-    {
-        if (IsSessionFinished) return;
-
-        // If we've already loaded enough questions, finish the session.
-        if (ctx.QuestionsToAnswer.Count >= totalQuestions)
-        {
-            IsSessionFinished = true;
-            return;
-        }
-
-        // Compute the state *at the moment of presenting the question*.
-        // This uses the latest recorded response-time (i.e. from the previous question).
-        string stateWhenAsked = GetCurrentState();
-        lastStateForCurrentQuestion = stateWhenAsked;
-
-        // Choose action using that state and remember it so the SARSA update later uses the same (s,a).
-        var action = sarsaAgent.ChooseAction(stateWhenAsked);
-        lastActionForCurrentQuestion = action;
-
-        var nextQ = ctx.Bank.GetQuestionFromBank(action);
-        ctx.AddQuestion(nextQ);
-        ctx.CurrQuestionIndex = ctx.QuestionsToAnswer.Count - 1;
-        questionsAskedInEpisode++;
-
-        ctx.PlayerAnswers.Clear();
-
-        ctx.UpdateQuestionText(); // also calls StartQuestionTimer()
-        ctx.PlayCurrentQuestionPitches();
-
-        Debug.Log($"[SARSA] Presented question idx={ctx.CurrQuestionIndex} stateAtAsk={stateWhenAsked} actionChosen={action}");
     }
 
     private void ProcessAnswerAndLearn()
@@ -96,30 +55,50 @@ public class SARSAQuizHandler : IQuizHandler
         var q = ctx.GetCurrentQuestion();
         if (q == null) return;
 
-        // store answers and check correctness
         q.playerAnswers = new List<string>(ctx.PlayerAnswers);
         q.CheckAnswers();
 
-        // reward as before
-        float reward = q.isAnsweredCorrectly ? 1f : -1f;
+        bool correct = q.isAnsweredCorrectly;
+        recentResults.Enqueue(correct);
+        if (recentResults.Count > accuracyWindow) recentResults.Dequeue();
+        consecutiveFails = correct ? 0 : consecutiveFails + 1;
 
-        string state = lastStateForCurrentQuestion ?? GetCurrentState(); // fallback just in case
-        var currentAction = lastActionForCurrentQuestion; // if null/unset, it'll be default enum (shouldn't happen normally)
-        Debug.Log($"[SARSA] Update using s={state}, a={currentAction}, reward={reward}");
+        // --- Reward ---
+        int difficultyPoints = q.questionDifficulty switch
+        {
+            QuestionComponent.DifficultyClass.EASY => 1,
+            QuestionComponent.DifficultyClass.MEDIUM => 2,
+            QuestionComponent.DifficultyClass.HARD => 3,
+            _ => 1
+        };
 
-        // next state/action (for SARSA update)
+        float baseReward = correct ? difficultyPoints : -difficultyPoints;
+        float responseTime = ctx.ResponseTimes.LastOrDefault();
+        float timeBonus = responseTime <= 5f ? 0.5f : (responseTime <= 10f ? 0.2f : 0f);
+        float reward = baseReward + timeBonus;
+
+        // --- State transitions ---
+        string currentState = lastState ?? GetCurrentState();
+        var currentAction = lastAction;
         string nextState = GetNextState();
-        var nextAction = sarsaAgent.ChooseAction(nextState);
-        Debug.Log($"[SARSA] s'={nextState}, a'={nextAction}");
+        var nextAction = agent.ChooseAction(nextState);
 
-        // perform SARSA update on agent
-        sarsaAgent.UpdateQValue(state, currentAction, reward, nextState, nextAction);
+        agent.UpdateQValue(currentState, currentAction, reward, nextState, nextAction);
 
-        // record episode step for debug/analysis
-        episode.Add((state, currentAction, reward));
+        // --- Epsilon behavior ---
+        if (consecutiveFails >= 3)
+        {
+            float newEps = Mathf.Max(agent.CurrentEpsilon * 0.5f, 0.02f);
+            agent.SetEpsilon(newEps);
+            Debug.Log($"[SARSA] High failure streak — reducing ε to {agent.CurrentEpsilon:F3}");
+        }
+        else
+        {
+            agent.DecayEpsilon();
+        }
 
-        // apply gameplay effects
-        if (q.isAnsweredCorrectly)
+        // --- Gameplay effects ---
+        if (correct)
         {
             ctx.Player.PlayAttack();
             ctx.Enemy.TakeDamage(ctx.Player.GetAttackPower());
@@ -130,91 +109,52 @@ public class SARSAQuizHandler : IQuizHandler
             ctx.Player.TakeDamage(ctx.Enemy.GetAttackPower());
         }
 
-        // update player metrics if present in context
         ctx.PlyrMetric?.SetQuestionsAnswered(ctx.QuestionsToAnswer);
         ctx.PlyrMetric?.CalculateTotalAccuracy();
 
-        // If finished loading the maximum number of questions, end session after processing
         if (ctx.QuestionsToAnswer.Count >= totalQuestions)
         {
             IsSessionFinished = true;
             return;
         }
 
-        // otherwise auto-load next question
         LoadNextQuestion();
     }
 
-    private void InitiateWaitPanel()
+    public void LoadNextQuestion()
     {
-        var q = ctx.GetCurrentQuestion();
-        if (q == null) return;
-        ctx.WP.ExtractCurrentQuestionResult(q);
-        ctx.WP.ShowParentPanel();
+        if (IsSessionFinished) return;
+
+        string state = GetCurrentState();
+        lastState = state;
+        var action = agent.ChooseAction(state);
+        lastAction = action;
+
+        var q = ctx.Bank.GetQuestionFromBank(action);
+        ctx.AddQuestion(q);
+        ctx.CurrQuestionIndex = ctx.QuestionsToAnswer.Count - 1;
+
+        ctx.UpdateQuestionText();
+        ctx.PlayCurrentQuestionPitches();
+
+        Debug.Log($"[SARSA] Q#{ctx.CurrQuestionIndex} | state={state} | action={action}");
     }
 
-    //Categorize response time
-    private string GetResponseTimeCategory(float responseTime)
-    {
-        // thresholds: <=5 fast, <=10 average, >10 slow
-        if (responseTime <= 5f) return "FAST";
-        if (responseTime <= 10f) return "AVERAGE";
-        return "SLOW";
-    }
-
-    
     private string GetCurrentState()
     {
-        // Treat START only when there are no questions answered/presented yet
-        if (ctx.QuestionsToAnswer.Count == 0) return "START";
+        if (ctx.QuestionsToAnswer.Count == 0 && recentResults.Count == 0) return "START";
 
-        int correctCount = ctx.QuestionsToAnswer.FindAll(q => q.isAnsweredCorrectly).Count;
-        int totalAnswered = Math.Max(1, ctx.CurrQuestionIndex + 1); // number of questions up to current index inclusive
+        int correctCount = recentResults.Count(r => r);
+        float acc = (float)correctCount / Math.Max(1, recentResults.Count);
 
-        float accuracy = (float)correctCount / totalAnswered;
-
-        string accLabel;
-        if (accuracy < 0.4f) accLabel = "EASY";
-        else if (accuracy < 0.7f) accLabel = "MEDIUM";
-        else accLabel = "HARD";
-
-        // Use last recorded response time (from previous question) when presenting a new question.
-        // If none, default to AVERAGE (safer).
-        float latestResponseTime = ctx.ResponseTimes.Count > 0
-            ? ctx.ResponseTimes[ctx.ResponseTimes.Count - 1]
-            : float.NaN;
-
-        string timeCat = float.IsNaN(latestResponseTime)
-            ? "AVERAGE"
-            : GetResponseTimeCategory(latestResponseTime);
-
-        return $"{accLabel}_{timeCat}";
+        if (acc < 0.4f) return "EASY";
+        if (acc < 0.7f) return "MEDIUM";
+        return "HARD";
     }
 
     private string GetNextState()
     {
-        // terminal check
         if (ctx.CurrQuestionIndex >= totalQuestions - 1) return "TERMINAL";
-
-        // Use conservative projection: assume the next answer may be incorrect.
-        // This makes the agent respond to failures quicker (less optimistic).
-        int correctAnswers = ctx.QuestionsToAnswer.FindAll(q => q.isAnsweredCorrectly).Count;
-        // Conservative projection: project that next question will be incorrect
-        float projectedAccuracy = (float)(correctAnswers) / (ctx.CurrQuestionIndex + 2); // no +1 optimistic
-
-        string accLabel;
-        if (projectedAccuracy < 0.4f) accLabel = "EASY";
-        else if (projectedAccuracy < 0.7f) accLabel = "MEDIUM";
-        else accLabel = "HARD";
-
-        float latestResponseTime = ctx.ResponseTimes.Count > 0
-            ? ctx.ResponseTimes[ctx.ResponseTimes.Count - 1]
-            : float.NaN;
-
-        string timeCat = float.IsNaN(latestResponseTime)
-            ? "AVERAGE"
-            : GetResponseTimeCategory(latestResponseTime);
-
-        return $"{accLabel}_{timeCat}";
+        return GetCurrentState();
     }
 }
