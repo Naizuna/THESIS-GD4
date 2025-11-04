@@ -528,10 +528,10 @@ RectTransform:
   - {fileID: 1096112278}
   m_Father: {fileID: 519109461}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 100, y: -20}
-  m_SizeDelta: {x: 53, y: 40}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &383457730
 MonoBehaviour:
@@ -3535,7 +3535,7 @@ MonoBehaviour:
     m_HighlightedSprite: {fileID: 0}
     m_PressedSprite: {fileID: -2039639523, guid: 0cd166df913f1fb449f41aec83929b80, type: 3}
     m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 77980632, guid: cbda32a0fa41ca74eba781bdd9b8a014, type: 3}
+    m_DisabledSprite: {fileID: 1780173146, guid: cbda32a0fa41ca74eba781bdd9b8a014, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -3727,10 +3727,10 @@ RectTransform:
   - {fileID: 3734846119666213383}
   m_Father: {fileID: 895236632859070936}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 69.5, y: -20}
-  m_SizeDelta: {x: 53, y: 40}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &402982503657939360
 GameObject:
@@ -4231,10 +4231,10 @@ RectTransform:
   - {fileID: 6456382462167798847}
   m_Father: {fileID: 1703230136001784976}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 130.5, y: -20}
-  m_SizeDelta: {x: 53, y: 40}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1806787235702404525
 GameObject:
@@ -4305,7 +4305,7 @@ MonoBehaviour:
     m_HighlightedSprite: {fileID: 0}
     m_PressedSprite: {fileID: 1984267731, guid: 0cd166df913f1fb449f41aec83929b80, type: 3}
     m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: -1503452893, guid: cbda32a0fa41ca74eba781bdd9b8a014, type: 3}
+    m_DisabledSprite: {fileID: -1810089273, guid: cbda32a0fa41ca74eba781bdd9b8a014, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -4918,7 +4918,7 @@ MonoBehaviour:
     m_HighlightedSprite: {fileID: 0}
     m_PressedSprite: {fileID: -588563054, guid: 0cd166df913f1fb449f41aec83929b80, type: 3}
     m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: -259192577, guid: cbda32a0fa41ca74eba781bdd9b8a014, type: 3}
+    m_DisabledSprite: {fileID: -1739217303, guid: cbda32a0fa41ca74eba781bdd9b8a014, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -5488,7 +5488,7 @@ MonoBehaviour:
     m_HighlightedSprite: {fileID: 0}
     m_PressedSprite: {fileID: 1379749415, guid: 0cd166df913f1fb449f41aec83929b80, type: 3}
     m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 1178649410, guid: cbda32a0fa41ca74eba781bdd9b8a014, type: 3}
+    m_DisabledSprite: {fileID: 244258560, guid: cbda32a0fa41ca74eba781bdd9b8a014, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -5744,7 +5744,7 @@ MonoBehaviour:
     m_HighlightedSprite: {fileID: 0}
     m_PressedSprite: {fileID: -288192771, guid: 0cd166df913f1fb449f41aec83929b80, type: 3}
     m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: -793442967, guid: cbda32a0fa41ca74eba781bdd9b8a014, type: 3}
+    m_DisabledSprite: {fileID: 412181524, guid: cbda32a0fa41ca74eba781bdd9b8a014, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -6408,7 +6408,7 @@ MonoBehaviour:
     m_HighlightedSprite: {fileID: 0}
     m_PressedSprite: {fileID: 21206532, guid: 0cd166df913f1fb449f41aec83929b80, type: 3}
     m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 217285193, guid: cbda32a0fa41ca74eba781bdd9b8a014, type: 3}
+    m_DisabledSprite: {fileID: 985838898, guid: cbda32a0fa41ca74eba781bdd9b8a014, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -7258,10 +7258,10 @@ RectTransform:
   - {fileID: 8716399167367840925}
   m_Father: {fileID: 895236632859070936}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 130.5, y: -20}
-  m_SizeDelta: {x: 53, y: 40}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &9163811167556718138
 RectTransform:
@@ -7278,10 +7278,10 @@ RectTransform:
   - {fileID: 8369646374418259156}
   m_Father: {fileID: 1703230136001784976}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 69.5, y: -20}
-  m_SizeDelta: {x: 53, y: 40}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &9198620214262297055
 GameObject:

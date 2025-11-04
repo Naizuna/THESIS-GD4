@@ -111,8 +111,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3c7b4c8de7e2673459ae202597e31d3a
-      internalID: -793442967
+      spriteID: 753d3ed58ddde8347825f8a744cd54bb
+      internalID: 412181524
       vertices: []
       indices: 
       edges: []
@@ -132,8 +132,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9f1053dbb5dffea4ebeda417026642c6
-      internalID: 77980632
+      spriteID: 5e4a048915c6438429262e320e3cf435
+      internalID: 1780173146
       vertices: []
       indices: 
       edges: []
@@ -153,8 +153,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e184eff643e3a5348ac91dcf379b56b6
-      internalID: 217285193
+      spriteID: 39a1f743258ac5a4e856f0861101e68f
+      internalID: 985838898
       vertices: []
       indices: 
       edges: []
@@ -174,8 +174,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2fa9f83900889844fbe30d0f626cc369
-      internalID: -259192577
+      spriteID: 81ae92b833297e14899b8e8024fe66e8
+      internalID: -1739217303
       vertices: []
       indices: 
       edges: []
@@ -195,8 +195,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9289d7f9c0b7ddb42bbc382794a9ad9b
-      internalID: 1178649410
+      spriteID: 3aa1097bb47871d4488ebaaa8be0fc77
+      internalID: 244258560
       vertices: []
       indices: 
       edges: []
@@ -216,8 +216,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 58f7e4c000438fc4eaed76404a90f6fc
-      internalID: -1503452893
+      spriteID: 60fa73d8ede48f8469efa6b19c4dd755
+      internalID: -1810089273
       vertices: []
       indices: 
       edges: []
@@ -233,12 +233,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Stage Disabled Buttons_0: -793442967
-      Stage Disabled Buttons_1: 77980632
-      Stage Disabled Buttons_2: 217285193
-      Stage Disabled Buttons_3: -259192577
-      Stage Disabled Buttons_4: 1178649410
-      Stage Disabled Buttons_5: -1503452893
+      Stage Disabled Buttons_0: 412181524
+      Stage Disabled Buttons_1: 1780173146
+      Stage Disabled Buttons_2: 985838898
+      Stage Disabled Buttons_3: -1739217303
+      Stage Disabled Buttons_4: 244258560
+      Stage Disabled Buttons_5: -1810089273
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
