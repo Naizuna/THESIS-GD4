@@ -440,10 +440,10 @@ PrefabInstance:
       addedObject: {fileID: 1199819822}
     - targetCorrespondingSourceObject: {fileID: 2555135031660954266, guid: 321ab0b8fb429ae4f919aa69b787342f, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 898805774}
+      addedObject: {fileID: 68526526}
     - targetCorrespondingSourceObject: {fileID: 2555135031660954266, guid: 321ab0b8fb429ae4f919aa69b787342f, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 68526526}
+      addedObject: {fileID: 898805775}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 321ab0b8fb429ae4f919aa69b787342f, type: 3}
 --- !u!224 &116066997 stripped
@@ -1896,7 +1896,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1169749731419023414, guid: 890c33db2915e8e4aa6d4ee0d70ff0a6, type: 3}
   m_PrefabInstance: {fileID: 7371344437628391684}
   m_PrefabAsset: {fileID: 0}
---- !u!224 &898805774 stripped
+--- !u!224 &898805775 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8300271688976761074, guid: 890c33db2915e8e4aa6d4ee0d70ff0a6, type: 3}
   m_PrefabInstance: {fileID: 7371344437628391684}
@@ -3832,6 +3832,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Options Panel
       objectReference: {fileID: 0}
+    - target: {fileID: 3431527612335810284, guid: 890c33db2915e8e4aa6d4ee0d70ff0a6, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4102921858209258458, guid: 890c33db2915e8e4aa6d4ee0d70ff0a6, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3910,6 +3914,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4102921858209258458, guid: 890c33db2915e8e4aa6d4ee0d70ff0a6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5760912231908877702, guid: 890c33db2915e8e4aa6d4ee0d70ff0a6, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5955515638675597766, guid: 890c33db2915e8e4aa6d4ee0d70ff0a6, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7108268623533434735, guid: 890c33db2915e8e4aa6d4ee0d70ff0a6, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7695335044444089708, guid: 890c33db2915e8e4aa6d4ee0d70ff0a6, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7874359614342791584, guid: 890c33db2915e8e4aa6d4ee0d70ff0a6, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
