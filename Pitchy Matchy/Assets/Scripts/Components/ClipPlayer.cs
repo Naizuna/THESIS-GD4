@@ -7,6 +7,9 @@ public class ClipPlayer : MonoBehaviour
     [Tooltip("The AudioSource that will play the clips")]
     public AudioSource audioSource;
 
+    [Tooltip("List of all piano keys (AnswerButton scripts)")]
+    public List<AnswerButton> pianoKeys = new(); // 🆕 Assign in Inspector
+
     private List<AudioClip> internalBuffer;
     private Coroutine playAllRoutine;
 
@@ -48,19 +51,51 @@ public class ClipPlayer : MonoBehaviour
             playAllRoutine = null;
         }
         // stop currently playing sounds so this clip is front‑and‑center
-        audioSource.Stop();
+        ClearAllHighlights();
 
-        // fire‑and‑forget the one clip
         audioSource.PlayOneShot(clip);
+        HighlightMatchingKey(clip);
     }
 
     private IEnumerator PlayClipsCoroutine()
     {
         foreach (var clip in internalBuffer)
         {
+            if (clip == null) continue;
+
+            ClearAllHighlights();
+
+            // Highlight the new key
+            HighlightMatchingKey(clip);
+
             audioSource.PlayOneShot(clip);
+
+            // Wait for the clip duration + small buffer before next
             yield return new WaitForSeconds(1f);
         }
+        ClearAllHighlights();
         playAllRoutine = null;
+    }
+    
+    private void HighlightMatchingKey(AudioClip clip)
+    {
+        if (clip == null || pianoKeys == null) return;
+
+        // Assuming your AudioClip name matches AnswerButton.noteValue (e.g., "C4", "D4", etc.)
+        string clipName = clip.name.ToUpper();
+        AnswerButton key = pianoKeys.Find(k => k.noteValue.ToUpper() == clipName);
+
+        if (key != null)
+        {
+            key.HighlightKey(true);
+        }
+    }
+
+    private void ClearAllHighlights()
+    {
+        foreach (var key in pianoKeys)
+        {
+            key.HighlightKey(false);
+        }
     }
 }

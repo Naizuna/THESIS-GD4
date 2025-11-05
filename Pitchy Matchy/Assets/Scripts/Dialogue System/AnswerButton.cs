@@ -14,8 +14,13 @@ public class AnswerButton : MonoBehaviour
     [Header("Visuals")]
     [SerializeField] private Sprite normalSprite;
     [SerializeField] private Sprite selectedSprite;
+    [SerializeField] private Sprite highlightSprite;
+
+    [Header("Sound")]
+    [SerializeField] private AudioClip noteSound;
 
     private bool isSelected;
+    private bool isHighlighted = false;
     private Button button;
     private Image image;
 
@@ -23,8 +28,25 @@ public class AnswerButton : MonoBehaviour
     {
         button = GetComponent<Button>();
         image = GetComponent<Image>();
-        button.onClick.AddListener(ToggleSelection);
+
+        // Clear previous listeners and add a single click event
+        button.onClick.RemoveAllListeners();
+        button.onClick.AddListener(OnClick);
+
         UpdateVisual();
+    }
+
+    private void OnClick()
+    {
+        if (!button.interactable)
+            return;
+
+        // 🎵 Play piano note when active
+        if (noteSound != null)
+            SoundManager.Instance.PlaySFX(noteSound);
+
+        // Handle selection logic
+        ToggleSelection();
     }
 
     void ToggleSelection()
@@ -45,6 +67,12 @@ public class AnswerButton : MonoBehaviour
         UpdateVisual();
     }
 
+    public void HighlightKey(bool value)
+    {
+        isHighlighted = value;
+        UpdateVisual();
+    }
+
     public void Deselect()
     {
         isSelected = false;
@@ -53,9 +81,11 @@ public class AnswerButton : MonoBehaviour
 
     void UpdateVisual()
     {
-        if (image != null)
-        {
+        if (image == null) return;
+
+        if (isHighlighted)
+            image.sprite = highlightSprite;
+        else
             image.sprite = isSelected ? selectedSprite : normalSprite;
-        }
     }
 }

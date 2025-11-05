@@ -7500,6 +7500,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1501822308}
     - target: {fileID: 7342208303930620530, guid: 2002375044e67a14fbe5c1130c043c27, type: 3}
+      propertyPath: quizType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7342208303930620530, guid: 2002375044e67a14fbe5c1130c043c27, type: 3}
       propertyPath: questText
       value: 
       objectReference: {fileID: 2064463632}
@@ -7523,6 +7527,14 @@ PrefabInstance:
       propertyPath: numberOfQuestions
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 7342208303930620530, guid: 2002375044e67a14fbe5c1130c043c27, type: 3}
+      propertyPath: referencePitchButton
+      value: 
+      objectReference: {fileID: 871478156}
+    - target: {fileID: 7342208303930620530, guid: 2002375044e67a14fbe5c1130c043c27, type: 3}
+      propertyPath: referencePitchSprite
+      value: 
+      objectReference: {fileID: 871478157}
     - target: {fileID: 7342208303930620530, guid: 2002375044e67a14fbe5c1130c043c27, type: 3}
       propertyPath: difficultySpriteChanger
       value: 

@@ -29,10 +29,12 @@ public class DialogueController : MonoBehaviour
     [Header("Answer Buttons")]
     public List<AnswerButton> answerButtons = new();
 
-    [Header("Selection Settings")]
+    [Header("Input Settings")]
     public int maxSelections = 3;
-
     public float textSpeed = 0.05f;
+
+    [Header("Disabled Overlay")]
+    [SerializeField] private GameObject pianoDisabledPanel;
 
     private int index;
     private bool isTyping;
@@ -153,13 +155,15 @@ public class DialogueController : MonoBehaviour
 
     private void SetPlayerInputInteractable(bool value)
     {
+        // Enable or disable submit and clear buttons
         submitButton.interactable = value;
         clearButton.interactable = value;
-        foreach (var btn in pianoButtons)
-        {
-            btn.interactable = value;
-        }
+
+        // Toggle disabled overlay panel (this handles piano input lockout)
+        if (pianoDisabledPanel != null)
+            pianoDisabledPanel.SetActive(!value);
     }
+
 
     //========= Answer Selection ========
     public bool CanSelectMoreAnswers()
