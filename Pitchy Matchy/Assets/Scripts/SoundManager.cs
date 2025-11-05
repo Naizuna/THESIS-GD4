@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using System.Collections;
 
 public class SoundManager : MonoBehaviour
 {
@@ -29,8 +30,7 @@ public class SoundManager : MonoBehaviour
 
     private string currentSceneName;
     private AudioClip currentBGM;
-    private bool isEventMusicPlaying = false;
-    private float bgmPlaybackTime = 0f;
+
 
     [System.Serializable]
     public class SceneBGM
@@ -85,11 +85,22 @@ public class SoundManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        // Stop any event music when switching scenes
+        if (eventSource.isPlaying)
+        {
+            eventSource.Stop();
+            eventSource.clip = null;
+        }
+
+
+        // Reattach button sounds for new UI
         AttachButtonSounds();
+
+        // 🎵 Play the correct BGM for this scene
         PlaySceneBGM(scene.name);
     }
 
-    // 🎚 Volume control
+    // Volume control
     private void ApplyVolumeSettings()
     {
         sfxSource.volume = sfxVolume * masterVolume;
@@ -132,19 +143,26 @@ public class SoundManager : MonoBehaviour
         bgmVolume = PlayerPrefs.GetFloat("BGMVol", 0.5f);
     }
 
-    // 🔊 General SFX
+    // General SFX
     public void PlaySFX(AudioClip clip)
     {
         if (clip != null)
             sfxSource.PlayOneShot(clip, sfxVolume * masterVolume);
     }
 
-    // 🖱️ Auto-attach click sounds
+    // Auto-attach click sounds
     private void AttachButtonSounds()
     {
+        string sceneName = SceneManager.GetActiveScene().name;
+        bool isStageLesson = sceneName.Contains("Lesson");
+
         Button[] allButtons = FindObjectsOfType<Button>(true);
         foreach (Button btn in allButtons)
         {
+
+            if (isStageLesson && btn.GetComponent<AnswerButton>() != null)
+                continue; // skip answer buttons in lessons
+
             btn.onClick.RemoveListener(PlayButtonClick);
             btn.onClick.AddListener(PlayButtonClick);
         }
@@ -155,76 +173,75 @@ public class SoundManager : MonoBehaviour
         PlaySFX(buttonClickSound);
     }
 
-    // 🎵 Per-scene BGM
+    // Per-scene BGM
     public void PlaySceneBGM(string sceneName)
     {
-        if (isEventMusicPlaying) return; // prevent override while event music is playing
-
         currentSceneName = sceneName;
         SceneBGM found = sceneBGMs.Find(s => s.sceneName == sceneName);
 
-        if (found != null && found.bgmClip != null)
+        if (found == null || found.bgmClip == null)
         {
-            // ✅ If the same BGM is already playing, continue
-            if (currentBGM == found.bgmClip && bgmSource.isPlaying)
-                return;
-
-            currentBGM = found.bgmClip;
-            CrossfadeBGM(found.bgmClip);
-        }
-        else
-        {
-            // ❌ No BGM assigned → fade out
             if (bgmSource.isPlaying)
-                StartCoroutine(FadeOutAndStop(1f));
+            {
+                bgmSource.Stop();
+                bgmSource.clip = null;
+            }
             currentBGM = null;
+            return;
         }
-    }
 
-    // 🎶 Crossfade
+        // Skip if currently playing same clip
+        if (currentBGM == found.bgmClip && bgmSource.isPlaying)
+            return;
+
+        currentBGM = found.bgmClip;
+        CrossfadeBGM(found.bgmClip);
+    }
+        
+
+    // Crossfade
     private void CrossfadeBGM(AudioClip newClip)
     {
         StartCoroutine(CrossfadeRoutine(newClip));
     }
 
-    private System.Collections.IEnumerator CrossfadeRoutine(AudioClip newClip)
+   private IEnumerator CrossfadeRoutine(AudioClip newClip)
     {
         float fadeTime = 1f;
         float startVolume = bgmSource.volume;
 
-        for (float t = 0; t < fadeTime; t += Time.unscaledDeltaTime)
+        bool hasExistingBGM = bgmSource.isPlaying && bgmSource.clip != null;
+
+        // Only fade out if something is already playing
+        if (hasExistingBGM)
         {
-            bgmSource.volume = Mathf.Lerp(startVolume, 0f, t / fadeTime);
-            yield return null;
+            for (float t = 0; t < fadeTime; t += Time.unscaledDeltaTime)
+            {
+                bgmSource.volume = Mathf.Lerp(startVolume, 0f, t / fadeTime);
+                yield return null;
+            }
         }
 
+        // Switch and play immediately
         bgmSource.Stop();
         bgmSource.clip = newClip;
+        bgmSource.volume = hasExistingBGM ? 0f : bgmVolume * masterVolume; // If no old BGM, start full
         bgmSource.Play();
 
-        for (float t = 0; t < fadeTime; t += Time.unscaledDeltaTime)
+        // Fade in only if we had to fade out before
+        if (hasExistingBGM)
         {
-            bgmSource.volume = Mathf.Lerp(0f, bgmVolume * masterVolume, t / fadeTime);
-            yield return null;
+            for (float t = 0; t < fadeTime; t += Time.unscaledDeltaTime)
+            {
+                bgmSource.volume = Mathf.Lerp(0f, bgmVolume * masterVolume, t / fadeTime);
+                yield return null;
+            }
         }
 
         bgmSource.volume = bgmVolume * masterVolume;
     }
 
-    // 🌙 Fade out for silent scenes
-    private System.Collections.IEnumerator FadeOutAndStop(float fadeTime)
-    {
-        float startVolume = bgmSource.volume;
-        for (float t = 0; t < fadeTime; t += Time.unscaledDeltaTime)
-        {
-            bgmSource.volume = Mathf.Lerp(startVolume, 0f, t / fadeTime);
-            yield return null;
-        }
-        bgmSource.Stop();
-        bgmSource.volume = bgmVolume * masterVolume;
-    }
-
-    // 🔁 Restart current BGM
+    // Restart current BGM
     public void RestartCurrentBGM()
     {
         if (currentBGM != null)
@@ -235,53 +252,45 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    // 🏁 Event Music Handlers ---------------------------------------
+    // Event Music Handlers ---------------------------------------
 
-    public void PlayTutorialCompleteMusic() => PlayEventMusic(tutorialCompleteMusic);
-    public void PlayWinMusic() => PlayEventMusic(winMusic);
-    public void PlayLoseMusic() => PlayEventMusic(loseMusic);
+    public void PlayTutorialCompleteMusic() => PlayEventMusicInstant(tutorialCompleteMusic);
+    public void PlayWinMusic() => PlayEventMusicInstant(winMusic);
+    public void PlayLoseMusic() => PlayEventMusicInstant(loseMusic);
 
-    private void PlayEventMusic(AudioClip clip)
+    private void PlayEventMusicInstant(AudioClip clip)
     {
         if (clip == null) return;
-        StartCoroutine(PlayEventRoutine(clip));
-    }
 
-    private System.Collections.IEnumerator PlayEventRoutine(AudioClip clip)
-    {
-        isEventMusicPlaying = true;
+        // Immediately stop any BGM
+        if (bgmSource.isPlaying)
+        {
+            bgmSource.Stop();
+            bgmSource.clip = null;
+        }
 
-        yield return StartCoroutine(FadeOutAndPauseBGM(0.5f));
-
+        // Instantly play event music
+        eventSource.Stop();
         eventSource.clip = clip;
+        eventSource.volume = bgmVolume * masterVolume;
+        eventSource.loop = false;
         eventSource.Play();
 
-        yield return new WaitWhile(() => eventSource.isPlaying);
-
-        isEventMusicPlaying = false;
-
-        if (currentBGM != null)
-        {
-            // ✅ Resume BGM where it left off
-            bgmSource.time = bgmPlaybackTime;
-            bgmSource.UnPause();
-        }
+        // Automatically resume previous BGM when done
+        StartCoroutine(ResumeBGMWhenEventEnds());
     }
 
-    private System.Collections.IEnumerator FadeOutAndPauseBGM(float fadeTime)
+    private IEnumerator ResumeBGMWhenEventEnds()
     {
-        float startVolume = bgmSource.volume;
+        yield return new WaitWhile(() => eventSource.isPlaying);
 
-        for (float t = 0; t < fadeTime; t += Time.unscaledDeltaTime)
+        // Resume last scene’s BGM
+        if (currentBGM != null)
         {
-            bgmSource.volume = Mathf.Lerp(startVolume, 0f, t / fadeTime);
-            yield return null;
+            bgmSource.clip = currentBGM;
+            bgmSource.volume = bgmVolume * masterVolume;
+            bgmSource.loop = true;
+            bgmSource.Play();
         }
-
-        // 🎯 Save playback time and pause
-        bgmPlaybackTime = bgmSource.time;
-
-        bgmSource.Pause();
-        bgmSource.volume = bgmVolume * masterVolume;
     }
 }

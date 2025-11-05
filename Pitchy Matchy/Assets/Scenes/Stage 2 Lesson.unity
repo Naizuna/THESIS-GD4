@@ -941,6 +941,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PauseManager
       objectReference: {fileID: 0}
+    - target: {fileID: 7700784226201648372, guid: 0b34b8b782f14b049a30d96adccb629e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1297,6 +1301,8 @@ MonoBehaviour:
   controller: {fileID: 0}
   normalSprite: {fileID: 477754987, guid: d2ca251491c99e84dbd0ed1f2316ea74, type: 3}
   selectedSprite: {fileID: 277229335, guid: d2ca251491c99e84dbd0ed1f2316ea74, type: 3}
+  highlightSprite: {fileID: 277229335, guid: d2ca251491c99e84dbd0ed1f2316ea74, type: 3}
+  noteSound: {fileID: 8300000, guid: 50ebd3ac255cd164aa72f9da4fa46a91, type: 3}
 --- !u!20 &389152568 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 2964740643208969179, guid: df5d065b3fb44c94a94065b8bdec739f, type: 3}
@@ -1704,6 +1710,8 @@ MonoBehaviour:
   controller: {fileID: 0}
   normalSprite: {fileID: 1621014628, guid: d2ca251491c99e84dbd0ed1f2316ea74, type: 3}
   selectedSprite: {fileID: 881378503, guid: d2ca251491c99e84dbd0ed1f2316ea74, type: 3}
+  highlightSprite: {fileID: 881378503, guid: d2ca251491c99e84dbd0ed1f2316ea74, type: 3}
+  noteSound: {fileID: 8300000, guid: 09ad1a3aae6a5ff48bbfee177e4632e5, type: 3}
 --- !u!1 &671973119
 GameObject:
   m_ObjectHideFlags: 0
@@ -1734,6 +1742,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 791015895}
+  pianoKeys:
+  - {fileID: 795677101}
+  - {fileID: 2009119096}
+  - {fileID: 844296011}
+  - {fileID: 1104841126}
+  - {fileID: 380113453}
+  - {fileID: 669800301}
+  - {fileID: 2039565662}
+  - {fileID: 1715879013}
 --- !u!4 &671973121
 Transform:
   m_ObjectHideFlags: 0
@@ -1880,6 +1897,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2555135031660954266, guid: 321ab0b8fb429ae4f919aa69b787342f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 999449872}
+    - targetCorrespondingSourceObject: {fileID: 2555135031660954266, guid: 321ab0b8fb429ae4f919aa69b787342f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1731078266}
     - targetCorrespondingSourceObject: {fileID: 2555135031660954266, guid: 321ab0b8fb429ae4f919aa69b787342f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 287914859}
@@ -2158,6 +2178,8 @@ MonoBehaviour:
   controller: {fileID: 0}
   normalSprite: {fileID: 806516429, guid: d2ca251491c99e84dbd0ed1f2316ea74, type: 3}
   selectedSprite: {fileID: -1246776981, guid: d2ca251491c99e84dbd0ed1f2316ea74, type: 3}
+  highlightSprite: {fileID: -1246776981, guid: d2ca251491c99e84dbd0ed1f2316ea74, type: 3}
+  noteSound: {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
 --- !u!1 &844296006
 GameObject:
   m_ObjectHideFlags: 0
@@ -2295,6 +2317,8 @@ MonoBehaviour:
   controller: {fileID: 0}
   normalSprite: {fileID: 656986446, guid: d2ca251491c99e84dbd0ed1f2316ea74, type: 3}
   selectedSprite: {fileID: -327088020, guid: d2ca251491c99e84dbd0ed1f2316ea74, type: 3}
+  highlightSprite: {fileID: -327088020, guid: d2ca251491c99e84dbd0ed1f2316ea74, type: 3}
+  noteSound: {fileID: 8300000, guid: 72779edddd809e549b6629379c09077f, type: 3}
 --- !u!1 &863230442
 GameObject:
   m_ObjectHideFlags: 0
@@ -2859,6 +2883,7 @@ MonoBehaviour:
   - {fileID: 1715879013}
   maxSelections: 3
   textSpeed: 0.05
+  pianoDisabledPanel: {fileID: 1731078267}
 --- !u!1 &1041214206
 GameObject:
   m_ObjectHideFlags: 0
@@ -3184,6 +3209,8 @@ MonoBehaviour:
   controller: {fileID: 0}
   normalSprite: {fileID: -381241949, guid: d2ca251491c99e84dbd0ed1f2316ea74, type: 3}
   selectedSprite: {fileID: 1544656147, guid: d2ca251491c99e84dbd0ed1f2316ea74, type: 3}
+  highlightSprite: {fileID: 1544656147, guid: d2ca251491c99e84dbd0ed1f2316ea74, type: 3}
+  noteSound: {fileID: 8300000, guid: 0dda36852c989a3469dbe267be1dec0d, type: 3}
 --- !u!1 &1130822679
 GameObject:
   m_ObjectHideFlags: 0
@@ -3729,7 +3756,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1367647286, guid: fdbfa12ff278c2f48893fd3fbdb490e1, type: 3}
+  m_Sprite: {fileID: -1243071264, guid: fdbfa12ff278c2f48893fd3fbdb490e1, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4016,6 +4043,115 @@ MonoBehaviour:
   controller: {fileID: 0}
   normalSprite: {fileID: 1829903088, guid: d2ca251491c99e84dbd0ed1f2316ea74, type: 3}
   selectedSprite: {fileID: -2077686515, guid: d2ca251491c99e84dbd0ed1f2316ea74, type: 3}
+  highlightSprite: {fileID: -2077686515, guid: d2ca251491c99e84dbd0ed1f2316ea74, type: 3}
+  noteSound: {fileID: 8300000, guid: 5df02bbeadf6740458957e59a9c491d3, type: 3}
+--- !u!1001 &1731078265
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 692829703}
+    m_Modifications:
+    - target: {fileID: 2706557051004471824, guid: bc6260aab295c244dbf8a1a397ab0fe6, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2706557051004471824, guid: bc6260aab295c244dbf8a1a397ab0fe6, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2706557051004471824, guid: bc6260aab295c244dbf8a1a397ab0fe6, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2706557051004471824, guid: bc6260aab295c244dbf8a1a397ab0fe6, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2706557051004471824, guid: bc6260aab295c244dbf8a1a397ab0fe6, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2706557051004471824, guid: bc6260aab295c244dbf8a1a397ab0fe6, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2706557051004471824, guid: bc6260aab295c244dbf8a1a397ab0fe6, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 168
+      objectReference: {fileID: 0}
+    - target: {fileID: 2706557051004471824, guid: bc6260aab295c244dbf8a1a397ab0fe6, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2706557051004471824, guid: bc6260aab295c244dbf8a1a397ab0fe6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2706557051004471824, guid: bc6260aab295c244dbf8a1a397ab0fe6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2706557051004471824, guid: bc6260aab295c244dbf8a1a397ab0fe6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2706557051004471824, guid: bc6260aab295c244dbf8a1a397ab0fe6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2706557051004471824, guid: bc6260aab295c244dbf8a1a397ab0fe6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2706557051004471824, guid: bc6260aab295c244dbf8a1a397ab0fe6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2706557051004471824, guid: bc6260aab295c244dbf8a1a397ab0fe6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2706557051004471824, guid: bc6260aab295c244dbf8a1a397ab0fe6, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 27.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2706557051004471824, guid: bc6260aab295c244dbf8a1a397ab0fe6, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 25.299988
+      objectReference: {fileID: 0}
+    - target: {fileID: 2706557051004471824, guid: bc6260aab295c244dbf8a1a397ab0fe6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2706557051004471824, guid: bc6260aab295c244dbf8a1a397ab0fe6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2706557051004471824, guid: bc6260aab295c244dbf8a1a397ab0fe6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6218842777079370931, guid: bc6260aab295c244dbf8a1a397ab0fe6, type: 3}
+      propertyPath: m_Name
+      value: DisabledPanel
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bc6260aab295c244dbf8a1a397ab0fe6, type: 3}
+--- !u!224 &1731078266 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2706557051004471824, guid: bc6260aab295c244dbf8a1a397ab0fe6, type: 3}
+  m_PrefabInstance: {fileID: 1731078265}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1731078267 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6218842777079370931, guid: bc6260aab295c244dbf8a1a397ab0fe6, type: 3}
+  m_PrefabInstance: {fileID: 1731078265}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1794419024
 GameObject:
   m_ObjectHideFlags: 0
@@ -4348,6 +4484,8 @@ MonoBehaviour:
   controller: {fileID: 0}
   normalSprite: {fileID: 1396623541, guid: d2ca251491c99e84dbd0ed1f2316ea74, type: 3}
   selectedSprite: {fileID: -1354348255, guid: d2ca251491c99e84dbd0ed1f2316ea74, type: 3}
+  highlightSprite: {fileID: -1354348255, guid: d2ca251491c99e84dbd0ed1f2316ea74, type: 3}
+  noteSound: {fileID: 8300000, guid: 9b016761919b89e41821fd72dd1346b3, type: 3}
 --- !u!1 &2039565657
 GameObject:
   m_ObjectHideFlags: 0
@@ -4485,6 +4623,8 @@ MonoBehaviour:
   controller: {fileID: 0}
   normalSprite: {fileID: -704164218, guid: d2ca251491c99e84dbd0ed1f2316ea74, type: 3}
   selectedSprite: {fileID: 2091148120, guid: d2ca251491c99e84dbd0ed1f2316ea74, type: 3}
+  highlightSprite: {fileID: 2091148120, guid: d2ca251491c99e84dbd0ed1f2316ea74, type: 3}
+  noteSound: {fileID: 8300000, guid: c112bf6a39e220a42afaecfc6bfeebd8, type: 3}
 --- !u!1 &2049692559
 GameObject:
   m_ObjectHideFlags: 0
@@ -4610,7 +4750,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'lesson: c, e, g'
+  m_text: 'lesson: a, b, c'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6c7033de79df3de44b5cf9d7c71a6e29, type: 2}
   m_sharedMaterial: {fileID: 8911549865435928878, guid: 6c7033de79df3de44b5cf9d7c71a6e29, type: 2}

@@ -1,10 +1,16 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class QuizController : MonoBehaviour
 {
     // [Header("Mode")]
     // [SerializeField] private QuizMode quizMode;
+
+    public enum QuizType { Mini, Final }
+
+    [Header("Quiz Settings")]
+    [SerializeField] private QuizType quizType;
 
     [Header("Scene References")]
     [SerializeField] private QuestionsBank bank;
@@ -21,6 +27,8 @@ public class QuizController : MonoBehaviour
 
     [Header("Reference Pitch")]
     [SerializeField] private AudioClip referencePitch;
+    [SerializeField] private Button referencePitchButton;       
+    [SerializeField] private Image referencePitchSprite;        
 
     [Header("Monte Carlo Control Options (only valid if MCC mode)")]
     [SerializeField] private int mccQuestionsPerEpisode;
@@ -80,6 +88,7 @@ public class QuizController : MonoBehaviour
     {
         handler.StartQuiz();
         UpdateDifficultyVisual();
+        UpdateReferencePitchButton();
         playerInputEnabled = true;
     }
 
@@ -107,6 +116,7 @@ public class QuizController : MonoBehaviour
         }
         handler.Update();
         UpdateDifficultyVisual();
+        UpdateReferencePitchButton();
     }
 
     private void HandlePlayerDefeat()
@@ -180,8 +190,7 @@ public class QuizController : MonoBehaviour
     {
         var difficulty = ctx.QuestionsToAnswer[ctx.CurrQuestionIndex].questionDifficulty;
 
-        if (difficulty == QuestionComponent.DifficultyClass.HARD ||
-            difficulty == QuestionComponent.DifficultyClass.MEDIUM)
+        if (difficulty == QuestionComponent.DifficultyClass.HARD)
         {
             clipPlayer.PlaySingleClip(referencePitch);
         }
@@ -195,12 +204,40 @@ public class QuizController : MonoBehaviour
         clipPlayer.PlaySingleClip(referencePitch);
     }
 
+    private void UpdateReferencePitchButton()
+    {
+        if (referencePitchButton == null || referencePitchSprite == null || ctx == null || ctx.QuestionsToAnswer.Count == 0)
+            return;
+
+        var difficulty = ctx.QuestionsToAnswer[ctx.CurrQuestionIndex].questionDifficulty;
+
+        bool isAvailable = false;
+
+        if (quizType == QuizType.Final)
+        {
+            // Final Quiz: Medium and Hard
+            isAvailable = (difficulty == QuestionComponent.DifficultyClass.MEDIUM ||
+                        difficulty == QuestionComponent.DifficultyClass.HARD);
+        }
+        else if (quizType == QuizType.Mini)
+        {
+            // Mini Quiz: Hard only
+            isAvailable = (difficulty == QuestionComponent.DifficultyClass.HARD);
+        }
+
+        referencePitchButton.interactable = isAvailable;
+        referencePitchSprite.color = isAvailable
+            ? Color.white
+            : new Color(1f, 1f, 1f, 0.4f);
+    }
+
+
     // Called by UI to request next question (or handler can call it)
     public void OnRequestNextQuestion()
     {
         handler.LoadNextQuestion();
         UpdateDifficultyVisual();
-
+        UpdateReferencePitchButton();
     }
 
     private void UpdateDifficultyVisual()
