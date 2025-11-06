@@ -36,6 +36,11 @@ public class PianoHandler : MonoBehaviour
 
     public void SendPlayerAnswerToHandler()
     {
+        if(keys.Count == 0)
+        {
+            Debug.Log("No keys to send.");
+            return;
+        }
         qController.OnPlayerSubmitAnswers(new List<string>(keys));
         Debug.Log("Sent player answers to QuizHandler");
         ClearAllKeys();

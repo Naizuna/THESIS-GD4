@@ -8,8 +8,6 @@ public class EnemyComponent : MonoBehaviour
 {
     [SerializeField] SpriteRenderer enemySprite;
     [SerializeField] Animator animator;
-    [SerializeField] ParticleSystem hurtEffect;
-    [SerializeField] ParticleSystem deathEffect;
     [SerializeField] Color damagedColor;
     [SerializeField] float damagedFlashDuration;
     [SerializeField] public int maxhp;
@@ -71,7 +69,6 @@ public class EnemyComponent : MonoBehaviour
 
     private IEnumerator HurtFlash()
     {
-        PlayHitEffect();
         animator.SetBool("isHurt", true);
         yield return new WaitForSeconds(damagedFlashDuration);
         animator.SetBool("isHurt", false);
@@ -79,32 +76,9 @@ public class EnemyComponent : MonoBehaviour
 
     public IEnumerator Death()
     {
-        PlayDeathEffect();
         animator.SetBool("isDeath", true);
         yield return new WaitForSeconds(deathDuration);
         Destroy(gameObject);
-    }
-
-    void PlayHitEffect() 
-    {
-        ParticleSystem instance = Instantiate(
-            hurtEffect, enemySpriteParentObj.transform.position,
-            Quaternion.identity
-        );
-        Destroy(instance.gameObject,
-        instance.main.duration + 
-        instance.main.startLifetime.constantMax);
-    }
-
-    void PlayDeathEffect() 
-    {
-        ParticleSystem instance = Instantiate(
-            deathEffect, enemySpriteParentObj.transform.position,
-            Quaternion.identity
-        );
-        Destroy(instance.gameObject,
-        instance.main.duration + 
-        instance.main.startLifetime.constantMax);
     }
 
     public bool IsDefeated()
