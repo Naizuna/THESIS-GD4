@@ -2554,8 +2554,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lines:
-  - text: "Welcome to Pitchy Matchy, where we\u2019ll learn how to recognize the
-      pitches in the C MAJOR scale!"
+  - text: welcome to pitchy matchy, where we will learn how to recognize the pitches
+      in the c major scale!
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -2564,7 +2564,7 @@ MonoBehaviour:
     allowPlayerInput: 0
     correctAnswer: []
     isTypingFinished: 0
-  - text: 'The most often used scale in Western music is C Major, which uses the
+  - text: 'the most often used scale in western music is c major, which uses the
       keyboard''s white keys to express pitch intervals. '
     wrongAnswerText: 
     pitchSounds: []
@@ -2574,7 +2574,7 @@ MonoBehaviour:
     allowPlayerInput: 0
     correctAnswer: []
     isTypingFinished: 0
-  - text: "Let\u2019s hear the C scale first. Memorize the sound of your scale since
+  - text: "let\u2019s hear the c scale first. memorize the sound of your scale since
       this will be the foundation of your musical journey!"
     wrongAnswerText: 
     pitchSounds:
@@ -2592,8 +2592,8 @@ MonoBehaviour:
     allowPlayerInput: 0
     correctAnswer: []
     isTypingFinished: 0
-  - text: "To recognize pitches easily, we\u2019ll start by hearing C4, E4, and G4,
-      the stable foundation of the C Major scale."
+  - text: "to recognize pitches easily, we\u2019ll start by hearing C, E, and G,
+      the stable foundation of the c major scale."
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -2603,7 +2603,7 @@ MonoBehaviour:
     correctAnswer: []
     isTypingFinished: 0
   - text: C4 will be played as your reference pitch to help you identify the next
-      notes. You can sing along the scale to check your accuracy.
+      notes. you can sing along the scale to check your accuracy.
     wrongAnswerText: 
     pitchSounds:
     - {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
@@ -2613,8 +2613,8 @@ MonoBehaviour:
     allowPlayerInput: 0
     correctAnswer: []
     isTypingFinished: 0
-  - text: "This is the starting pitch in the C Major scale, and we\u2019ll use it
-      as our guide for the rest of the pitches."
+  - text: this is the starting pitch in the c major scale, and we will use it as
+      our guide for the rest of the pitches.
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -2623,7 +2623,7 @@ MonoBehaviour:
     allowPlayerInput: 0
     correctAnswer: []
     isTypingFinished: 0
-  - text: You can hear this reference pitch whenever you want by pressing the blue
+  - text: you can hear this reference pitch whenever you want by pressing the blue
       circle button below.
     wrongAnswerText: 
     pitchSounds:
@@ -2634,9 +2634,9 @@ MonoBehaviour:
     allowPlayerInput: 0
     correctAnswer: []
     isTypingFinished: 0
-  - text: "Now, try pressing C4 first on the keyboard below. Remember, C4 is the
-      first C you\u2019ll see on the keyboard."
-    wrongAnswerText: "Oops! Try again. Remember, C4 is the first C you\u2019ll see
+  - text: "now, try pressing C4 first on the keyboard below. remember, C4 is the
+      first c you\u2019ll see on the keyboard."
+    wrongAnswerText: "oops! try again. remember, C4 is the first c you\u2019ll see
       on the keyboard. "
     pitchSounds:
     - {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
@@ -2647,7 +2647,7 @@ MonoBehaviour:
     correctAnswer:
     - C4
     isTypingFinished: 0
-  - text: "Great! Next up is E4\u2026 Your turn! Press E4 on the keyboard."
+  - text: "great! next up is E4\u2026 your turn! press E4 on the keyboard."
     wrongAnswerText: not quite. let's try again
     pitchSounds:
     - {fileID: 8300000, guid: 72779edddd809e549b6629379c09077f, type: 3}
@@ -2669,8 +2669,8 @@ MonoBehaviour:
     correctAnswer:
     - G4
     isTypingFinished: 0
-  - text: 'Great! Now you managed to learn the first few pitches of the C Major scale.
-      Let''s proceed to the quiz to test what you just learned. '
+  - text: 'great! now you managed to learn the first few pitches of the C major scale.
+      let''s proceed to the quiz to test what you just learned. '
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -2679,7 +2679,7 @@ MonoBehaviour:
     allowPlayerInput: 0
     correctAnswer: []
     isTypingFinished: 0
-  - text: Keep a keen ear, we might throw you a challenge here and there. Good luck!
+  - text: keep a keen ear, we might throw you a challenge here and there. good luck!
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
