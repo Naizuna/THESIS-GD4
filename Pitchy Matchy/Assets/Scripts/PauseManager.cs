@@ -37,13 +37,18 @@ public class PauseMenu : MonoBehaviour
             pauseButton.SetActive(true);
 
             if (Input.GetKeyDown(KeyCode.Escape))
-            { //not main menu
+            {
+                if (SoundManager.Instance != null)
+                    SoundManager.Instance.PlayButtonClick();
+                    
+                //not main menu
                 if (isPaused)
                 {
                     Resume();
                 }
                 else
                 {
+                    
                     Pause();
                 }
             }

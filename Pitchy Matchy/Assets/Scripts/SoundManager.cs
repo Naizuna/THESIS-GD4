@@ -168,7 +168,7 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    private void PlayButtonClick()
+    public void PlayButtonClick()
     {
         PlaySFX(buttonClickSound);
     }
