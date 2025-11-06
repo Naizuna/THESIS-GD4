@@ -2642,7 +2642,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
     pitchLabel: 
     showRepeatButton: 1
-    showContinueButton: 1
+    showContinueButton: 0
     allowPlayerInput: 1
     correctAnswer:
     - C4
@@ -2653,7 +2653,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 72779edddd809e549b6629379c09077f, type: 3}
     pitchLabel: 
     showRepeatButton: 1
-    showContinueButton: 1
+    showContinueButton: 0
     allowPlayerInput: 1
     correctAnswer:
     - E4
@@ -2664,7 +2664,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 50ebd3ac255cd164aa72f9da4fa46a91, type: 3}
     pitchLabel: 
     showRepeatButton: 1
-    showContinueButton: 1
+    showContinueButton: 0
     allowPlayerInput: 1
     correctAnswer:
     - G4

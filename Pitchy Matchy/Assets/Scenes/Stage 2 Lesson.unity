@@ -2876,7 +2876,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 09ad1a3aae6a5ff48bbfee177e4632e5, type: 3}
     pitchLabel: 
     showRepeatButton: 1
-    showContinueButton: 1
+    showContinueButton: 0
     allowPlayerInput: 1
     correctAnswer:
     - A4
@@ -2890,7 +2890,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: c112bf6a39e220a42afaecfc6bfeebd8, type: 3}
     pitchLabel: 
     showRepeatButton: 1
-    showContinueButton: 1
+    showContinueButton: 0
     allowPlayerInput: 1
     correctAnswer:
     - B4
@@ -2903,7 +2903,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 5df02bbeadf6740458957e59a9c491d3, type: 3}
     pitchLabel: 
     showRepeatButton: 1
-    showContinueButton: 1
+    showContinueButton: 0
     allowPlayerInput: 1
     correctAnswer:
     - C5

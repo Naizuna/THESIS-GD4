@@ -2945,7 +2945,7 @@ MonoBehaviour:
     allowPlayerInput: 0
     correctAnswer: []
     isTypingFinished: 0
-  - text: 'Do you remember the first lesson where we learned about C4, E4, and G4?
+  - text: 'do you remember the first lesson where we learned about C4, E4, and G4?
       if we play these together, we get the C major Chord! '
     wrongAnswerText: 
     pitchSounds: []
@@ -2964,14 +2964,14 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 50ebd3ac255cd164aa72f9da4fa46a91, type: 3}
     pitchLabel: 
     showRepeatButton: 1
-    showContinueButton: 1
+    showContinueButton: 0
     allowPlayerInput: 1
     correctAnswer:
     - C4
     - E4
     - G4
     isTypingFinished: 0
-  - text: "nice one! let\u2019s keep this going. Now if I play F4, A4, C5.... We
+  - text: "nice one! let\u2019s keep this going. now if I play F4, A4, C5.... we
       get the F major chord!"
     wrongAnswerText: 
     pitchSounds:
@@ -2984,7 +2984,7 @@ MonoBehaviour:
     allowPlayerInput: 0
     correctAnswer: []
     isTypingFinished: 0
-  - text: can you press the correct notes for the f major chords again?
+  - text: can you press the correct notes for the F major chords again?
     wrongAnswerText: ooh so close, let's try that again. can you press the correct
       notes for the f major chord again?
     pitchSounds:
@@ -2993,14 +2993,14 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 5df02bbeadf6740458957e59a9c491d3, type: 3}
     pitchLabel: 
     showRepeatButton: 1
-    showContinueButton: 1
+    showContinueButton: 0
     allowPlayerInput: 1
     correctAnswer:
     - F4
     - A4
     - C5
     isTypingFinished: 0
-  - text: Nailed it! Now, if we play D4, G4, and B4... you get the G major chord.
+  - text: nailed it! Now, if we play D4, G4, and B4... you get the G major chord.
       try it out!
     wrongAnswerText: ooh so close, let's try that again. can you press the correct
       notes for the G major chord again?
@@ -3010,7 +3010,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: c112bf6a39e220a42afaecfc6bfeebd8, type: 3}
     pitchLabel: 
     showRepeatButton: 1
-    showContinueButton: 1
+    showContinueButton: 0
     allowPlayerInput: 1
     correctAnswer:
     - D4
@@ -3046,14 +3046,14 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 09ad1a3aae6a5ff48bbfee177e4632e5, type: 3}
     pitchLabel: 
     showRepeatButton: 1
-    showContinueButton: 1
+    showContinueButton: 0
     allowPlayerInput: 1
     correctAnswer:
     - D4
     - F4
     - A4
     isTypingFinished: 0
-  - text: Well done! Next is E Minor! We get it by playing E4, G4, and B4. Can you
+  - text: well done! next is E Minor! we get it by playing E4, G4, and B4. can you
       do that for me?
     wrongAnswerText: ooh so close, let's try that again. can you press the correct
       notes for the E minor chord again?
@@ -3063,7 +3063,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: c112bf6a39e220a42afaecfc6bfeebd8, type: 3}
     pitchLabel: 
     showRepeatButton: 1
-    showContinueButton: 1
+    showContinueButton: 0
     allowPlayerInput: 1
     correctAnswer:
     - E4
@@ -3090,7 +3090,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 5df02bbeadf6740458957e59a9c491d3, type: 3}
     pitchLabel: 
     showRepeatButton: 1
-    showContinueButton: 1
+    showContinueButton: 0
     allowPlayerInput: 1
     correctAnswer:
     - E4
