@@ -41,7 +41,7 @@ public class AnswerButton : MonoBehaviour
         if (!button.interactable)
             return;
 
-        // 🎵 Play piano note when active
+        // Play piano note when active
         if (noteSound != null)
             SoundManager.Instance.PlaySFX(noteSound);
 

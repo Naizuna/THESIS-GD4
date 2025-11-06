@@ -70,6 +70,9 @@ public class DialogueController : MonoBehaviour
             }
             else if (!AnyActionsButtonsVisible())
             {
+                if (lines[index].waitForAudioToFinishBeforeButtons && clipPlayer.IsPlaying)
+                    return;
+                    
                 NextLine();
             }
         }
@@ -114,6 +117,7 @@ public class DialogueController : MonoBehaviour
     
     void NextLine()
     {
+        clipPlayer.StopAllAudio();
         // Only move to the next line if not in wrong answer state
         if (showWrongMessage) return;
 
@@ -147,11 +151,34 @@ public class DialogueController : MonoBehaviour
         pitchText.text = string.IsNullOrEmpty(line.pitchLabel) ? string.Empty : line.pitchLabel;
 
         // Buttons
-        repeatButton.gameObject.SetActive(line.showRepeatButton);
-        continueButton.gameObject.SetActive(line.showContinueButton);
+        if (line.waitForAudioToFinishBeforeButtons)
+        {
+            StartCoroutine(ShowButtonsWhenSoundIsDone(line));
+        }
+        else
+        {
+            // normal behavior (mini quiz)
+            repeatButton.gameObject.SetActive(line.showRepeatButton);
+            continueButton.gameObject.SetActive(line.showContinueButton);
+        }
 
         SetPlayerInputInteractable(line.allowPlayerInput);
     }
+    
+    private IEnumerator ShowButtonsWhenSoundIsDone(DialogueLine line)
+{
+    // Hide buttons first
+    repeatButton.gameObject.SetActive(false);
+    continueButton.gameObject.SetActive(false);
+
+    // Wait until ALL clip playback is finished
+    while (clipPlayer.IsPlaying)
+        yield return null;
+
+    // Now show buttons
+    repeatButton.gameObject.SetActive(line.showRepeatButton);
+    continueButton.gameObject.SetActive(line.showContinueButton);
+}
 
     private void SetPlayerInputInteractable(bool value)
     {

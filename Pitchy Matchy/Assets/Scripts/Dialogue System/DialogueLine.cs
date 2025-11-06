@@ -12,8 +12,8 @@ public class DialogueLine
     public string pitchLabel;
     public bool showRepeatButton;
     public bool showContinueButton;
-
     public bool allowPlayerInput = true;
+    public bool waitForAudioToFinishBeforeButtons = false;
 
     public List<string> correctAnswer = new();
     [HideInInspector] public bool isTypingFinished = false;

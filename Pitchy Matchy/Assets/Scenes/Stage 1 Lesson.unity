@@ -2562,6 +2562,7 @@ MonoBehaviour:
     showRepeatButton: 0
     showContinueButton: 1
     allowPlayerInput: 0
+    waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
   - text: 'the most often used scale in western music is c major, which uses the
@@ -2572,6 +2573,7 @@ MonoBehaviour:
     showRepeatButton: 0
     showContinueButton: 1
     allowPlayerInput: 0
+    waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
   - text: "let\u2019s hear the c scale first. memorize the sound of your scale since
@@ -2590,6 +2592,7 @@ MonoBehaviour:
     showRepeatButton: 1
     showContinueButton: 1
     allowPlayerInput: 0
+    waitForAudioToFinishBeforeButtons: 1
     correctAnswer: []
     isTypingFinished: 0
   - text: "to recognize pitches easily, we\u2019ll start by hearing C, E, and G,
@@ -2600,6 +2603,7 @@ MonoBehaviour:
     showRepeatButton: 0
     showContinueButton: 1
     allowPlayerInput: 0
+    waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
   - text: C4 will be played as your reference pitch to help you identify the next
@@ -2611,6 +2615,7 @@ MonoBehaviour:
     showRepeatButton: 0
     showContinueButton: 1
     allowPlayerInput: 0
+    waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
   - text: this is the starting pitch in the c major scale, and we will use it as
@@ -2621,6 +2626,7 @@ MonoBehaviour:
     showRepeatButton: 0
     showContinueButton: 1
     allowPlayerInput: 0
+    waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
   - text: you can hear this reference pitch whenever you want by pressing the blue
@@ -2632,6 +2638,7 @@ MonoBehaviour:
     showRepeatButton: 1
     showContinueButton: 1
     allowPlayerInput: 0
+    waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
   - text: "now, try pressing C4 first on the keyboard below. remember, C4 is the
@@ -2644,6 +2651,7 @@ MonoBehaviour:
     showRepeatButton: 1
     showContinueButton: 0
     allowPlayerInput: 1
+    waitForAudioToFinishBeforeButtons: 0
     correctAnswer:
     - C4
     isTypingFinished: 0
@@ -2655,6 +2663,7 @@ MonoBehaviour:
     showRepeatButton: 1
     showContinueButton: 0
     allowPlayerInput: 1
+    waitForAudioToFinishBeforeButtons: 0
     correctAnswer:
     - E4
     isTypingFinished: 0
@@ -2666,6 +2675,7 @@ MonoBehaviour:
     showRepeatButton: 1
     showContinueButton: 0
     allowPlayerInput: 1
+    waitForAudioToFinishBeforeButtons: 0
     correctAnswer:
     - G4
     isTypingFinished: 0
@@ -2677,6 +2687,7 @@ MonoBehaviour:
     showRepeatButton: 0
     showContinueButton: 1
     allowPlayerInput: 0
+    waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
   - text: keep a keen ear, we might throw you a challenge here and there. good luck!
@@ -2686,6 +2697,7 @@ MonoBehaviour:
     showRepeatButton: 0
     showContinueButton: 1
     allowPlayerInput: 0
+    waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
   textComponent: {fileID: 210068279}
