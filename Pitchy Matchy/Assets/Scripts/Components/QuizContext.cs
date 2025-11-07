@@ -24,6 +24,7 @@ public class QuizContext
     public int CurrQuestionIndex { get; set; }
     public int NumberOfQuestions { get; }
     public PlayerMetric PlyrMetric { get; }
+    public QuizController handler { get; set; }
 
     //MCC related stuff
     public int MccQuestionsPerEpisode { get; }
@@ -113,6 +114,13 @@ public class QuizContext
         return QuestionsToAnswer[CurrQuestionIndex];
     }
 
+    public void enablePlayerInput(bool boolean)
+    {
+        if (handler == null) return;
+
+        handler.playerInputEnabled = boolean;
+    }
+
     public void AddQuestion(QuestionComponent q) => QuestionsToAnswer.Add(q);
 
     public void UpdateQuestionText()
@@ -132,6 +140,16 @@ public class QuizContext
 
         // Reset response time tracking for the new question
         StartQuestionTimer();
+    }
+
+    public void ShowCorrectAnswers()
+    {
+        QuestionComponent q = GetCurrentQuestion();
+        QuestText.text = "correct pitches:";
+        foreach (string pitch in q.correctAnswers)
+        {
+            QuestText.text += " " + pitch;
+        }
     }
 
     public void PlayCurrentQuestionPitches()

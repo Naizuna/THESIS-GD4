@@ -63,19 +63,16 @@ public class AnswerButtons : MonoBehaviour
 
     public void ShowAsRed()
     {
-        Debug.Log("ChangeRed");
         image.color = new Color(255, 0, 0);
     }
 
     public void ShowAsGreen()
     {
-        Debug.Log("ChangeGreen");
         image.color = new Color(0, 255, 0);
     }
 
     public void ResetColors()
     {
-        Debug.Log("ChangeReset");
         image.color = defaultColors;
     }
 }

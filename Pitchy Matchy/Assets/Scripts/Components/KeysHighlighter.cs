@@ -24,10 +24,14 @@ public class KeysHighlighter : MonoBehaviour
 
     public void GetTheKeys(QuestionComponent questionComponent)
     {
+        keysToHighlight = new List<AnswerButtons>();
+        keysFromQuestions = new List<IndividualPitch>();
+
         QuestionComponent buffer = new QuestionComponent(questionComponent);
-        keysFromQuestions = new List<IndividualPitch>(buffer.playerAnswersIndiv);
-        List<IndividualPitch> keys = new List<IndividualPitch>(buffer.playerAnswersIndiv);
-        foreach (IndividualPitch key in keys)
+
+        keysFromQuestions.AddRange(buffer.playerAnswersIndiv);
+
+        foreach (IndividualPitch key in keysFromQuestions)
         {
             string name = key.keyName;
             keysToHighlight.Add(keyDict[name]);
@@ -41,13 +45,16 @@ public class KeysHighlighter : MonoBehaviour
 
     public IEnumerator IEHighlightAnsweredKeys()
     {
+        Debug.Log($"Highlighting {keysFromQuestions.Count} keys");
+
         foreach (IndividualPitch key in keysFromQuestions)
         {
             if (!keyDict.ContainsKey(key.keyName))
             {
-                Debug.Log("Non-existent key");
+                Debug.Log($"Non-existent key: {key.keyName}");
                 continue;
             }
+
 
             if (key.isAnsweredCorrectly)
             {
@@ -64,10 +71,8 @@ public class KeysHighlighter : MonoBehaviour
         {
             if (!keyDict.ContainsKey(key.keyName))
             {
-                Debug.Log("Non-existent key");
                 continue;
             }
-
             keyDict[key.keyName].ResetColors();
         }
     }

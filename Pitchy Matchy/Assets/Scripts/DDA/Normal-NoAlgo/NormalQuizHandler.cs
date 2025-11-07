@@ -64,35 +64,34 @@ public class NormalQuizHandler : MonoBehaviour, IQuizHandler
 
     private void ProcessAnswer()
     {
+        ctx.coroutineRunner.StopCoroutine(ProcessAnswerCoroutine());
         ctx.coroutineRunner.StartCoroutine(ProcessAnswerCoroutine());
     }
 
     private IEnumerator ProcessAnswerCoroutine()
     {
         Debug.Log("Coroutine started");
-        
+        ctx.enablePlayerInput(false);
+
         var q = ctx.GetCurrentQuestion();
-        Debug.Log($"Question null? {q == null}");
-        
+
         if (q == null) yield break;
-        
-        Debug.Log("About to set player answers");
+
+
         q.playerAnswers = new List<string>(ctx.PlayerAnswers);
-        
-        Debug.Log("About to check answers");
+
+
         q.CheckAnswers();
         
-        Debug.Log("About to get keys");
+        ctx.ShowCorrectAnswers();
         ctx.keysHighlighter.GetTheKeys(new QuestionComponent(q));
-        
-        Debug.Log("pas1");
+        ctx.PlayCurrentQuestionPitches();
         ctx.keysHighlighter.HighlightAnsweredKeys();
-        
+
         Debug.Log("About to wait");
         yield return new WaitForSeconds(ctx.keysHighlighter.speed * 2f);
-        
-        Debug.Log("pas2");
-        
+
+
         if (q.isAnsweredCorrectly)
         {
             ctx.Player.PlayAttack();
@@ -103,8 +102,10 @@ public class NormalQuizHandler : MonoBehaviour, IQuizHandler
             ctx.Enemy.PlayAttack();
             ctx.Player.TakeDamage(ctx.Enemy.GetAttackPower());
         }
-        
+
+        yield return new WaitForSeconds(ctx.keysHighlighter.speed * 2f);
         LoadNextQuestion();
+        ctx.enablePlayerInput(true);
     }
     
 }

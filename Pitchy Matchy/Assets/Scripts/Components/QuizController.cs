@@ -84,6 +84,7 @@ public class QuizController : MonoBehaviour
 
         ctx.SetCoroutineRunner(this);
         ctx.DifficultyUI = difficultySpriteChanger;
+        ctx.handler = this;
     }
 
     void Start()
@@ -159,7 +160,6 @@ public class QuizController : MonoBehaviour
         }
 
         ctx.UpdatePlayerMetrics();
-        ctx.PrintPlayerMetrics();
         ctx.ExportPlayerMetricsCSV(verType);
     }
 
@@ -180,6 +180,7 @@ public class QuizController : MonoBehaviour
     {
         if (!playerInputEnabled) return;
 
+        Debug.Log("handler received inputs");
         handler.ReceivePlayerAnswers(answers);
     }
 

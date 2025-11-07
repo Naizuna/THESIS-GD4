@@ -40,6 +40,7 @@ public class QuestionComponent
     public void ResetQuestion()
     {
         playerAnswers.Clear();
+        playerAnswersIndiv.Clear();
         hasBeenAnswered = false;
         isAnsweredCorrectly = false;
     }
@@ -71,6 +72,7 @@ public class QuestionComponent
 
     public void IndividualizedChecking()
     {
+        playerAnswersIndiv.Clear();
         for (int i = 0; i < correctAnswers.Count; i++)
         {
             if (playerAnswers[i] != correctAnswers[i])
