@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,11 +14,13 @@ public class AnswerButtons : MonoBehaviour
     private bool isSelected;
     private Image image;
     private PianoHandler piano;
+    private Color defaultColors;
 
     void Awake()
     {
         image = GetComponent<Image>();
         piano = FindObjectOfType<PianoHandler>(); // Or assign manually
+        defaultColors = image.color;
 
         GetComponent<Button>().onClick.AddListener(ToggleSelection);
         UpdateVisual();
@@ -56,5 +59,20 @@ public class AnswerButtons : MonoBehaviour
     {
         if (image != null)
             image.sprite = isSelected ? selectedSprite : normalSprite;
+    }
+
+    public void ShowAsRed()
+    {
+        image.color = new Color(255, 0, 0);
+    }
+
+    public void ShowAsGreen()
+    {
+        image.color = new Color(0, 255, 0);
+    }
+
+    public void ResetColors()
+    {
+        image.color = defaultColors;
     }
 }

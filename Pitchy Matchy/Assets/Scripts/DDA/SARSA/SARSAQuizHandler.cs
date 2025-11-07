@@ -1,9 +1,10 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class SARSAQuizHandler : IQuizHandler
+public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
 {
     private readonly QuizContext ctx;
     private readonly SARSAController agent;
@@ -52,8 +53,17 @@ public class SARSAQuizHandler : IQuizHandler
 
     private void ProcessAnswerAndLearn()
     {
+        ctx.coroutineRunner.StopCoroutine(ProcessAnswerAndLearnCoroutine());
+        ctx.coroutineRunner.StartCoroutine(ProcessAnswerAndLearnCoroutine());
+    }
+
+    private IEnumerator ProcessAnswerAndLearnCoroutine()
+    {
+        Debug.Log("Coroutine started");
+        ctx.enablePlayerInput(false);
+
         var q = ctx.GetCurrentQuestion();
-        if (q == null) return;
+        if (q == null) yield break;
 
         q.playerAnswers = new List<string>(ctx.PlayerAnswers);
         q.CheckAnswers();
@@ -98,6 +108,14 @@ public class SARSAQuizHandler : IQuizHandler
         }
 
         // --- Gameplay effects ---
+        ctx.ShowCorrectAnswers();
+        ctx.keysHighlighter.GetTheKeys(new QuestionComponent(q));
+        ctx.PlayCurrentQuestionPitches();
+        ctx.keysHighlighter.HighlightAnsweredKeys();
+
+        Debug.Log("About to wait");
+        yield return new WaitForSeconds(ctx.keysHighlighter.speed * 2f);
+
         if (correct)
         {
             ctx.Player.PlayAttack();
@@ -115,10 +133,12 @@ public class SARSAQuizHandler : IQuizHandler
         if (ctx.QuestionsToAnswer.Count >= totalQuestions)
         {
             IsSessionFinished = true;
-            return;
+            yield break;
         }
 
+        yield return new WaitForSeconds(ctx.keysHighlighter.speed * 2f);
         LoadNextQuestion();
+        ctx.enablePlayerInput(true);
     }
 
     public void LoadNextQuestion()

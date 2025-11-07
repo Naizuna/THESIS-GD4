@@ -12,6 +12,7 @@ public class QuestionComponent
     public AnswersComponent test;
     public List<string> correctAnswers;
     public List<string> playerAnswers;
+    [SerializeField] public List<IndividualPitch> playerAnswersIndiv = new List<IndividualPitch>();
 
     //if player answered correctly or wrong
     public bool isAnsweredCorrectly = false;
@@ -33,17 +34,20 @@ public class QuestionComponent
         correctAnswers = new List<string>(other.correctAnswers);
         playerAnswers = new List<string>(other.playerAnswers);
         isAnsweredCorrectly = other.isAnsweredCorrectly;
+        playerAnswersIndiv = new List<IndividualPitch>(other.playerAnswersIndiv);
     }
 
     public void ResetQuestion()
     {
         playerAnswers.Clear();
+        playerAnswersIndiv.Clear();
         hasBeenAnswered = false;
         isAnsweredCorrectly = false;
     }
 
     public void CheckAnswers()
     {
+        IndividualizedChecking();
         //we just assume that incomplete answers r wrong fr
         if (playerAnswers.Count != correctAnswers.Count)
         {
@@ -64,6 +68,22 @@ public class QuestionComponent
 
         isAnsweredCorrectly = true;
         hasBeenAnswered = true;
+    }
+
+    public void IndividualizedChecking()
+    {
+        playerAnswersIndiv.Clear();
+        for (int i = 0; i < correctAnswers.Count; i++)
+        {
+            if (playerAnswers[i] != correctAnswers[i])
+            {
+                playerAnswersIndiv.Add(new IndividualPitch(playerAnswers[i], false));
+            }
+            else
+            {
+                playerAnswersIndiv.Add(new IndividualPitch(playerAnswers[i], true));
+            }
+        }
     }
 
     public string ReturnPlayerAnswersAsString()

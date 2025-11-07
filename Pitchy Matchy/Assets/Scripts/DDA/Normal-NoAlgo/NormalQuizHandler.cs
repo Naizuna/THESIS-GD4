@@ -6,7 +6,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class NormalQuizHandler : IQuizHandler
+public class NormalQuizHandler : MonoBehaviour, IQuizHandler
 {
     private readonly QuizContext ctx;
 
@@ -64,10 +64,33 @@ public class NormalQuizHandler : IQuizHandler
 
     private void ProcessAnswer()
     {
+        ctx.coroutineRunner.StopCoroutine(ProcessAnswerCoroutine());
+        ctx.coroutineRunner.StartCoroutine(ProcessAnswerCoroutine());
+    }
+
+    private IEnumerator ProcessAnswerCoroutine()
+    {
+        Debug.Log("Coroutine started");
+        ctx.enablePlayerInput(false);
+
         var q = ctx.GetCurrentQuestion();
-        if (q == null) return;
+
+        if (q == null) yield break;
+
+
         q.playerAnswers = new List<string>(ctx.PlayerAnswers);
+
+
         q.CheckAnswers();
+        
+        ctx.ShowCorrectAnswers();
+        ctx.keysHighlighter.GetTheKeys(new QuestionComponent(q));
+        ctx.PlayCurrentQuestionPitches();
+        ctx.keysHighlighter.HighlightAnsweredKeys();
+
+        Debug.Log("About to wait");
+        yield return new WaitForSeconds(ctx.keysHighlighter.speed * 2f);
+
 
         if (q.isAnsweredCorrectly)
         {
@@ -80,7 +103,9 @@ public class NormalQuizHandler : IQuizHandler
             ctx.Player.TakeDamage(ctx.Enemy.GetAttackPower());
         }
 
+        yield return new WaitForSeconds(ctx.keysHighlighter.speed * 2f);
         LoadNextQuestion();
+        ctx.enablePlayerInput(true);
     }
     
 }
