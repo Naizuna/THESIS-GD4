@@ -12,15 +12,15 @@ public class PauseMenu : MonoBehaviour
 
     public void Awake()
     {
-        if (instance != null && instance != this)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            instance = this;
-            DontDestroyOnLoad(this.gameObject);
-        }
+        // if (instance != null && instance != this)
+        // {
+        //     Destroy(this.gameObject);
+        // }
+        // else
+        // {
+        //     instance = this;
+        //     DontDestroyOnLoad(this.gameObject);
+        // }
 
         isPaused = false;
         pauseMenu.SetActive(false);
@@ -33,7 +33,8 @@ public class PauseMenu : MonoBehaviour
             SceneManager.GetActiveScene().name == "Stage 3 Lesson" ||
             SceneManager.GetActiveScene().name == "Stage 1 Mini Quiz" ||
             SceneManager.GetActiveScene().name == "Stage 2 Mini Quiz" ||
-            SceneManager.GetActiveScene().name == "Stage 3 Mini Quiz")
+            SceneManager.GetActiveScene().name == "Stage 3 Mini Quiz" ||
+            SceneManager.GetActiveScene().name == "Final Quiz")
         {
             pauseButton.SetActive(true);
 

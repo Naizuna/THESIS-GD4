@@ -166,19 +166,19 @@ public class DialogueController : MonoBehaviour
     }
     
     private IEnumerator ShowButtonsWhenSoundIsDone(DialogueLine line)
-{
-    // Hide buttons first
-    repeatButton.gameObject.SetActive(false);
-    continueButton.gameObject.SetActive(false);
+    {
+        // Hide buttons first
+        repeatButton.gameObject.SetActive(false);
+        continueButton.gameObject.SetActive(false);
 
-    // Wait until ALL clip playback is finished
-    while (clipPlayer.IsPlaying)
-        yield return null;
+        // Wait until ALL clip playback is finished
+        while (clipPlayer.IsPlaying)
+            yield return null;
 
-    // Now show buttons
-    repeatButton.gameObject.SetActive(line.showRepeatButton);
-    continueButton.gameObject.SetActive(line.showContinueButton);
-}
+        // Now show buttons
+        repeatButton.gameObject.SetActive(line.showRepeatButton);
+        continueButton.gameObject.SetActive(line.showContinueButton);
+    }
 
     private void SetPlayerInputInteractable(bool value)
     {

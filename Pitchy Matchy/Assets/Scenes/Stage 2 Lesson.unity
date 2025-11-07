@@ -2844,7 +2844,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lines:
-  - text: "already on your second lesson? good job! let\u2019s kick it up a notch."
+  - text: already on your second lesson? good job! let us kick it up a notch.
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -2874,31 +2874,30 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
-  - text: 'now, listen closely. this is A4. now you try.
+  - text: 'now, listen closely. this is A. now you try.
 
 '
-    wrongAnswerText: "that\u2019s incorrect, but don\u2019t lose focus. try to find
-      a4"
+    wrongAnswerText: that is incorrect, but do not lose focus. try to find A
     pitchSounds:
     - {fileID: 8300000, guid: 09ad1a3aae6a5ff48bbfee177e4632e5, type: 3}
     pitchLabel: 
     showRepeatButton: 1
-    showContinueButton: 0
+    showContinueButton: 1
     allowPlayerInput: 1
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer:
     - A4
     isTypingFinished: 0
-  - text: 'nice! now this is B4. try pressing the key on your keyboard
+  - text: 'nice! now this is B. try pressing the key on your keyboard
 
 '
-    wrongAnswerText: "good effort, but that\u2019s not quite the correct answer I\u2019m
-      looking for. try and look for B4"
+    wrongAnswerText: good effort, but that is not quite the correct answer I am looking
+      for. try and look for B
     pitchSounds:
     - {fileID: 8300000, guid: c112bf6a39e220a42afaecfc6bfeebd8, type: 3}
     pitchLabel: 
     showRepeatButton: 1
-    showContinueButton: 0
+    showContinueButton: 1
     allowPlayerInput: 1
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer:
@@ -2906,20 +2905,19 @@ MonoBehaviour:
     isTypingFinished: 0
   - text: awesome! now, for the last one for this lesson, this is C5, which is an
       octave higher than C4.
-    wrongAnswerText: "not this time, but you\u2019re getting closer. try to look
-      for c5"
+    wrongAnswerText: not this time, but you are getting closer. try to look for c5
     pitchSounds:
     - {fileID: 8300000, guid: 5df02bbeadf6740458957e59a9c491d3, type: 3}
     pitchLabel: 
     showRepeatButton: 1
-    showContinueButton: 0
+    showContinueButton: 1
     allowPlayerInput: 1
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer:
     - C5
     isTypingFinished: 0
-  - text: "great work! now that you learned the notes from C4 to C5, you\u2019ve
-      actually covered one full scale! "
+  - text: 'great work! now that you learned the notes from C4 to C5, you have actually
+      covered one full scale! '
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -2929,8 +2927,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
-  - text: "nice! let\u2019s test what you\u2019ve learned! proceed to the quiz when
-      you\u2019re ready. good luck, and see you in the next lesson!"
+  - text: nice! let us test what you have learned! proceed to the quiz when you are
+      ready. good luck, and see you in the next lesson!
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 

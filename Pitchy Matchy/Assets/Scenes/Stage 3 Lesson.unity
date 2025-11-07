@@ -2813,8 +2813,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
-  - text: "you have already mastered the pitches in the C major scale, now it\u2019s
-      time to use them together."
+  - text: you have already mastered the pitches in the C major scale, now it is time
+      to use them together.
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -2824,8 +2824,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
-  - text: "let\u2019s learn about some basic major and minor chords that you can
-      make with the pitches you have learned previously."
+  - text: let us learn about some basic major and minor chords that you can make
+      with the pitches you have learned previously.
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -2855,8 +2855,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
-  - text: "but to make things simpler for you, we\u2019ll only play the notes of
-      a chord one by one, and you guess the set of notes being played. "
+  - text: 'but to make things simpler for you, we will only play the notes of a chord
+      one by one, and you guess the set of notes being played. '
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -2866,8 +2866,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
-  - text: "let\u2019s start with major chords based on the 1st, 3rd, and 5th notes
-      of the major scale."
+  - text: let us start with major chords based on the 1st, 3rd, and 5th notes of
+      the major scale.
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -2888,8 +2888,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
-  - text: 'do you remember the first lesson where we learned about C4, E4, and G4?
-      if we play these together, we get the C major Chord! '
+  - text: 'do you remember the first lesson where we learned about C4, E, and G?
+      if we play these together, we get the C major chord! '
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -2908,7 +2908,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 50ebd3ac255cd164aa72f9da4fa46a91, type: 3}
     pitchLabel: 
     showRepeatButton: 1
-    showContinueButton: 0
+    showContinueButton: 1
     allowPlayerInput: 1
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer:
@@ -2916,8 +2916,8 @@ MonoBehaviour:
     - E4
     - G4
     isTypingFinished: 0
-  - text: "nice one! let\u2019s keep this going. now if I play F4, A4, C5.... we
-      get the F major chord!"
+  - text: nice one! let us keep this going. now if I play F, A, C5.... we get the
+      F major chord!
     wrongAnswerText: 
     pitchSounds:
     - {fileID: 8300000, guid: 0dda36852c989a3469dbe267be1dec0d, type: 3}
@@ -2931,7 +2931,7 @@ MonoBehaviour:
     correctAnswer: []
     isTypingFinished: 0
   - text: can you press the correct notes for the F major chords again?
-    wrongAnswerText: ooh so close, let's try that again. can you press the correct
+    wrongAnswerText: ooh so close, let us try that again. can you press the correct
       notes for the f major chord again?
     pitchSounds:
     - {fileID: 8300000, guid: 0dda36852c989a3469dbe267be1dec0d, type: 3}
@@ -2947,9 +2947,9 @@ MonoBehaviour:
     - A4
     - C5
     isTypingFinished: 0
-  - text: nailed it! Now, if we play D4, G4, and B4... you get the G major chord.
-      try it out!
-    wrongAnswerText: ooh so close, let's try that again. can you press the correct
+  - text: nailed it! wow, if we play D, G, and B... you get the G major chord. try
+      it out!
+    wrongAnswerText: ooh so close, let us try that again. can you press the correct
       notes for the G major chord again?
     pitchSounds:
     - {fileID: 8300000, guid: 9b016761919b89e41821fd72dd1346b3, type: 3}
@@ -2957,7 +2957,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: c112bf6a39e220a42afaecfc6bfeebd8, type: 3}
     pitchLabel: 
     showRepeatButton: 1
-    showContinueButton: 0
+    showContinueButton: 1
     allowPlayerInput: 1
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer:
@@ -2965,8 +2965,8 @@ MonoBehaviour:
     - G4
     - B4
     isTypingFinished: 0
-  - text: "correct! now that you have identified the sound of a major chord, it\u2019s
-      time for us to move on to minor chords."
+  - text: correct! now that you have identified the sound of a major chord, it is
+      time for us to move on to minor chords.
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -2986,9 +2986,9 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
-  - text: "now, let\u2019s begin with D minor. we get it by playing D4, F4, and A4
-      together. try it!"
-    wrongAnswerText: ooh so close, let's try that again. can you press the correct
+  - text: now, let us begin with D minor. we get it by playing D, F, and A together.
+      try it!
+    wrongAnswerText: ooh so close, let us try that again. can you press the correct
       notes for the D minor chord again?
     pitchSounds:
     - {fileID: 8300000, guid: 9b016761919b89e41821fd72dd1346b3, type: 3}
@@ -2996,7 +2996,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 09ad1a3aae6a5ff48bbfee177e4632e5, type: 3}
     pitchLabel: 
     showRepeatButton: 1
-    showContinueButton: 0
+    showContinueButton: 1
     allowPlayerInput: 1
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer:
@@ -3004,9 +3004,9 @@ MonoBehaviour:
     - F4
     - A4
     isTypingFinished: 0
-  - text: well done! next is E Minor! we get it by playing E4, G4, and B4. can you
-      do that for me?
-    wrongAnswerText: ooh so close, let's try that again. can you press the correct
+  - text: well done! next is E minor! we get it by playing E, G, and B. can you do
+      that for me?
+    wrongAnswerText: ooh so close, let us try that again. can you press the correct
       notes for the E minor chord again?
     pitchSounds:
     - {fileID: 8300000, guid: 72779edddd809e549b6629379c09077f, type: 3}
@@ -3014,7 +3014,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: c112bf6a39e220a42afaecfc6bfeebd8, type: 3}
     pitchLabel: 
     showRepeatButton: 1
-    showContinueButton: 0
+    showContinueButton: 1
     allowPlayerInput: 1
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer:
@@ -3022,8 +3022,8 @@ MonoBehaviour:
     - G4
     - B4
     isTypingFinished: 0
-  - text: "you\u2019ve got it! keep it up! now we\u2019re finally down to our last
-      chord for this lesson.  "
+  - text: "you have got it! keep it up! now we\u2019re finally down to our last chord
+      for this lesson.  "
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -3033,9 +3033,9 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
-  - text: if we play E4. A4, and C5, we get the A Minor Chord! try to recall and
-      try it yourself.
-    wrongAnswerText: ooh so close, let's try that again. can you press the correct
+  - text: if we play E, A, and C5, we get the A minor chord! try to recall and try
+      it yourself.
+    wrongAnswerText: ooh so close, let us try that again. can you press the correct
       notes for the A minor chord again?
     pitchSounds:
     - {fileID: 8300000, guid: 72779edddd809e549b6629379c09077f, type: 3}
@@ -3043,7 +3043,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 5df02bbeadf6740458957e59a9c491d3, type: 3}
     pitchLabel: 
     showRepeatButton: 1
-    showContinueButton: 0
+    showContinueButton: 1
     allowPlayerInput: 1
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer:
@@ -3051,8 +3051,10 @@ MonoBehaviour:
     - A4
     - C5
     isTypingFinished: 0
-  - text: "very good! now that I have taught you everything, let\u2019s identify
-      which is which in your quiz. ready?\r\n"
+  - text: 'very good! now that I have taught you everything, let us identify which
+      is which in your quiz. ready?
+
+'
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 

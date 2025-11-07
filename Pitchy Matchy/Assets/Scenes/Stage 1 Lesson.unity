@@ -2565,8 +2565,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
-  - text: 'the most often used scale in western music is c major, which uses the
-      keyboard''s white keys to express pitch intervals. '
+  - text: the most often used scale in western music is c major, which uses the white
+      keys of the keyboard to express pitch intervals.
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -2576,8 +2576,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
-  - text: "let\u2019s hear the c scale first. memorize the sound of your scale since
-      this will be the foundation of your musical journey!"
+  - text: let us hear the c scale first. memorize the sound of your scale since this
+      will be the foundation of your musical journey!
     wrongAnswerText: 
     pitchSounds:
     - {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
@@ -2595,8 +2595,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 1
     correctAnswer: []
     isTypingFinished: 0
-  - text: "to recognize pitches easily, we\u2019ll start by hearing C, E, and G,
-      the stable foundation of the c major scale."
+  - text: to recognize pitches easily, we will start by hearing C4, E, and G, the
+      stable foundation of the c major scale.
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -2612,7 +2612,7 @@ MonoBehaviour:
     pitchSounds:
     - {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
     pitchLabel: 
-    showRepeatButton: 0
+    showRepeatButton: 1
     showContinueButton: 1
     allowPlayerInput: 0
     waitForAudioToFinishBeforeButtons: 0
@@ -2641,46 +2641,46 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
-  - text: "now, try pressing C4 first on the keyboard below. remember, C4 is the
-      first c you\u2019ll see on the keyboard."
+  - text: now, try pressing C4 first on the keyboard below. remember, C4 is the first
+      c you will see on the keyboard.
     wrongAnswerText: "oops! try again. remember, C4 is the first c you\u2019ll see
       on the keyboard. "
     pitchSounds:
     - {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
     pitchLabel: 
     showRepeatButton: 1
-    showContinueButton: 0
+    showContinueButton: 1
     allowPlayerInput: 1
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer:
     - C4
     isTypingFinished: 0
-  - text: "great! next up is E4\u2026 your turn! press E4 on the keyboard."
-    wrongAnswerText: not quite. let's try again
+  - text: "great! next up is E\u2026 your turn! press E on the keyboard."
+    wrongAnswerText: not quite. let us try again
     pitchSounds:
     - {fileID: 8300000, guid: 72779edddd809e549b6629379c09077f, type: 3}
     pitchLabel: 
     showRepeatButton: 1
-    showContinueButton: 0
+    showContinueButton: 1
     allowPlayerInput: 1
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer:
     - E4
     isTypingFinished: 0
-  - text: "Nice! Lastly, this is G4\u2026"
-    wrongAnswerText: a small mistake, but you're close. try again
+  - text: "nice! lastly, this is G\u2026"
+    wrongAnswerText: a small mistake, but you are close. try again
     pitchSounds:
     - {fileID: 8300000, guid: 50ebd3ac255cd164aa72f9da4fa46a91, type: 3}
     pitchLabel: 
     showRepeatButton: 1
-    showContinueButton: 0
+    showContinueButton: 1
     allowPlayerInput: 1
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer:
     - G4
     isTypingFinished: 0
   - text: 'great! now you managed to learn the first few pitches of the C major scale.
-      let''s proceed to the quiz to test what you just learned. '
+      let us proceed to the quiz to test what you just learned. '
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 

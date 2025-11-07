@@ -145,7 +145,14 @@ public class QuizContext
     public void ShowCorrectAnswers()
     {
         QuestionComponent q = GetCurrentQuestion();
-        QuestText.text = "answers:";
+        if (q == null) return;
+        int count = q.correctAnswers.Count;
+
+        // Singular vs plural
+        string label = (count == 1) ? "answer:" : "answers:";
+
+        QuestText.text = label;
+
         foreach (string pitch in q.correctAnswers)
         {
             QuestText.text += " " + pitch;
