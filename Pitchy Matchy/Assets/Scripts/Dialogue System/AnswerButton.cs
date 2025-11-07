@@ -41,6 +41,12 @@ public class AnswerButton : MonoBehaviour
         if (!button.interactable)
             return;
 
+        if (!isSelected && !controller.CanSelectMoreAnswers())
+        {
+            // do nothing (no sound, no selection)
+            return;
+        }
+
         // Play piano note when active
         if (noteSound != null)
             SoundManager.Instance.PlaySFX(noteSound);

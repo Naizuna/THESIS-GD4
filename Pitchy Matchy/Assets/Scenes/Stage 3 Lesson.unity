@@ -425,73 +425,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 45443605}
   m_CullTransparentMesh: 1
---- !u!1001 &61594414
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 754318168}
-    m_Modifications:
-    - target: {fileID: 5430246902851163471, guid: 51bd16386a4d16544aff806b1f5a9306, type: 3}
-      propertyPath: m_Name
-      value: OptionsPanel
-      objectReference: {fileID: 0}
-    - target: {fileID: 6103942506046817594, guid: 51bd16386a4d16544aff806b1f5a9306, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.42511505
-      objectReference: {fileID: 0}
-    - target: {fileID: 6103942506046817594, guid: 51bd16386a4d16544aff806b1f5a9306, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.7257727
-      objectReference: {fileID: 0}
-    - target: {fileID: 6103942506046817594, guid: 51bd16386a4d16544aff806b1f5a9306, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 86.264725
-      objectReference: {fileID: 0}
-    - target: {fileID: 6103942506046817594, guid: 51bd16386a4d16544aff806b1f5a9306, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6103942506046817594, guid: 51bd16386a4d16544aff806b1f5a9306, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6103942506046817594, guid: 51bd16386a4d16544aff806b1f5a9306, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6103942506046817594, guid: 51bd16386a4d16544aff806b1f5a9306, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6103942506046817594, guid: 51bd16386a4d16544aff806b1f5a9306, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6103942506046817594, guid: 51bd16386a4d16544aff806b1f5a9306, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6103942506046817594, guid: 51bd16386a4d16544aff806b1f5a9306, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 51bd16386a4d16544aff806b1f5a9306, type: 3}
---- !u!4 &61594415 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6103942506046817594, guid: 51bd16386a4d16544aff806b1f5a9306, type: 3}
-  m_PrefabInstance: {fileID: 61594414}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &61594416 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5430246902851163471, guid: 51bd16386a4d16544aff806b1f5a9306, type: 3}
-  m_PrefabInstance: {fileID: 61594414}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &112239169
 GameObject:
   m_ObjectHideFlags: 0
@@ -1988,7 +1921,7 @@ PrefabInstance:
     - target: {fileID: 7434513980874696945, guid: 0b34b8b782f14b049a30d96adccb629e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 61594416}
+      objectReference: {fileID: 754318169}
     - target: {fileID: 7434513980874696945, guid: 0b34b8b782f14b049a30d96adccb629e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetActive
@@ -2004,15 +1937,17 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 6708875575716875256, guid: 0b34b8b782f14b049a30d96adccb629e, type: 3}
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 5279107376618893313, guid: 0b34b8b782f14b049a30d96adccb629e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 61594415}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b34b8b782f14b049a30d96adccb629e, type: 3}
 --- !u!4 &754318168 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5279107376618893313, guid: 0b34b8b782f14b049a30d96adccb629e, type: 3}
+  m_PrefabInstance: {fileID: 754318167}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &754318169 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1781001661893479136, guid: 0b34b8b782f14b049a30d96adccb629e, type: 3}
   m_PrefabInstance: {fileID: 754318167}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &791015894
@@ -2875,6 +2810,7 @@ MonoBehaviour:
     showRepeatButton: 0
     showContinueButton: 1
     allowPlayerInput: 0
+    waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
   - text: "you have already mastered the pitches in the C major scale, now it\u2019s
@@ -2885,6 +2821,7 @@ MonoBehaviour:
     showRepeatButton: 0
     showContinueButton: 1
     allowPlayerInput: 0
+    waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
   - text: "let\u2019s learn about some basic major and minor chords that you can
@@ -2895,6 +2832,7 @@ MonoBehaviour:
     showRepeatButton: 0
     showContinueButton: 1
     allowPlayerInput: 0
+    waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
   - text: but first, what is even a chord?
@@ -2904,6 +2842,7 @@ MonoBehaviour:
     showRepeatButton: 0
     showContinueButton: 1
     allowPlayerInput: 0
+    waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
   - text: a chord is a group of notes played together at the same time.
@@ -2913,6 +2852,7 @@ MonoBehaviour:
     showRepeatButton: 0
     showContinueButton: 1
     allowPlayerInput: 0
+    waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
   - text: "but to make things simpler for you, we\u2019ll only play the notes of
@@ -2923,6 +2863,7 @@ MonoBehaviour:
     showRepeatButton: 0
     showContinueButton: 1
     allowPlayerInput: 0
+    waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
   - text: "let\u2019s start with major chords based on the 1st, 3rd, and 5th notes
@@ -2933,6 +2874,7 @@ MonoBehaviour:
     showRepeatButton: 0
     showContinueButton: 1
     allowPlayerInput: 0
+    waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
   - text: to put it simply, major chords are those chords that sound happy because
@@ -2943,6 +2885,7 @@ MonoBehaviour:
     showRepeatButton: 0
     showContinueButton: 1
     allowPlayerInput: 0
+    waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
   - text: 'do you remember the first lesson where we learned about C4, E4, and G4?
@@ -2953,6 +2896,7 @@ MonoBehaviour:
     showRepeatButton: 0
     showContinueButton: 1
     allowPlayerInput: 0
+    waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
   - text: can you press the 3 keys again that make up the C major chord?
@@ -2966,6 +2910,7 @@ MonoBehaviour:
     showRepeatButton: 1
     showContinueButton: 0
     allowPlayerInput: 1
+    waitForAudioToFinishBeforeButtons: 0
     correctAnswer:
     - C4
     - E4
@@ -2982,6 +2927,7 @@ MonoBehaviour:
     showRepeatButton: 1
     showContinueButton: 1
     allowPlayerInput: 0
+    waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
   - text: can you press the correct notes for the F major chords again?
@@ -2995,6 +2941,7 @@ MonoBehaviour:
     showRepeatButton: 1
     showContinueButton: 0
     allowPlayerInput: 1
+    waitForAudioToFinishBeforeButtons: 0
     correctAnswer:
     - F4
     - A4
@@ -3012,6 +2959,7 @@ MonoBehaviour:
     showRepeatButton: 1
     showContinueButton: 0
     allowPlayerInput: 1
+    waitForAudioToFinishBeforeButtons: 0
     correctAnswer:
     - D4
     - G4
@@ -3025,6 +2973,7 @@ MonoBehaviour:
     showRepeatButton: 0
     showContinueButton: 1
     allowPlayerInput: 0
+    waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
   - text: minor chords use different intervals, creating a darker, sadder sound.
@@ -3034,6 +2983,7 @@ MonoBehaviour:
     showRepeatButton: 0
     showContinueButton: 1
     allowPlayerInput: 0
+    waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
   - text: "now, let\u2019s begin with D minor. we get it by playing D4, F4, and A4
@@ -3048,6 +2998,7 @@ MonoBehaviour:
     showRepeatButton: 1
     showContinueButton: 0
     allowPlayerInput: 1
+    waitForAudioToFinishBeforeButtons: 0
     correctAnswer:
     - D4
     - F4
@@ -3065,6 +3016,7 @@ MonoBehaviour:
     showRepeatButton: 1
     showContinueButton: 0
     allowPlayerInput: 1
+    waitForAudioToFinishBeforeButtons: 0
     correctAnswer:
     - E4
     - G4
@@ -3078,6 +3030,7 @@ MonoBehaviour:
     showRepeatButton: 0
     showContinueButton: 1
     allowPlayerInput: 0
+    waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
   - text: if we play E4. A4, and C5, we get the A Minor Chord! try to recall and
@@ -3092,6 +3045,7 @@ MonoBehaviour:
     showRepeatButton: 1
     showContinueButton: 0
     allowPlayerInput: 1
+    waitForAudioToFinishBeforeButtons: 0
     correctAnswer:
     - E4
     - A4
@@ -3105,6 +3059,7 @@ MonoBehaviour:
     showRepeatButton: 0
     showContinueButton: 1
     allowPlayerInput: 0
+    waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
   textComponent: {fileID: 210068279}

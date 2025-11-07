@@ -7,6 +7,7 @@ public class PauseMenu : MonoBehaviour
     public static PauseMenu instance {get; private set; }
     [SerializeField] GameObject pauseMenu;
     [SerializeField] GameObject pauseButton;
+    [SerializeField] private GameObject optionsPanel;
     public static bool isPaused;
 
     public void Awake()
@@ -40,6 +41,13 @@ public class PauseMenu : MonoBehaviour
             {
                 if (SoundManager.Instance != null)
                     SoundManager.Instance.PlayButtonClick();
+
+                // 1. If Options panel is open → close it first
+                if (optionsPanel != null && optionsPanel.activeSelf)
+                {
+                    optionsPanel.SetActive(false);
+                    return;  // top here, do NOT toggle pause
+                }
                     
                 //not main menu
                 if (isPaused)
