@@ -1,7 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonteCarloQuizHandler : IQuizHandler
+public class MonteCarloQuizHandler : MonoBehaviour, IQuizHandler
 {
     private readonly QuizContext ctx;
     private MonteCarloAgent mcAgent;
@@ -66,11 +67,18 @@ public class MonteCarloQuizHandler : IQuizHandler
         ctx.PlayerAnswers = new List<string>(answers);
         ProcessAnswers_MCC();
     }
-
     private void ProcessAnswers_MCC()
     {
+        StartCoroutine(ProcessAnswers_MCC_Coroutine());
+    }
+
+    private IEnumerator ProcessAnswers_MCC_Coroutine()
+    {
+        Debug.Log("Coroutine started");
+        ctx.enablePlayerInput(false);
+
         var q = ctx.GetCurrentQuestion();
-        if (q == null) return;
+        if (q == null) yield break;
 
         q.playerAnswers = new List<string>(ctx.PlayerAnswers);
         q.CheckAnswers();
@@ -138,6 +146,14 @@ public class MonteCarloQuizHandler : IQuizHandler
         float accuracy = (float)ctx.QuestionsToAnswer.FindAll(q => q.isAnsweredCorrectly).Count / (ctx.CurrQuestionIndex + 1);
         Debug.Log($"Current Accuracy: {accuracy * 100f}% after {ctx.CurrQuestionIndex + 1} questions.");
 
+        ctx.ShowCorrectAnswers();
+        ctx.keysHighlighter.GetTheKeys(new QuestionComponent(q));
+        ctx.PlayCurrentQuestionPitches();
+        ctx.keysHighlighter.HighlightAnsweredKeys();
+
+        Debug.Log("About to wait");
+        yield return new WaitForSeconds(ctx.keysHighlighter.speed * 2f);
+
         if (q.isAnsweredCorrectly)
         {
             ctx.Player.PlayAttack();
@@ -154,7 +170,9 @@ public class MonteCarloQuizHandler : IQuizHandler
             ctx.AllQuestionsAnswered.Add(q);
         }
 
+        yield return new WaitForSeconds(ctx.keysHighlighter.speed * 2f);
         LoadNextQuestion();
+        ctx.enablePlayerInput(true);
     }
 
     public void LoadNextQuestion()
