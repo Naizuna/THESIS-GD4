@@ -9,6 +9,7 @@ using UnityEngine;
 public class NormalQuizHandler : MonoBehaviour, IQuizHandler
 {
     private readonly QuizContext ctx;
+    private Coroutine runningCoroutine;
 
     public bool IsSessionFinished { get; set; } = false;
 
@@ -64,8 +65,11 @@ public class NormalQuizHandler : MonoBehaviour, IQuizHandler
 
     private void ProcessAnswer()
     {
-        ctx.coroutineRunner.StopCoroutine(ProcessAnswerCoroutine());
-        ctx.coroutineRunner.StartCoroutine(ProcessAnswerCoroutine());
+        if (runningCoroutine != null)
+        {
+            ctx.coroutineRunner.StopCoroutine(runningCoroutine);
+        }
+        runningCoroutine = ctx.coroutineRunner.StartCoroutine(ProcessAnswerCoroutine());
     }
 
     private IEnumerator ProcessAnswerCoroutine()

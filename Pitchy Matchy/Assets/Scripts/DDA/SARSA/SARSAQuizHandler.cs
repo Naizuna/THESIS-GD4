@@ -18,6 +18,7 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
     private int accuracyWindow = 5;
 
     public bool IsSessionFinished { get; set; } = false;
+    private Coroutine runningCoroutine;
 
     public SARSAQuizHandler(QuizContext context, SARSAController sarsaAgent = null)
     {
@@ -53,8 +54,11 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
 
     private void ProcessAnswerAndLearn()
     {
-        ctx.coroutineRunner.StopCoroutine(ProcessAnswerAndLearnCoroutine());
-        ctx.coroutineRunner.StartCoroutine(ProcessAnswerAndLearnCoroutine());
+        if (runningCoroutine != null)
+        {
+            ctx.coroutineRunner.StopCoroutine(runningCoroutine);
+        }
+        runningCoroutine = ctx.coroutineRunner.StartCoroutine(ProcessAnswerAndLearnCoroutine());
     }
 
     private IEnumerator ProcessAnswerAndLearnCoroutine()

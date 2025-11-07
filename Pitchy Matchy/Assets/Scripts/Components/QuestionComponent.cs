@@ -73,7 +73,10 @@ public class QuestionComponent
     public void IndividualizedChecking()
     {
         playerAnswersIndiv.Clear();
-        for (int i = 0; i < correctAnswers.Count; i++)
+
+        int checkCount = Mathf.Min(playerAnswers.Count, correctAnswers.Count);
+
+        for (int i = 0; i < checkCount; i++)
         {
             if (playerAnswers[i] != correctAnswers[i])
             {
@@ -83,6 +86,11 @@ public class QuestionComponent
             {
                 playerAnswersIndiv.Add(new IndividualPitch(playerAnswers[i], true));
             }
+        }
+
+        for (int i = checkCount; i < correctAnswers.Count; i++)
+        {
+            playerAnswersIndiv.Add(new IndividualPitch("", false));
         }
     }
 

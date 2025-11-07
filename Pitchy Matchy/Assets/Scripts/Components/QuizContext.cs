@@ -145,7 +145,7 @@ public class QuizContext
     public void ShowCorrectAnswers()
     {
         QuestionComponent q = GetCurrentQuestion();
-        QuestText.text = "correct pitches:";
+        QuestText.text = "answers:";
         foreach (string pitch in q.correctAnswers)
         {
             QuestText.text += " " + pitch;

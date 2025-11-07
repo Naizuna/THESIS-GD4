@@ -14,6 +14,8 @@ public class MonteCarloQuizHandler : MonoBehaviour, IQuizHandler
 
     public bool IsSessionFinished { get; set; } = false;
 
+    private Coroutine runningCoroutine;
+
     public MonteCarloQuizHandler(QuizContext context, MonteCarloAgent agent = null)
     {
         ctx = context;
@@ -69,8 +71,11 @@ public class MonteCarloQuizHandler : MonoBehaviour, IQuizHandler
     }
     private void ProcessAnswers_MCC()
     {
-        ctx.coroutineRunner.StopCoroutine(ProcessAnswers_MCC_Coroutine());
-        ctx.coroutineRunner.StartCoroutine(ProcessAnswers_MCC_Coroutine());
+        if (runningCoroutine != null)
+        {
+            ctx.coroutineRunner.StopCoroutine(runningCoroutine);
+        }
+        runningCoroutine = ctx.coroutineRunner.StartCoroutine(ProcessAnswers_MCC_Coroutine());
     }
 
     private IEnumerator ProcessAnswers_MCC_Coroutine()
