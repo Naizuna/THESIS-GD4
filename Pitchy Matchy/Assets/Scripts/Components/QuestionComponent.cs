@@ -12,7 +12,7 @@ public class QuestionComponent
     public AnswersComponent test;
     public List<string> correctAnswers;
     public List<string> playerAnswers;
-    public List<IndividualPitch> playerAnswersIndiv = new List<IndividualPitch>();
+    [SerializeField] public List<IndividualPitch> playerAnswersIndiv = new List<IndividualPitch>();
 
     //if player answered correctly or wrong
     public bool isAnsweredCorrectly = false;
@@ -34,7 +34,7 @@ public class QuestionComponent
         correctAnswers = new List<string>(other.correctAnswers);
         playerAnswers = new List<string>(other.playerAnswers);
         isAnsweredCorrectly = other.isAnsweredCorrectly;
-        playerAnswersIndiv = other.playerAnswersIndiv;
+        playerAnswersIndiv = new List<IndividualPitch>(other.playerAnswersIndiv);
     }
 
     public void ResetQuestion()
