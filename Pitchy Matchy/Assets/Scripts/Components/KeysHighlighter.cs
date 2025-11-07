@@ -34,6 +34,11 @@ public class KeysHighlighter : MonoBehaviour
         foreach (IndividualPitch key in keysFromQuestions)
         {
             string name = key.keyName;
+            if (!keyDict.ContainsKey(key.keyName))
+            {
+                Debug.Log($"Non-existent key: {key.keyName}");
+                continue;
+            }
             keysToHighlight.Add(keyDict[name]);
         }
     }
