@@ -69,7 +69,8 @@ public class MonteCarloQuizHandler : MonoBehaviour, IQuizHandler
     }
     private void ProcessAnswers_MCC()
     {
-        StartCoroutine(ProcessAnswers_MCC_Coroutine());
+        ctx.coroutineRunner.StopCoroutine(ProcessAnswers_MCC_Coroutine());
+        ctx.coroutineRunner.StartCoroutine(ProcessAnswers_MCC_Coroutine());
     }
 
     private IEnumerator ProcessAnswers_MCC_Coroutine()

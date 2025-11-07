@@ -53,7 +53,8 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
 
     private void ProcessAnswerAndLearn()
     {
-        StartCoroutine(ProcessAnswerAndLearnCoroutine());
+        ctx.coroutineRunner.StopCoroutine(ProcessAnswerAndLearnCoroutine());
+        ctx.coroutineRunner.StartCoroutine(ProcessAnswerAndLearnCoroutine());
     }
 
     private IEnumerator ProcessAnswerAndLearnCoroutine()
