@@ -23,6 +23,7 @@ public class QuizController : MonoBehaviour
     [SerializeField] private TMPro.TMP_Text questText;
     [SerializeField] private int numberOfQuestions;
     [SerializeField] private EnemySpawner enemySpawner;
+    [SerializeField] private KeysHighlighter keysHighlighter;
 
 
     [Header("Reference Pitch")]
@@ -67,20 +68,21 @@ public class QuizController : MonoBehaviour
         // Create context (always the same unless MCC needs extra)
         if (GameVersionManager.Instance.SelectedVersion == GameVersionManager.VersionType.MCC)
         {
-            ctx = new QuizContext(bank, wp, sPanel, player, enemy, clipPlayer, questText, numberOfQuestions, mccQuestionsPerEpisode);
+            ctx = new QuizContext(bank, wp, sPanel, player, enemy, clipPlayer, questText, numberOfQuestions, mccQuestionsPerEpisode, keysHighlighter);
             handler = new MonteCarloQuizHandler(ctx, new MonteCarloAgent());
         }
         else if (GameVersionManager.Instance.SelectedVersion == GameVersionManager.VersionType.SARSA)
         {
-            ctx = new QuizContext(bank, wp, sPanel, player, enemy, clipPlayer, questText, numberOfQuestions);
+            ctx = new QuizContext(bank, wp, sPanel, player, enemy, clipPlayer, questText, numberOfQuestions, keysHighlighter);
             handler = new SARSAQuizHandler(ctx, new SARSAController());
         }
         else // Normal (Control Group)
         {
-            ctx = new QuizContext(bank, wp, sPanel, player, enemy, clipPlayer, questText, numberOfQuestions);
+            ctx = new QuizContext(bank, wp, sPanel, player, enemy, clipPlayer, questText, numberOfQuestions, keysHighlighter);
             handler = new NormalQuizHandler(ctx);
         }
 
+        ctx.SetCoroutineRunner(this);
         ctx.DifficultyUI = difficultySpriteChanger;
     }
 

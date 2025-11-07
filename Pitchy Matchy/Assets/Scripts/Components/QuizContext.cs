@@ -16,6 +16,7 @@ public class QuizContext
     public ClipPlayer ClipPlayer { get; }
     public TMP_Text QuestText { get; }
     public DifficultySpriteChanger DifficultyUI;
+    public KeysHighlighter keysHighlighter;
 
     // Mutable session state that handlers share via the context
     public List<QuestionComponent> QuestionsToAnswer { get; }
@@ -35,6 +36,9 @@ public class QuizContext
     public List<float> ResponseTimes { get; private set; }
     private float questionStartTime;
 
+    //Coroutine
+    public MonoBehaviour coroutineRunner;
+
     public QuizContext(QuestionsBank bank,
                        WaitingPanel wp,
                        ScreensPanel sPanel,
@@ -42,7 +46,8 @@ public class QuizContext
                        EnemyComponent enemy,
                        ClipPlayer clipPlayer,
                        TMP_Text questText,
-                       int numberOfQuestions)
+                       int numberOfQuestions,
+                       KeysHighlighter keysHighlighter)
     {
         Bank = bank;
         WP = wp;
@@ -60,6 +65,7 @@ public class QuizContext
 
         ResponseTimes = new List<float>();
         questionStartTime = Time.time;
+        this.keysHighlighter = keysHighlighter;
 
         // init cumulative list
         AllQuestionsAnswered = new List<QuestionComponent>();
@@ -74,7 +80,8 @@ public class QuizContext
                        ClipPlayer clipPlayer,
                        TMP_Text questText,
                        int numberOfQuestions,
-                       int mccQuestionsPerEpisode)
+                       int mccQuestionsPerEpisode,
+                       KeysHighlighter keysHighlighter)
     {
         Bank = bank;
         WP = wp;
@@ -94,6 +101,7 @@ public class QuizContext
 
         ResponseTimes = new List<float>();
         questionStartTime = Time.time;
+        this.keysHighlighter = keysHighlighter;
 
         // init cumulative list
         AllQuestionsAnswered = new List<QuestionComponent>();
@@ -157,7 +165,7 @@ public class QuizContext
             // fallback (Normal / SARSA behaviour)
             PlyrMetric.SetQuestionsAnswered(QuestionsToAnswer);
         }
-        
+
         PlyrMetric.CalculateTotalAccuracy();
         PlyrMetric.CalculateDifficultyAccuracy();
     }
@@ -175,5 +183,10 @@ public class QuizContext
     public void SetEnemy(EnemyComponent enemy)
     {
         Enemy = enemy;
+    }
+
+    public void SetCoroutineRunner(MonoBehaviour runner)
+    {
+        coroutineRunner = runner;
     }
 }
