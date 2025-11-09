@@ -2927,8 +2927,18 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
-  - text: nice! let us test what you have learned! proceed to the quiz when you are
-      ready. good luck, and see you in the next lesson!
+  - text: nice! lets test what you have learned!
+    wrongAnswerText: 
+    pitchSounds: []
+    pitchLabel: 
+    showRepeatButton: 0
+    showContinueButton: 1
+    allowPlayerInput: 0
+    waitForAudioToFinishBeforeButtons: 0
+    correctAnswer: []
+    isTypingFinished: 0
+  - text: proceed to the quiz when you are ready. good luck, and see you in the next
+      lesson!
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 

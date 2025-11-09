@@ -2803,7 +2803,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lines:
-  - text: welcome to your final lesson.
+  - text: welcome to your final lesson!
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -2824,8 +2824,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
-  - text: let us learn about some basic major and minor chords that you can make
-      with the pitches you have learned previously.
+  - text: let us learn about some basic major and minor chords with the pitches you
+      have learned previously.
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -2855,8 +2855,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
-  - text: 'but to make things simpler for you, we will only play the notes of a chord
-      one by one, and you guess the set of notes being played. '
+  - text: but to make things simpler for you, we will only play the notes of a chord
+      one by one
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -2888,8 +2888,17 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
-  - text: 'do you remember the first lesson where we learned about C4, E, and G?
-      if we play these together, we get the C major chord! '
+  - text: do you remember the first lesson where we learned about C4, E, and G?
+    wrongAnswerText: 
+    pitchSounds: []
+    pitchLabel: 
+    showRepeatButton: 0
+    showContinueButton: 1
+    allowPlayerInput: 0
+    waitForAudioToFinishBeforeButtons: 0
+    correctAnswer: []
+    isTypingFinished: 0
+  - text: ' if we play these together, we get the C major chord! '
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -2916,8 +2925,8 @@ MonoBehaviour:
     - E4
     - G4
     isTypingFinished: 0
-  - text: nice one! let us keep this going. now if I play F, A, C5.... we get the
-      F major chord!
+  - text: nice one! lets keep this going. now if I play F, A, C5.... we get the F
+      major chord!
     wrongAnswerText: 
     pitchSounds:
     - {fileID: 8300000, guid: 0dda36852c989a3469dbe267be1dec0d, type: 3}
@@ -2946,24 +2955,6 @@ MonoBehaviour:
     - F4
     - A4
     - C5
-    isTypingFinished: 0
-  - text: nailed it! wow, if we play D, G, and B... you get the G major chord. try
-      it out!
-    wrongAnswerText: ooh so close, let us try that again. can you press the correct
-      notes for the G major chord again?
-    pitchSounds:
-    - {fileID: 8300000, guid: 9b016761919b89e41821fd72dd1346b3, type: 3}
-    - {fileID: 8300000, guid: 50ebd3ac255cd164aa72f9da4fa46a91, type: 3}
-    - {fileID: 8300000, guid: c112bf6a39e220a42afaecfc6bfeebd8, type: 3}
-    pitchLabel: 
-    showRepeatButton: 1
-    showContinueButton: 1
-    allowPlayerInput: 1
-    waitForAudioToFinishBeforeButtons: 0
-    correctAnswer:
-    - D4
-    - G4
-    - B4
     isTypingFinished: 0
   - text: correct! now that you have identified the sound of a major chord, it is
       time for us to move on to minor chords.
@@ -3004,8 +2995,18 @@ MonoBehaviour:
     - F4
     - A4
     isTypingFinished: 0
-  - text: well done! next is E minor! we get it by playing E, G, and B. can you do
-      that for me?
+  - text: "you got it! keep it up! now we\u2019re finally down to our last chord
+      for this lesson.  "
+    wrongAnswerText: 
+    pitchSounds: []
+    pitchLabel: 
+    showRepeatButton: 0
+    showContinueButton: 1
+    allowPlayerInput: 0
+    waitForAudioToFinishBeforeButtons: 0
+    correctAnswer: []
+    isTypingFinished: 0
+  - text: we get E minor by playing E, G, and B. can you do that for me?
     wrongAnswerText: ooh so close, let us try that again. can you press the correct
       notes for the E minor chord again?
     pitchSounds:
@@ -3021,35 +3022,6 @@ MonoBehaviour:
     - E4
     - G4
     - B4
-    isTypingFinished: 0
-  - text: "you have got it! keep it up! now we\u2019re finally down to our last chord
-      for this lesson.  "
-    wrongAnswerText: 
-    pitchSounds: []
-    pitchLabel: 
-    showRepeatButton: 0
-    showContinueButton: 1
-    allowPlayerInput: 0
-    waitForAudioToFinishBeforeButtons: 0
-    correctAnswer: []
-    isTypingFinished: 0
-  - text: if we play E, A, and C5, we get the A minor chord! try to recall and try
-      it yourself.
-    wrongAnswerText: ooh so close, let us try that again. can you press the correct
-      notes for the A minor chord again?
-    pitchSounds:
-    - {fileID: 8300000, guid: 72779edddd809e549b6629379c09077f, type: 3}
-    - {fileID: 8300000, guid: 09ad1a3aae6a5ff48bbfee177e4632e5, type: 3}
-    - {fileID: 8300000, guid: 5df02bbeadf6740458957e59a9c491d3, type: 3}
-    pitchLabel: 
-    showRepeatButton: 1
-    showContinueButton: 1
-    allowPlayerInput: 1
-    waitForAudioToFinishBeforeButtons: 0
-    correctAnswer:
-    - E4
-    - A4
-    - C5
     isTypingFinished: 0
   - text: 'very good! now that I have taught you everything, let us identify which
       is which in your quiz. ready?
