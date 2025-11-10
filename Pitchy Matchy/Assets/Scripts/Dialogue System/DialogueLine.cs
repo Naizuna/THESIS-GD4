@@ -18,6 +18,9 @@ public class DialogueLine
     public List<string> correctAnswer = new();
     [HideInInspector] public bool isTypingFinished = false;
 
+    public bool showSprite;
+    public Sprite spriteToShow;
+
     public bool CheckAnswer(List <string> playerAnswers)
     {
         if (playerAnswers.Count != correctAnswer.Count)

@@ -3680,7 +3680,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1858022300}
         m_TargetAssemblyTypeName: QuizController, Assembly-CSharp
-        m_MethodName: PlayReferencePitch
+        m_MethodName: PlayReferencePitchFinals
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

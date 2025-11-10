@@ -36,6 +36,9 @@ public class DialogueController : MonoBehaviour
     [Header("Disabled Overlay")]
     [SerializeField] private GameObject pianoDisabledPanel;
 
+    [Header("HealthBar UI")]
+    [SerializeField] public Image healthBarUI;
+
     private int index;
     private bool isTyping;
     private List<string> selectedNotes = new();
@@ -126,6 +129,7 @@ public class DialogueController : MonoBehaviour
             index++;
             repeatButton.gameObject.SetActive(false);
             continueButton.gameObject.SetActive(false);
+            healthBarUI.gameObject.SetActive(false);
             ClearSelection();
             textComponent.text = string.Empty;
             StartCoroutine(TypeLine());
@@ -149,6 +153,17 @@ public class DialogueController : MonoBehaviour
 
         // Pitch Label
         pitchText.text = string.IsNullOrEmpty(line.pitchLabel) ? string.Empty : line.pitchLabel;
+
+        if (line.showSprite && line.spriteToShow != null)
+        {
+            healthBarUI.sprite = line.spriteToShow;
+            healthBarUI.gameObject.SetActive(true);
+        }
+        else
+        {
+            healthBarUI.gameObject.SetActive(false);
+        }
+
 
         // Buttons
         if (line.waitForAudioToFinishBeforeButtons)

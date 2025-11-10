@@ -291,6 +291,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 15724425}
   m_CullTransparentMesh: 1
+--- !u!1 &26947707
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 26947708}
+  - component: {fileID: 26947710}
+  - component: {fileID: 26947709}
+  m_Layer: 5
+  m_Name: healthBarSprite
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &26947708
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 26947707}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 692829703}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 36.5, y: 19.5}
+  m_SizeDelta: {x: 47.615, y: 11.504}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &26947709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 26947707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &26947710
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 26947707}
+  m_CullTransparentMesh: 1
 --- !u!1 &36370446 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6218842777079370931, guid: bc6260aab295c244dbf8a1a397ab0fe6, type: 3}
@@ -1681,6 +1756,9 @@ PrefabInstance:
       addedObject: {fileID: 1505757589}
     - targetCorrespondingSourceObject: {fileID: 2555135031660954266, guid: 321ab0b8fb429ae4f919aa69b787342f, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 26947708}
+    - targetCorrespondingSourceObject: {fileID: 2555135031660954266, guid: 321ab0b8fb429ae4f919aa69b787342f, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 2049692560}
     - targetCorrespondingSourceObject: {fileID: 2555135031660954266, guid: 321ab0b8fb429ae4f919aa69b787342f, type: 3}
       insertIndex: -1
@@ -2565,6 +2643,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: the most used scale in western music is c major
     wrongAnswerText: 
     pitchSounds: []
@@ -2575,6 +2655,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: the c major scale uses the white keys of the keyboard to express pitch
       intervals.
     wrongAnswerText: 
@@ -2586,6 +2668,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: lets hear the c scale first.
     wrongAnswerText: 
     pitchSounds:
@@ -2604,6 +2688,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 1
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: memorize the sound of your scale since this will be the foundation of your
       musical journey!
     wrongAnswerText: 
@@ -2615,6 +2701,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: to recognize pitches, we will start by hearing C4, E, and G, the foundation
       of the c major scale.
     wrongAnswerText: 
@@ -2626,6 +2714,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: C4 will be played as your reference pitch to help you identify the next
       notes.
     wrongAnswerText: 
@@ -2638,6 +2728,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: this is the starting pitch in the c major scale, and will serve as our
       guide for the rest of the pitches.
     wrongAnswerText: 
@@ -2649,6 +2741,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: you can hear this reference pitch whenever you want by pressing the blue
       circle button below.
     wrongAnswerText: 
@@ -2661,6 +2755,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: now, lets try pressing C4 to practice
     wrongAnswerText: 
     pitchSounds: []
@@ -2671,6 +2767,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: C4 is the first C that you will see on the keyboard below
     wrongAnswerText: "oops! try again. remember, C4 is the first c you\u2019ll see
       on the keyboard. "
@@ -2684,6 +2782,8 @@ MonoBehaviour:
     correctAnswer:
     - C4
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: "great! next up is E\u2026 your turn! press E on the keyboard."
     wrongAnswerText: not quite. let us try again
     pitchSounds:
@@ -2696,6 +2796,8 @@ MonoBehaviour:
     correctAnswer:
     - E4
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: "nice! lastly, this is G\u2026"
     wrongAnswerText: a small mistake, but you are close. try again
     pitchSounds:
@@ -2708,6 +2810,8 @@ MonoBehaviour:
     correctAnswer:
     - G4
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: 'great! now you managed to learn the first few pitches of the C major scale. '
     wrongAnswerText: 
     pitchSounds: []
@@ -2718,6 +2822,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 1
+    spriteToShow: {fileID: 0}
   - text: to help you on your journey, we will give you a gift
     wrongAnswerText: 
     pitchSounds: []
@@ -2728,6 +2834,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: if you look at the healthbar, you will see that it turned blue
     wrongAnswerText: 
     pitchSounds: []
@@ -2738,6 +2846,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 1
+    spriteToShow: {fileID: 1615798036, guid: a51d681c2e8c3f945bb2a83de110bfd6, type: 3}
   - text: this is a streak. this happens when you get 3 questions right in a row
     wrongAnswerText: 
     pitchSounds: []
@@ -2748,6 +2858,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 1
+    spriteToShow: {fileID: 1615798036, guid: a51d681c2e8c3f945bb2a83de110bfd6, type: 3}
   - text: the next time you miss a question, your streak will protect and absorb
       the damage.
     wrongAnswerText: 
@@ -2759,6 +2871,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: once it protects you, it resets so stay in tune!
     wrongAnswerText: 
     pitchSounds: []
@@ -2769,6 +2883,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: 'got all that? let us proceed to the quiz to test what you just learned
       then. '
     wrongAnswerText: 
@@ -2780,6 +2896,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: keep a keen ear, we might throw you a challenge here and there. good luck!
     wrongAnswerText: 
     pitchSounds: []
@@ -2790,6 +2908,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   textComponent: {fileID: 210068279}
   pitchText: {fileID: 345164960}
   repeatButton: {fileID: 1454694122}
@@ -2825,6 +2945,7 @@ MonoBehaviour:
   maxSelections: 3
   textSpeed: 0.05
   pianoDisabledPanel: {fileID: 36370446}
+  healthBarUI: {fileID: 26947709}
 --- !u!1 &1041214206
 GameObject:
   m_ObjectHideFlags: 0
