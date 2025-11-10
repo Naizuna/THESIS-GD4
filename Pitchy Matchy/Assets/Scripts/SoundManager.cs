@@ -208,7 +208,7 @@ public class SoundManager : MonoBehaviour
 
    private IEnumerator CrossfadeRoutine(AudioClip newClip)
     {
-        float fadeTime = 1f;
+        float fadeTime = 0.2f;
         float startVolume = bgmSource.volume;
 
         bool hasExistingBGM = bgmSource.isPlaying && bgmSource.clip != null;

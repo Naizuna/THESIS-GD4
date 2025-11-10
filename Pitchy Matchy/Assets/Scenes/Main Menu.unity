@@ -1917,7 +1917,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -214.00005}
-  m_SizeDelta: {x: 156.25, y: 9.24}
+  m_SizeDelta: {x: 180.43, y: 8.089}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &331523739
 MonoBehaviour:
@@ -1941,7 +1941,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'xtremefredd - menu bgm
 
-    sinneschlosen - lesson bgm'
+    sinneschlosen - level select bgm'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6c7033de79df3de44b5cf9d7c71a6e29, type: 2}
   m_sharedMaterial: {fileID: 8911549865435928878, guid: 6c7033de79df3de44b5cf9d7c71a6e29, type: 2}
