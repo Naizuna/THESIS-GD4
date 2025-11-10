@@ -17,6 +17,7 @@ public class SoundManager : MonoBehaviour
     [Header("Special Event Music")]
     public AudioClip tutorialCompleteMusic;
     public AudioClip winMusic;
+    public AudioClip finalWinMusic;
     public AudioClip loseMusic;
 
     [Header("Volume Settings")]
@@ -256,6 +257,7 @@ public class SoundManager : MonoBehaviour
 
     public void PlayTutorialCompleteMusic() => PlayEventMusicInstant(tutorialCompleteMusic);
     public void PlayWinMusic() => PlayEventMusicInstant(winMusic);
+    public void PlayFinalWinMusic() => PlayEventMusicInstant(finalWinMusic);
     public void PlayLoseMusic() => PlayEventMusicInstant(loseMusic);
 
     private void PlayEventMusicInstant(AudioClip clip)

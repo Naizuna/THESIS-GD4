@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ScreensPanel : MonoBehaviour
 {
@@ -20,7 +22,16 @@ public class ScreensPanel : MonoBehaviour
     {
         BannerData bannerData = winBanner.GetComponent<BannerData>();
         bannerData.SetResultsText(ctx);
-        SoundManager.Instance.PlayWinMusic();
+
+        if (SceneManager.GetActiveScene().name == "Final Quiz")
+        {
+            SoundManager.Instance.PlayFinalWinMusic();
+        }
+        else
+        {
+            SoundManager.Instance.PlayWinMusic();
+        }
+        
         UIUtils.ShowUIComponents(winBanner);
     }
 
