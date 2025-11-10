@@ -48,15 +48,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76ddee04193222349bee2a26355a8484, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quizMode: 0
+  quizType: 0
+  numberOfCorrectStreakForImmunity: 3
   bank: {fileID: 0}
   wp: {fileID: 0}
   sPanel: {fileID: 0}
   player: {fileID: 0}
+  PlayerObject: {fileID: 0}
   enemy: {fileID: 0}
   clipPlayer: {fileID: 0}
   questText: {fileID: 0}
   numberOfQuestions: 5
+  enemySpawner: {fileID: 0}
+  keysHighlighter: {fileID: 0}
   referencePitch: {fileID: 0}
+  referencePitchButton: {fileID: 0}
+  referencePitchSprite: {fileID: 0}
   mccQuestionsPerEpisode: 5
   viewQuestions: []
+  difficultySpriteChanger: {fileID: 0}

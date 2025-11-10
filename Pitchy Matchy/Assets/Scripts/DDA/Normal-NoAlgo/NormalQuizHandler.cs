@@ -86,7 +86,7 @@ public class NormalQuizHandler : MonoBehaviour, IQuizHandler
 
 
         q.CheckAnswers();
-        
+
         ctx.ShowCorrectAnswers();
         ctx.keysHighlighter.GetTheKeys(new QuestionComponent(q));
         ctx.PlayCurrentQuestionPitches();
@@ -100,12 +100,17 @@ public class NormalQuizHandler : MonoBehaviour, IQuizHandler
         {
             ctx.Player.PlayAttack();
             ctx.Enemy.TakeDamage(ctx.Player.GetAttackPower());
+            ctx.correctStreak++;
         }
         else
         {
             ctx.Enemy.PlayAttack();
             ctx.Player.TakeDamage(ctx.Enemy.GetAttackPower());
+            ctx.correctStreak = 0;
+            ctx.TogglePlayerImmunity(false);
         }
+
+        ctx.CheckCorrectStreak();
 
         yield return new WaitForSeconds(ctx.keysHighlighter.speed * 2f);
         LoadNextQuestion();

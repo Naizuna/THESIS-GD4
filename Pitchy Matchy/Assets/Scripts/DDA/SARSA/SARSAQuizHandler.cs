@@ -124,12 +124,17 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
         {
             ctx.Player.PlayAttack();
             ctx.Enemy.TakeDamage(ctx.Player.GetAttackPower());
+            ctx.correctStreak++;
         }
         else
         {
             ctx.Enemy.PlayAttack();
             ctx.Player.TakeDamage(ctx.Enemy.GetAttackPower());
+            ctx.correctStreak = 0;
+            ctx.TogglePlayerImmunity(false);
         }
+
+        ctx.CheckCorrectStreak();
 
         ctx.PlyrMetric?.SetQuestionsAnswered(ctx.QuestionsToAnswer);
         ctx.PlyrMetric?.CalculateTotalAccuracy();
