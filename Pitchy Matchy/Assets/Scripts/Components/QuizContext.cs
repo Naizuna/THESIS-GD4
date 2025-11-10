@@ -25,6 +25,8 @@ public class QuizContext
     public int NumberOfQuestions { get; }
     public PlayerMetric PlyrMetric { get; }
     public QuizController handler { get; set; }
+    public int correctStreak { get; set; }
+    public int correctStreakMAX { get; set; }
 
     //MCC related stuff
     public int MccQuestionsPerEpisode { get; }
@@ -157,6 +159,21 @@ public class QuizContext
         {
             QuestText.text += " " + pitch;
         }
+    }
+
+    public void CheckCorrectStreak()
+    {
+        if (correctStreak >= correctStreakMAX)
+        {
+            correctStreak = 0;
+            TogglePlayerImmunity(true);
+            return;
+        }
+    }
+
+    public void TogglePlayerImmunity(bool immunity)
+    {
+        Player.isImmune = immunity;
     }
 
     public void PlayCurrentQuestionPitches()

@@ -164,12 +164,17 @@ public class MonteCarloQuizHandler : MonoBehaviour, IQuizHandler
         {
             ctx.Player.PlayAttack();
             ctx.Enemy.TakeDamage(ctx.Player.GetAttackPower());
+            ctx.correctStreak++;
         }
         else
         {
             ctx.Enemy.PlayAttack();
             ctx.Player.TakeDamage(ctx.Enemy.GetAttackPower());
+            ctx.correctStreak = 0;
+            ctx.TogglePlayerImmunity(false);
         }
+
+        ctx.CheckCorrectStreak();
 
         if (ctx.AllQuestionsAnswered != null && !ctx.AllQuestionsAnswered.Contains(q))
         {
@@ -179,6 +184,7 @@ public class MonteCarloQuizHandler : MonoBehaviour, IQuizHandler
         yield return new WaitForSeconds(ctx.keysHighlighter.speed * 2f);
         LoadNextQuestion();
         ctx.enablePlayerInput(true);
+        
     }
 
     public void LoadNextQuestion()

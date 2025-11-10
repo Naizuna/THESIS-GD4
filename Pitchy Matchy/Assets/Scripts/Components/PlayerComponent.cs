@@ -1,23 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PlayerComponent : MonoBehaviour
 {
     [SerializeField] public int hp; //equivalent to no. of tries
     [SerializeField] public int currHp { get; private set; }
     [SerializeField] SpriteRenderer playerSprite;
-    [SerializeField] Color damagedColor;
+    [SerializeField] Color immunityColor;
     [SerializeField] int attackPower;
-    [SerializeField] float damagedFlashDuration;
+    [SerializeField] float immunityFlashDuration;
+    [SerializeField] int flashTimes;
+    public bool isImmune { get; set; }
     private bool playerDefeated;
     private Color defaultColor;
     private Animator animator;
 
     public void TakeDamage(int damage)
     {
-        Debug.Log($"Player takes {damage} damage!");
         HurtFlash();
+        if (isImmune)
+        {
+            Debug.Log("Player is immune to damage");
+            return;
+        }
 
         if ((currHp - damage) <= 0)
         {
@@ -27,6 +34,7 @@ public class PlayerComponent : MonoBehaviour
             return;
         }
 
+        Debug.Log($"Player takes {damage} damage!");
         currHp -= damage;
     }
 
@@ -81,11 +89,31 @@ public class PlayerComponent : MonoBehaviour
 
     public void HurtFlash()
     {
+        if (isImmune)
+        {
+            ImmunityFlash();
+            return;
+        }
         animator.SetBool("isHurt", true);
     }
 
     public void StopHurtFlash()
     {
         animator.SetBool("isHurt", false);
+    }
+
+    public void ImmunityFlash()
+    {
+        StartCoroutine(ImmunityFlashCoroutine());
+    }
+
+    public IEnumerator ImmunityFlashCoroutine()
+    {
+        for (int i = 0; i < flashTimes; i++)
+        {
+            playerSprite.color = immunityColor;
+            yield return new WaitForSeconds(immunityFlashDuration);
+            playerSprite.color = defaultColor;
+        }
     }
 }

@@ -124,3 +124,15 @@ MonoBehaviour:
   - {fileID: 1515854269, guid: 879a073b87acc08499c1990fe9dc2bda, type: 3}
   - {fileID: 1557749422, guid: 879a073b87acc08499c1990fe9dc2bda, type: 3}
   - {fileID: 2072472026, guid: 879a073b87acc08499c1990fe9dc2bda, type: 3}
+  immunityHPBarSprite:
+  - {fileID: 91555315, guid: a51d681c2e8c3f945bb2a83de110bfd6, type: 3}
+  - {fileID: -408926576, guid: a51d681c2e8c3f945bb2a83de110bfd6, type: 3}
+  - {fileID: -607965897, guid: a51d681c2e8c3f945bb2a83de110bfd6, type: 3}
+  - {fileID: 650299461, guid: a51d681c2e8c3f945bb2a83de110bfd6, type: 3}
+  - {fileID: 912162884, guid: a51d681c2e8c3f945bb2a83de110bfd6, type: 3}
+  - {fileID: 198948965, guid: a51d681c2e8c3f945bb2a83de110bfd6, type: 3}
+  - {fileID: 883625715, guid: a51d681c2e8c3f945bb2a83de110bfd6, type: 3}
+  - {fileID: 432035588, guid: a51d681c2e8c3f945bb2a83de110bfd6, type: 3}
+  - {fileID: 1664850196, guid: a51d681c2e8c3f945bb2a83de110bfd6, type: 3}
+  - {fileID: -848784815, guid: a51d681c2e8c3f945bb2a83de110bfd6, type: 3}
+  - {fileID: 1615798036, guid: a51d681c2e8c3f945bb2a83de110bfd6, type: 3}

@@ -101,9 +101,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 20
   playerSprite: {fileID: 1364446336876864740}
-  damagedColor: {r: 1, g: 0, b: 0, a: 1}
+  immunityColor: {r: 0, g: 0.8862745, b: 1, a: 1}
   attackPower: 1
-  damagedFlashDuration: 0.2
+  immunityFlashDuration: 0.2
+  flashTimes: 5
 --- !u!95 &8854287882211510458
 Animator:
   serializedVersion: 5

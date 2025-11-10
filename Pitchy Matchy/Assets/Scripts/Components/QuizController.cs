@@ -11,6 +11,7 @@ public class QuizController : MonoBehaviour
 
     [Header("Quiz Settings")]
     [SerializeField] private QuizType quizType;
+    [SerializeField] private int numberOfCorrectStreakForImmunity;
 
     [Header("Scene References")]
     [SerializeField] private QuestionsBank bank;
@@ -84,6 +85,7 @@ public class QuizController : MonoBehaviour
 
         ctx.SetCoroutineRunner(this);
         ctx.DifficultyUI = difficultySpriteChanger;
+        ctx.correctStreakMAX = numberOfCorrectStreakForImmunity;
         ctx.handler = this;
     }
 
