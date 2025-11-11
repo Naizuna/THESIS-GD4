@@ -130,7 +130,7 @@ public class DialogueController : MonoBehaviour
             repeatButton.gameObject.SetActive(false);
             continueButton.gameObject.SetActive(false);
 
-            // ✅ ADD NULL CHECK
+            // ADD NULL CHECK
             if (healthBarUI != null)
             {
                 healthBarUI.gameObject.SetActive(false);
