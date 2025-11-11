@@ -30,6 +30,11 @@ public class GameVersionManager : MonoBehaviour
         {
             ResetLevelProgressAndReload();
         }
+
+        if (Input.GetKeyDown(KeyCode.F6))
+        {
+            UnlockNextLevel();
+        }
     }
 
     public void SetVersion(int v)
@@ -60,6 +65,38 @@ public class GameVersionManager : MonoBehaviour
         else
         {
             // fallback if no SceneController is in the current scene
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+    }
+
+    private void UnlockNextLevel()
+    {
+        string currentScene = SceneManager.GetActiveScene().name;
+        int currentIndex = LevelDataManager.GetLevelIndex(currentScene);
+        
+        // If we're in a valid level scene
+        if (currentIndex >= 0)
+        {
+            // Unlock the next level
+            LevelCompletionManager.UnlockNextLevel();
+            Debug.Log($"🔓 [F6 Cheat] Unlocked next level from: {currentScene}");
+        }
+        else
+        {
+            // If we're in menu or other scene, unlock all levels
+            int totalLevels = LevelDataManager.LevelOrder.Count;
+            LevelProgress.UnlockNextLevel(totalLevels);
+            Debug.Log($"🔓 [F6 Cheat] Unlocked all {totalLevels} levels!");
+        }
+        
+        // Reload the scene to refresh UI (especially useful in level select)
+        SceneController sceneController = FindObjectOfType<SceneController>();
+        if (sceneController != null)
+        {
+            sceneController.ReloadCurrentScene();
+        }
+        else
+        {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
