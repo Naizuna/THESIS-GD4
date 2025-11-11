@@ -1406,8 +1406,24 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2964740643208969179, guid: df5d065b3fb44c94a94065b8bdec739f, type: 3}
+      propertyPath: m_ClearFlags
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2964740643208969179, guid: df5d065b3fb44c94a94065b8bdec739f, type: 3}
       propertyPath: orthographic size
       value: 4.21875
+      objectReference: {fileID: 0}
+    - target: {fileID: 2964740643208969179, guid: df5d065b3fb44c94a94065b8bdec739f, type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0.12156863
+      objectReference: {fileID: 0}
+    - target: {fileID: 2964740643208969179, guid: df5d065b3fb44c94a94065b8bdec739f, type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0.12156863
+      objectReference: {fileID: 0}
+    - target: {fileID: 2964740643208969179, guid: df5d065b3fb44c94a94065b8bdec739f, type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0.12156863
       objectReference: {fileID: 0}
     - target: {fileID: 8470504650530449392, guid: df5d065b3fb44c94a94065b8bdec739f, type: 3}
       propertyPath: m_Name
@@ -2813,6 +2829,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: you have already mastered the pitches in the C major scale, now it is time
       to use them together.
     wrongAnswerText: 
@@ -2824,6 +2842,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: let us learn about some basic major and minor chords with the pitches you
       have learned previously.
     wrongAnswerText: 
@@ -2835,6 +2855,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: but first, what is even a chord?
     wrongAnswerText: 
     pitchSounds: []
@@ -2845,6 +2867,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: a chord is a group of notes played together at the same time.
     wrongAnswerText: 
     pitchSounds: []
@@ -2855,6 +2879,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: but to make things simpler for you, we will only play the notes of a chord
       one by one
     wrongAnswerText: 
@@ -2866,6 +2892,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: let us start with major chords based on the 1st, 3rd, and 5th notes of
       the major scale.
     wrongAnswerText: 
@@ -2877,6 +2905,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: to put it simply, major chords are those chords that sound happy because
       of their bright sound.
     wrongAnswerText: 
@@ -2888,6 +2918,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: do you remember the first lesson where we learned about C4, E, and G?
     wrongAnswerText: 
     pitchSounds: []
@@ -2898,6 +2930,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: ' if we play these together, we get the C major chord! '
     wrongAnswerText: 
     pitchSounds: []
@@ -2908,6 +2942,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: can you press the 3 keys again that make up the C major chord?
     wrongAnswerText: almost there. try again. can you press the 3 keys again that
       make up the C major chord?
@@ -2925,6 +2961,8 @@ MonoBehaviour:
     - E4
     - G4
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: nice one! lets keep this going. now if I play F, A, C5.... we get the F
       major chord!
     wrongAnswerText: 
@@ -2939,6 +2977,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: can you press the correct notes for the F major chords again?
     wrongAnswerText: ooh so close, let us try that again. can you press the correct
       notes for the f major chord again?
@@ -2956,6 +2996,8 @@ MonoBehaviour:
     - A4
     - C5
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: correct! now that you have identified the sound of a major chord, it is
       time for us to move on to minor chords.
     wrongAnswerText: 
@@ -2967,6 +3009,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: minor chords use different intervals, creating a darker, sadder sound.
     wrongAnswerText: 
     pitchSounds: []
@@ -2977,6 +3021,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: now, let us begin with D minor. we get it by playing D, F, and A together.
       try it!
     wrongAnswerText: ooh so close, let us try that again. can you press the correct
@@ -2995,6 +3041,8 @@ MonoBehaviour:
     - F4
     - A4
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: "you got it! keep it up! now we\u2019re finally down to our last chord
       for this lesson.  "
     wrongAnswerText: 
@@ -3006,6 +3054,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: we get E minor by playing E, G, and B. can you do that for me?
     wrongAnswerText: ooh so close, let us try that again. can you press the correct
       notes for the E minor chord again?
@@ -3023,6 +3073,8 @@ MonoBehaviour:
     - G4
     - B4
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: 'very good! now that I have taught you everything, let us identify which
       is which in your quiz. ready?
 
@@ -3036,6 +3088,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   textComponent: {fileID: 210068279}
   pitchText: {fileID: 345164960}
   repeatButton: {fileID: 1454694122}
@@ -3066,6 +3120,7 @@ MonoBehaviour:
   maxSelections: 3
   textSpeed: 0.05
   pianoDisabledPanel: {fileID: 406909430}
+  healthBarUI: {fileID: 0}
 --- !u!1 &1041214206
 GameObject:
   m_ObjectHideFlags: 0

@@ -1599,8 +1599,24 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2964740643208969179, guid: df5d065b3fb44c94a94065b8bdec739f, type: 3}
+      propertyPath: m_ClearFlags
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2964740643208969179, guid: df5d065b3fb44c94a94065b8bdec739f, type: 3}
       propertyPath: orthographic size
       value: 4.21875
+      objectReference: {fileID: 0}
+    - target: {fileID: 2964740643208969179, guid: df5d065b3fb44c94a94065b8bdec739f, type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0.12156863
+      objectReference: {fileID: 0}
+    - target: {fileID: 2964740643208969179, guid: df5d065b3fb44c94a94065b8bdec739f, type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0.12156863
+      objectReference: {fileID: 0}
+    - target: {fileID: 2964740643208969179, guid: df5d065b3fb44c94a94065b8bdec739f, type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0.12156863
       objectReference: {fileID: 0}
     - target: {fileID: 8470504650530449392, guid: df5d065b3fb44c94a94065b8bdec739f, type: 3}
       propertyPath: m_Name
@@ -2854,6 +2870,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: "remember C4? our reference pitch? let\u2019s build up from that.\r\n"
     wrongAnswerText: 
     pitchSounds: []
@@ -2864,6 +2882,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: try pressing each one as I play them.
     wrongAnswerText: 
     pitchSounds: []
@@ -2874,6 +2894,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: 'now, listen closely. this is A. now you try.
 
 '
@@ -2888,6 +2910,8 @@ MonoBehaviour:
     correctAnswer:
     - A4
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: 'nice! now this is B. try pressing the key on your keyboard
 
 '
@@ -2903,6 +2927,8 @@ MonoBehaviour:
     correctAnswer:
     - B4
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: awesome! now, for the last one for this lesson, this is C5, which is an
       octave higher than C4.
     wrongAnswerText: not this time, but you are getting closer. try to look for c5
@@ -2916,6 +2942,8 @@ MonoBehaviour:
     correctAnswer:
     - C5
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: 'great work! now that you learned the notes from C4 to C5, you have actually
       covered one full scale! '
     wrongAnswerText: 
@@ -2927,6 +2955,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: nice! lets test what you have learned!
     wrongAnswerText: 
     pitchSounds: []
@@ -2937,6 +2967,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   - text: proceed to the quiz when you are ready. good luck, and see you in the next
       lesson!
     wrongAnswerText: 
@@ -2948,6 +2980,8 @@ MonoBehaviour:
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer: []
     isTypingFinished: 0
+    showSprite: 0
+    spriteToShow: {fileID: 0}
   textComponent: {fileID: 210068279}
   pitchText: {fileID: 345164960}
   repeatButton: {fileID: 1454694122}
@@ -2978,6 +3012,7 @@ MonoBehaviour:
   maxSelections: 3
   textSpeed: 0.05
   pianoDisabledPanel: {fileID: 1731078267}
+  healthBarUI: {fileID: 0}
 --- !u!1 &1041214206
 GameObject:
   m_ObjectHideFlags: 0
