@@ -139,14 +139,14 @@ public class QuizController : MonoBehaviour
         HandlePlayerMetrics();
         sPanel.SetWinScreen(ctx);
         PlayerObject.SetActive(false);
-        
+
         if (enemyObject != null)
             enemyObject.SetActive(false);
 
         LevelCompletionManager.UnlockNextLevel();
     }
 
-    private void HandlePlayerMetrics()
+     private void HandlePlayerMetrics()
     {
         string verType = "";
 
