@@ -172,11 +172,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemySprite: {fileID: 6277151151096733776}
   animator: {fileID: 1451215009779028752}
-  hurtEffect: {fileID: 8816233978110218446, guid: 61db99fb6ca512449a9c42fbc4402ac8, type: 3}
-  deathEffect: {fileID: 8816233978110218446, guid: 3f058480b1ebd4e45a5ae9777d0a5982, type: 3}
   damagedColor: {r: 1, g: 0, b: 0, a: 1}
   damagedFlashDuration: 0.2
-  maxhp: 3
+  maxhp: 30
   attackPower: 10
   deathDuration: 2
 --- !u!1 &4486815270320713825
