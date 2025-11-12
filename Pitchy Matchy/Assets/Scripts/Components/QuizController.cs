@@ -139,7 +139,9 @@ public class QuizController : MonoBehaviour
         HandlePlayerMetrics();
         sPanel.SetWinScreen(ctx);
         PlayerObject.SetActive(false);
-        enemyObject.SetActive(false);
+        
+        if (enemyObject != null)
+            enemyObject.SetActive(false);
 
         LevelCompletionManager.UnlockNextLevel();
     }
