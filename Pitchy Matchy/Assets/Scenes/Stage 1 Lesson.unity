@@ -2661,7 +2661,7 @@ MonoBehaviour:
     isTypingFinished: 0
     showSprite: 0
     spriteToShow: {fileID: 0}
-  - text: the most used scale in western music is c major
+  - text: the most used scale in western music is c major scale.
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -2686,7 +2686,7 @@ MonoBehaviour:
     isTypingFinished: 0
     showSprite: 0
     spriteToShow: {fileID: 0}
-  - text: lets hear the c scale first.
+  - text: let us hear the c major scale first.
     wrongAnswerText: 
     pitchSounds:
     - {fileID: 8300000, guid: 048fdabe6dbf2a84598ec391d5b7ad2e, type: 3}
@@ -2773,7 +2773,7 @@ MonoBehaviour:
     isTypingFinished: 0
     showSprite: 0
     spriteToShow: {fileID: 0}
-  - text: now, lets try pressing C4 to practice
+  - text: now, let us try pressing C4 to practice.
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -2785,7 +2785,7 @@ MonoBehaviour:
     isTypingFinished: 0
     showSprite: 0
     spriteToShow: {fileID: 0}
-  - text: C4 is the first C that you will see on the keyboard below
+  - text: C4 is the first C that you will see on the keyboard below.
     wrongAnswerText: "oops! try again. remember, C4 is the first c you\u2019ll see
       on the keyboard. "
     pitchSounds:
@@ -2800,7 +2800,7 @@ MonoBehaviour:
     isTypingFinished: 0
     showSprite: 0
     spriteToShow: {fileID: 0}
-  - text: "great! next up is E\u2026 your turn! press E on the keyboard."
+  - text: "great! next up is E\u2026 your turn! press E on the keyboard below."
     wrongAnswerText: not quite. let us try again
     pitchSounds:
     - {fileID: 8300000, guid: 72779edddd809e549b6629379c09077f, type: 3}
@@ -2840,7 +2840,7 @@ MonoBehaviour:
     isTypingFinished: 0
     showSprite: 1
     spriteToShow: {fileID: 0}
-  - text: to help you on your journey, we will give you a gift
+  - text: to help you on your journey, we will give you a gift.
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -2852,7 +2852,7 @@ MonoBehaviour:
     isTypingFinished: 0
     showSprite: 0
     spriteToShow: {fileID: 0}
-  - text: if you look at the healthbar, you will see that it turned blue
+  - text: if you look at the healthbar, you will see that it turned blue.
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -2864,7 +2864,7 @@ MonoBehaviour:
     isTypingFinished: 0
     showSprite: 1
     spriteToShow: {fileID: 1615798036, guid: a51d681c2e8c3f945bb2a83de110bfd6, type: 3}
-  - text: this is a streak. this happens when you get 3 questions right in a row
+  - text: this is a streak. this happens when you get 3 questions right in a row.
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 

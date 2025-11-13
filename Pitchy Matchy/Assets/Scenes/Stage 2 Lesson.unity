@@ -2872,7 +2872,9 @@ MonoBehaviour:
     isTypingFinished: 0
     showSprite: 0
     spriteToShow: {fileID: 0}
-  - text: "remember C4? our reference pitch? let\u2019s build up from that.\r\n"
+  - text: 'remember C4? our reference pitch? let us build up from that.
+
+'
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -2912,7 +2914,7 @@ MonoBehaviour:
     isTypingFinished: 0
     showSprite: 0
     spriteToShow: {fileID: 0}
-  - text: 'nice! now this is B. try pressing the key on your keyboard
+  - text: 'nice! now this is B. try pressing the key on the keyboard below.
 
 '
     wrongAnswerText: good effort, but that is not quite the correct answer I am looking
@@ -2957,7 +2959,7 @@ MonoBehaviour:
     isTypingFinished: 0
     showSprite: 0
     spriteToShow: {fileID: 0}
-  - text: nice! lets test what you have learned!
+  - text: nice! let us test what you have learned!
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 

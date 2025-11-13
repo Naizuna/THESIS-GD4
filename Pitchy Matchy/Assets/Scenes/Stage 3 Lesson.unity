@@ -2882,7 +2882,7 @@ MonoBehaviour:
     showSprite: 0
     spriteToShow: {fileID: 0}
   - text: but to make things simpler for you, we will only play the notes of a chord
-      one by one
+      one by one.
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
@@ -2988,7 +2988,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 5df02bbeadf6740458957e59a9c491d3, type: 3}
     pitchLabel: 
     showRepeatButton: 1
-    showContinueButton: 0
+    showContinueButton: 1
     allowPlayerInput: 1
     waitForAudioToFinishBeforeButtons: 0
     correctAnswer:
@@ -3043,8 +3043,8 @@ MonoBehaviour:
     isTypingFinished: 0
     showSprite: 0
     spriteToShow: {fileID: 0}
-  - text: "you got it! keep it up! now we\u2019re finally down to our last chord
-      for this lesson.  "
+  - text: 'you got it! keep it up! now we are finally down to our last chord for
+      this lesson.  '
     wrongAnswerText: 
     pitchSounds: []
     pitchLabel: 
