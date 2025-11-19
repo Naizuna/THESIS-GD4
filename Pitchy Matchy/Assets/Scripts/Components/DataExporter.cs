@@ -36,11 +36,8 @@ public class DataExporter
         double hardAccuracy = metricData.hardAccuracy;
         
         textWriter.WriteLine("PLAYER DATA");
-        textWriter.WriteLine("EASY,MED,HARD");
-        textWriter.WriteLine($"{easyCorrect}/{easyTotal}\t,{medCorrect}/{medTotal}\t,{hardCorrect}/{hardTotal}\t");
-        textWriter.WriteLine("EASY_ACC,MED_ACC,HARD_ACC");
-        textWriter.WriteLine($"{easyAccuracy},{mediumAccuracy},{hardAccuracy}");
-        textWriter.WriteLine($"Total Accuracy: {metricData.totalAccuracy}");
+        textWriter.WriteLine("EASY_CORRECT,EASY_TOTAL,MED_CORRECT,MED_TOTAL,HARD_CORRECT,HARD_TOTAL,EASY_ACC,MED_ACC,HARD_ACC,Total Accuracy");
+        textWriter.WriteLine($"{easyCorrect}\t,{easyTotal}\t,{medCorrect}\t,{medTotal}\t,{hardCorrect}\t,{hardTotal}\t,{easyAccuracy}\t,{mediumAccuracy}\t,{hardAccuracy}\t,{metricData.totalAccuracy}\t");
         
         textWriter.Close();
         
