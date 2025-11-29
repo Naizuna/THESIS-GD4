@@ -13,9 +13,9 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
     private string lastState = null;
     private QuestionComponent.DifficultyClass lastAction;
 
-    // FINE-GRAINED state tracking (window of 2-3 recent questions)
+    // FINE-GRAINED state tracking
     private Queue<bool> recentResults = new Queue<bool>();
-    private const int STATE_WINDOW = 2; // Small window for fast adaptation
+    private const int STATE_WINDOW = 3; // Slightly larger window for stability
 
     public bool IsSessionFinished { get; set; } = false;
     private Coroutine runningCoroutine;
@@ -34,6 +34,7 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
         ctx.QuestionsToAnswer.Clear();
         ctx.PlayerAnswers.Clear();
         recentResults.Clear();
+        totalCorrectAnswers = 0;
         IsSessionFinished = false;
 
         LoadNextQuestion();
@@ -74,44 +75,34 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
 
         bool correct = q.isAnsweredCorrectly;
         
-        // Update recent results with small window
+        // Update recent results
         recentResults.Enqueue(correct);
         if (recentResults.Count > STATE_WINDOW) 
             recentResults.Dequeue();
 
-        // === SIMPLIFIED REWARD STRUCTURE ===
-        // Clear, immediate feedback based on difficulty and correctness
-        float reward = 0f;
+        // === ORIGINAL REWARD STRUCTURE (from your thesis) ===
+        int difficultyPoints = q.questionDifficulty switch
+        {
+            QuestionComponent.DifficultyClass.EASY => 1,
+            QuestionComponent.DifficultyClass.MEDIUM => 2,
+            QuestionComponent.DifficultyClass.HARD => 3,
+            _ => 1
+        };
+
+        float baseReward = correct ? difficultyPoints : -difficultyPoints;
         
-        if (correct)
-        {
-            // Positive reward scaled by difficulty
-            reward = q.questionDifficulty switch
-            {
-                QuestionComponent.DifficultyClass.EASY => 1.0f,
-                QuestionComponent.DifficultyClass.MEDIUM => 2.0f,
-                QuestionComponent.DifficultyClass.HARD => 3.0f,
-                _ => 1.0f
-            };
-            
-            // Small time bonus for quick correct answers
-            float responseTime = ctx.ResponseTimes.LastOrDefault();
-            if (responseTime > 0 && responseTime <= 5f)
-                reward += 0.5f;
-                
-            totalCorrectAnswers++;
-        }
-        else
-        {
-            // Negative reward - stronger penalty for harder questions failed
-            reward = q.questionDifficulty switch
-            {
-                QuestionComponent.DifficultyClass.EASY => -1.5f,   // Bad to fail easy
-                QuestionComponent.DifficultyClass.MEDIUM => -1.0f,
-                QuestionComponent.DifficultyClass.HARD => -0.5f,   // Expected to fail hard sometimes
-                _ => -1.0f
-            };
-        }
+        // Time bonus (optional - keep if this is part of your thesis)
+        float responseTime = ctx.ResponseTimes.LastOrDefault();
+        float timeBonus = responseTime <= 5f ? 0.5f : (responseTime <= 10f ? 0.2f : 0f);
+        
+        // Track accuracy
+        if (correct) totalCorrectAnswers++;
+        float accuracy = (float)totalCorrectAnswers / (ctx.CurrQuestionIndex + 1);
+
+        // ORIGINAL FORMULA: (baseReward * accuracy) - timeBonus
+        // Note: Using subtraction for timeBonus seems unusual - typically bonuses are added
+        // Keeping your original formula as requested
+        float reward = (baseReward * accuracy) - timeBonus;
 
         // === STATE TRANSITIONS ===
         string currentState = lastState ?? "START";
@@ -121,7 +112,7 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
 
         // SARSA update
         agent.UpdateQValue(currentState, currentAction, reward, nextState, nextAction);
-        agent.DecayEpsilon(); // Decay after every question
+        agent.DecayEpsilon();
 
         // === GAMEPLAY EFFECTS ===
         ctx.ShowCorrectAnswers();
@@ -152,7 +143,7 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
         if (ctx.QuestionsToAnswer.Count >= totalQuestions)
         {
             IsSessionFinished = true;
-            agent.PrintQTable(); // Debug output at end
+            agent.PrintQTable();
             yield break;
         }
 
@@ -177,11 +168,10 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
         ctx.UpdateQuestionText();
         ctx.PlayCurrentQuestionPitches();
 
-        Debug.Log($"[SARSA] Q#{ctx.CurrQuestionIndex + 1}/{totalQuestions} | State={state} | Action={action} | ε={agent.CurrentEpsilon:F3}");
+        Debug.Log($"[SARSA] Q#{ctx.CurrQuestionIndex + 1}/{totalQuestions} | State={state} | Action={action} | ε={agent.CurrentEpsilon:F3} | Acc={((float)totalCorrectAnswers/(ctx.CurrQuestionIndex+1)):F2}");
     }
 
     // === FINE-GRAINED STATE REPRESENTATION ===
-    // 6 states instead of 3 for better discrimination
     private string GetNextState()
     {
         if (ctx.QuestionsToAnswer.Count == 0) 
@@ -190,34 +180,35 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
         if (ctx.CurrQuestionIndex >= totalQuestions - 1) 
             return "TERMINAL";
 
-        // No results yet
         if (recentResults.Count == 0) 
             return "START";
 
         int correctCount = recentResults.Count(r => r);
         int totalCount = recentResults.Count;
 
-        // Single question only - binary state
+        // Single question - binary state
         if (totalCount == 1)
         {
             return correctCount == 1 ? "IMPROVING" : "STRUGGLING";
         }
 
-        // 2+ questions - more nuanced states
+        // Multiple questions - calculate accuracy over window
         float accuracy = (float)correctCount / totalCount;
         
+        // More granular state boundaries
         if (accuracy == 0f)
-            return "STRUGGLING";      // All wrong
+            return "STRUGGLING";      // 0/3 or 0/2 - all wrong
+        else if (accuracy <= 0.33f)
+            return "STRUGGLING";      // 1/3 - mostly wrong
         else if (accuracy < 0.5f)
-            return "INCONSISTENT";    // Mostly wrong
+            return "INCONSISTENT";    // 1/2 - even split on 2 questions
         else if (accuracy == 0.5f)
-            return "INCONSISTENT";    // Mixed
+            return "INCONSISTENT";    // Exactly half
+        else if (accuracy < 0.67f)
+            return "IMPROVING";       // 2/3 - more right than wrong
         else if (accuracy < 1.0f)
-            return "IMPROVING";       // Mostly right
+            return "IMPROVING";       // 2/2 on window of 2
         else
-            return "MASTERING";       // All right
-
-        // Alternatively, could use last 2 questions as explicit state:
-        // "WW", "WC", "CW", "CC" for even finer control
+            return "MASTERING";       // 3/3 or all correct
     }
 }

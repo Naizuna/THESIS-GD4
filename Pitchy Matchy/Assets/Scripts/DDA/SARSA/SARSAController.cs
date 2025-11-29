@@ -13,25 +13,29 @@ public class SARSAController
     private Dictionary<(string state, QuestionComponent.DifficultyClass action), int> visitCounts 
         = new Dictionary<(string, QuestionComponent.DifficultyClass), int>();
 
-    // Learning parameters - TUNED FOR FAST ADAPTATION
-    private float alpha = 0.5f;           // HIGH learning rate for quick updates
-    private float gamma = 0.85f;          // Lower discount - prioritize immediate feedback
+    // Learning parameters - TUNED FOR FAST BUT STABLE ADAPTATION
+    private float alpha = 0.4f;           // Moderate-high learning rate
+    private float gamma = 0.9f;           // Balance immediate and future rewards
     
-    // CONSERVATIVE initialization - start neutral, let experience guide quickly
+    // CONSERVATIVE initialization - start neutral
     private const float INIT_Q_VALUE = 0f;
 
-    // Exploration parameters - AGGRESSIVE GREEDY EXPLOITATION
-    private float epsilon = 0.085f;        // Start with some exploration
-    private float minEpsilon = 0.05f;     // Minimal exploration floor
-    private float decayRate = 0.92f;      // Decay after EVERY question
+    // Exploration parameters
+    private float epsilon = 0.15f;        
+    private float minEpsilon = 0.05f;     
+    private float decayRate = 0.95f;      
     
     private System.Random rng = new System.Random();
 
+    // === DIFFICULTY MOMENTUM ===
+    // Track recent difficulty selections to prevent wild swings
+    private Queue<QuestionComponent.DifficultyClass> recentDifficulties = new Queue<QuestionComponent.DifficultyClass>();
+    private const int DIFFICULTY_MEMORY = 3; // Remember last 3 difficulties
+
     // === RECENCY-WEIGHTED EXPERIENCE ===
-    // Track recent performance per difficulty to make quick adjustments
     private Dictionary<QuestionComponent.DifficultyClass, Queue<bool>> recentPerformance 
         = new Dictionary<QuestionComponent.DifficultyClass, Queue<bool>>();
-    private const int RECENCY_WINDOW = 3; // Only last 3 attempts per difficulty
+    private const int RECENCY_WINDOW = 3;
 
     public SARSAController()
     {
@@ -42,21 +46,65 @@ public class SARSAController
         }
     }
 
-    // === ACTION SELECTION ===
+    // === ACTION SELECTION WITH SMOOTHING ===
     public QuestionComponent.DifficultyClass ChooseAction(string state)
     {
-        // ε-greedy with fast exploitation
+        // ε-greedy exploration
         if (rng.NextDouble() < epsilon)
         {
-            // Exploration: random action
-            Array values = Enum.GetValues(typeof(QuestionComponent.DifficultyClass));
-            return (QuestionComponent.DifficultyClass)values.GetValue(rng.Next(values.Length));
+            // Exploration: but favor adjacent difficulties for smoother transitions
+            return GetSmoothedRandomAction();
         }
         else
         {
-            // Exploitation: best known action
-            return GetBestAction(state);
+            // Exploitation: best action with stability check
+            return GetBestActionWithSmoothing(state);
         }
+    }
+
+    // Get random action but weighted toward current difficulty level
+    private QuestionComponent.DifficultyClass GetSmoothedRandomAction()
+    {
+        if (recentDifficulties.Count == 0)
+        {
+            // First question: start easy
+            return QuestionComponent.DifficultyClass.EASY;
+        }
+
+        var currentDiff = recentDifficulties.Last();
+        
+        // 60% chance: stay at current level or move one step
+        // 40% chance: any difficulty
+        if (rng.NextDouble() < 0.6)
+        {
+            int choice = rng.Next(3);
+            return currentDiff switch
+            {
+                QuestionComponent.DifficultyClass.EASY => choice switch
+                {
+                    0 => QuestionComponent.DifficultyClass.EASY,
+                    1 => QuestionComponent.DifficultyClass.EASY,
+                    _ => QuestionComponent.DifficultyClass.MEDIUM
+                },
+                QuestionComponent.DifficultyClass.MEDIUM => choice switch
+                {
+                    0 => QuestionComponent.DifficultyClass.EASY,
+                    1 => QuestionComponent.DifficultyClass.MEDIUM,
+                    _ => QuestionComponent.DifficultyClass.HARD
+                },
+                QuestionComponent.DifficultyClass.HARD => choice switch
+                {
+                    0 => QuestionComponent.DifficultyClass.MEDIUM,
+                    1 => QuestionComponent.DifficultyClass.HARD,
+                    _ => QuestionComponent.DifficultyClass.HARD
+                },
+                _ => QuestionComponent.DifficultyClass.EASY
+            };
+        }
+
+        // Full random
+        Array values = Enum.GetValues(typeof(QuestionComponent.DifficultyClass));
+        return (QuestionComponent.DifficultyClass)values.GetValue(rng.Next(values.Length));
     }
 
     // === HEURISTIC FALLBACK ===
@@ -92,17 +140,24 @@ public class SARSAController
             recentPerformance[action].Dequeue();
         }
         
-        // RECENCY BONUS: Amplify learning for recent patterns
+        // Track difficulty history
+        recentDifficulties.Enqueue(action);
+        if (recentDifficulties.Count > DIFFICULTY_MEMORY)
+        {
+            recentDifficulties.Dequeue();
+        }
+        
+        // RECENCY BONUS: Amplify learning for consistent patterns
         float recencyBonus = CalculateRecencyBonus(action);
         float adjustedReward = reward * (1f + recencyBonus);
         
-        // HIGH learning rate for new states, moderate for visited states
-        float adaptiveAlpha = visitCounts[key] <= 2 ? alpha : alpha * 0.7f;
+        // Adaptive learning rate: faster for new experiences
+        float adaptiveAlpha = visitCounts[key] <= 2 ? alpha : alpha * 0.75f;
         
         float currentQ = GetQValue(state, action);
         float nextQ = GetQValue(nextState, nextAction);
         
-        // SARSA update with adjusted reward
+        // SARSA update
         float tdError = adjustedReward + gamma * nextQ - currentQ;
         float updated = currentQ + adaptiveAlpha * tdError;
         
@@ -111,21 +166,20 @@ public class SARSAController
         Debug.Log($"[SARSA] Q({state},{action}): {currentQ:F2}→{updated:F2} | r={reward:F2} (adj:{adjustedReward:F2}) | α={adaptiveAlpha:F2} | visits={visitCounts[key]}");
     }
 
-    // Calculate bonus based on recent consistency in performance
+    // Calculate bonus based on recent consistency
     private float CalculateRecencyBonus(QuestionComponent.DifficultyClass action)
     {
         var recent = recentPerformance[action];
         if (recent.Count < 2) return 0f;
         
-        // If all recent attempts are same outcome (all correct or all wrong), amplify signal
+        // Strong consistent pattern = higher bonus
         bool allSame = recent.All(r => r == recent.First());
-        return allSame ? 0.3f : 0f; // 30% bonus for consistent patterns
+        return allSame ? 0.25f : 0f;
     }
 
     // === EPSILON HANDLING ===
     public void DecayEpsilon()
     {
-        // Decay after EVERY question for fast convergence
         epsilon = Mathf.Max(minEpsilon, epsilon * decayRate);
     }
 
@@ -139,13 +193,12 @@ public class SARSAController
     // === STAGE TRANSITION ===
     public void OnNewStage()
     {
-        // Keep Q-table but reset recency tracking
+        // Keep Q-table and difficulty history for smoother transitions
         foreach (var queue in recentPerformance.Values)
         {
             queue.Clear();
         }
         
-        // Boost exploration slightly for new stage
         epsilon = Mathf.Min(0.2f, epsilon * 1.5f);
         
         Debug.Log($"[SARSA] New stage | Q-table: {Q.Count} entries | ε: {epsilon:F3}");
@@ -156,6 +209,7 @@ public class SARSAController
     {
         Q.Clear();
         visitCounts.Clear();
+        recentDifficulties.Clear();
         foreach (var queue in recentPerformance.Values)
         {
             queue.Clear();
@@ -177,7 +231,7 @@ public class SARSAController
 
     private bool HasState(string state) => Q.Keys.Any(k => k.state == state);
 
-    private QuestionComponent.DifficultyClass GetBestAction(string state)
+    private QuestionComponent.DifficultyClass GetBestActionWithSmoothing(string state)
     {
         var actions = Q.Where(k => k.Key.state == state);
         
@@ -187,16 +241,63 @@ public class SARSAController
             return GetHeuristicAction(state);
         }
         
-        // Break ties randomly to avoid getting stuck
-        var maxValue = actions.Max(k => k.Value);
-        var bestActions = actions.Where(k => Mathf.Approximately(k.Value, maxValue)).ToList();
+        var bestAction = actions.OrderByDescending(k => k.Value).First().Key.action;
         
-        if (bestActions.Count > 1)
+        // === STABILITY CHECK ===
+        // If we're about to make a big jump (e.g., EASY → HARD), check if it's justified
+        if (recentDifficulties.Count > 0)
         {
-            return bestActions[rng.Next(bestActions.Count)].Key.action;
+            var currentDiff = recentDifficulties.Last();
+            int diffJump = Math.Abs((int)bestAction - (int)currentDiff);
+            
+            // If jumping 2 levels (EASY ↔ HARD), require strong evidence
+            if (diffJump >= 2)
+            {
+                var actionQValue = Q[(state, bestAction)];
+                var actionVisits = visitCounts.GetValueOrDefault((state, bestAction), 0);
+                
+                // Need at least 2 visits and significantly better Q-value to justify big jump
+                var otherActions = actions.Where(a => a.Key.action != bestAction);
+                if (actionVisits < 2 || !otherActions.Any())
+                {
+                    // Not enough confidence - take intermediate step instead
+                    return GetIntermediateDifficulty(currentDiff, bestAction);
+                }
+                
+                var secondBestQ = otherActions.Max(k => k.Value);
+                float qDifference = actionQValue - secondBestQ;
+                
+                // Require significant Q-value advantage (at least 1.0 difference)
+                if (qDifference < 1.0f)
+                {
+                    return GetIntermediateDifficulty(currentDiff, bestAction);
+                }
+            }
         }
         
-        return actions.OrderByDescending(k => k.Value).First().Key.action;
+        return bestAction;
+    }
+
+    // Get intermediate difficulty between current and target
+    private QuestionComponent.DifficultyClass GetIntermediateDifficulty(
+        QuestionComponent.DifficultyClass current, 
+        QuestionComponent.DifficultyClass target)
+    {
+        int currentLevel = (int)current;
+        int targetLevel = (int)target;
+        
+        if (currentLevel < targetLevel)
+        {
+            // Moving up: take one step
+            return (QuestionComponent.DifficultyClass)(currentLevel + 1);
+        }
+        else if (currentLevel > targetLevel)
+        {
+            // Moving down: take one step
+            return (QuestionComponent.DifficultyClass)(currentLevel - 1);
+        }
+        
+        return current;
     }
 
     // === DEBUG & ANALYSIS ===
@@ -213,6 +314,11 @@ public class SARSAController
             string recentStr = recent.Count > 0 ? 
                 string.Join("", recent.Select(r => r ? "✓" : "✗")) : "-";
             Debug.Log($"Q({kvp.Key.state}, {kvp.Key.action}) = {kvp.Value:F2} [visits: {visits}, recent: {recentStr}]");
+        }
+        
+        if (recentDifficulties.Count > 0)
+        {
+            Debug.Log($"Recent difficulties: {string.Join(" → ", recentDifficulties)}");
         }
     }
 
