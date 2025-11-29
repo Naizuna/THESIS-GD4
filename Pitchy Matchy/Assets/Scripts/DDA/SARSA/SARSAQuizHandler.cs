@@ -160,6 +160,7 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
             IsSessionFinished = true;
             agent.PrintQTable();
             agent.PrintStateSpaceInfo();
+            agent.PrintQTableAll();
             yield break;
         }
 
