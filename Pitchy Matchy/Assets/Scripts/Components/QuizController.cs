@@ -102,7 +102,6 @@ public class QuizController : MonoBehaviour
         viewQuestions = ctx.QuestionsToAnswer;
         // central checks (player death / victory)
         if (HasVictoryOrDefeatScreensShown) return;
-        Debug.Log("is input enabled: " + playerInputEnabled);
 
         if (player.IsPlayerDefeated())
         {

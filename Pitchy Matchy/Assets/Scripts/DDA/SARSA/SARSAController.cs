@@ -13,67 +13,69 @@ public class SARSAController
     private Dictionary<(string state, QuestionComponent.DifficultyClass action), int> visitCounts 
         = new Dictionary<(string, QuestionComponent.DifficultyClass), int>();
 
-    // Learning parameters
-    private float alpha = 0.2f;           // Higher learning rate for short quizzes
-    private float gamma = 0.95f;          // Slightly lower gamma for short-term focus
+    // Learning parameters - TUNED FOR FAST ADAPTATION
+    private float alpha = 0.5f;           // HIGH learning rate for quick updates
+    private float gamma = 0.85f;          // Lower discount - prioritize immediate feedback
     
-    // === OPTIMISTIC INITIALIZATION ===
-    // Encourages exploration of harder difficulties early
-    private Dictionary<QuestionComponent.DifficultyClass, float> optimisticInit = new()
-    {
-        { QuestionComponent.DifficultyClass.EASY, 0.5f },
-        { QuestionComponent.DifficultyClass.MEDIUM, 1.0f },
-        { QuestionComponent.DifficultyClass.HARD, 1.5f }
-    };
+    // CONSERVATIVE initialization - start neutral, let experience guide quickly
+    private const float INIT_Q_VALUE = 0f;
 
-    // === REWARD NORMALIZATION ===
-    private float rewardSum = 0f;
-    private float rewardSumSquared = 0f;
-    private int rewardCount = 0;
-    private const float EPSILON_NORM = 1e-8f; // Prevent division by zero
-
-    // Exploration parameters - tuned for 12-30 question quizzes
-    private float epsilon = 0.2f;          // Start with higher exploration
-    private float minEpsilon = 0.05f;      // Maintain some exploration
-    private float decayRate = 0.98f;       // Moderate decay
+    // Exploration parameters - AGGRESSIVE GREEDY EXPLOITATION
+    private float epsilon = 0.085f;        // Start with some exploration
+    private float minEpsilon = 0.05f;     // Minimal exploration floor
+    private float decayRate = 0.92f;      // Decay after EVERY question
     
-    // Decay control - decay every N questions for stability
-    private int questionsBeforeDecay = 2;
-    private int questionsSinceDecay = 0;
-
     private System.Random rng = new System.Random();
+
+    // === RECENCY-WEIGHTED EXPERIENCE ===
+    // Track recent performance per difficulty to make quick adjustments
+    private Dictionary<QuestionComponent.DifficultyClass, Queue<bool>> recentPerformance 
+        = new Dictionary<QuestionComponent.DifficultyClass, Queue<bool>>();
+    private const int RECENCY_WINDOW = 3; // Only last 3 attempts per difficulty
+
+    public SARSAController()
+    {
+        // Initialize recency tracking
+        foreach (QuestionComponent.DifficultyClass diff in Enum.GetValues(typeof(QuestionComponent.DifficultyClass)))
+        {
+            recentPerformance[diff] = new Queue<bool>();
+        }
+    }
 
     // === ACTION SELECTION ===
     public QuestionComponent.DifficultyClass ChooseAction(string state)
     {
-        // ε-greedy exploration
-        if (rng.NextDouble() < epsilon || !HasState(state))
+        // ε-greedy with fast exploitation
+        if (rng.NextDouble() < epsilon)
         {
+            // Exploration: random action
             Array values = Enum.GetValues(typeof(QuestionComponent.DifficultyClass));
             return (QuestionComponent.DifficultyClass)values.GetValue(rng.Next(values.Length));
         }
         else
         {
+            // Exploitation: best known action
             return GetBestAction(state);
         }
     }
 
     // === HEURISTIC FALLBACK ===
-    // Returns a safe difficulty based on state when Q-table is sparse
     public QuestionComponent.DifficultyClass GetHeuristicAction(string state)
     {
         return state switch
         {
             "START" => QuestionComponent.DifficultyClass.EASY,
             "STRUGGLING" => QuestionComponent.DifficultyClass.EASY,
-            "AVERAGE" => QuestionComponent.DifficultyClass.MEDIUM,
+            "INCONSISTENT" => QuestionComponent.DifficultyClass.EASY,
+            "IMPROVING" => QuestionComponent.DifficultyClass.MEDIUM,
+            "CONSISTENT" => QuestionComponent.DifficultyClass.MEDIUM,
             "MASTERING" => QuestionComponent.DifficultyClass.HARD,
             "TERMINAL" => QuestionComponent.DifficultyClass.MEDIUM,
             _ => QuestionComponent.DifficultyClass.EASY
         };
     }
 
-    // === Q-VALUE UPDATE (SARSA with Normalization) ===
+    // === Q-VALUE UPDATE (SARSA with Recency Bonus) ===
     public void UpdateQValue(string state, QuestionComponent.DifficultyClass action, float reward,
                              string nextState, QuestionComponent.DifficultyClass nextAction)
     {
@@ -82,56 +84,49 @@ public class SARSAController
         // Track visit counts
         visitCounts[key] = visitCounts.GetValueOrDefault(key, 0) + 1;
         
-        // === REWARD NORMALIZATION ===
-        UpdateRewardStats(reward);
-        float normalizedReward = NormalizeReward(reward);
+        // Track recent performance for this difficulty
+        bool wasCorrect = reward > 0;
+        recentPerformance[action].Enqueue(wasCorrect);
+        if (recentPerformance[action].Count > RECENCY_WINDOW)
+        {
+            recentPerformance[action].Dequeue();
+        }
         
-        // Adaptive learning rate: learn faster from novel experiences
-        float adaptiveAlpha = alpha / (1f + 0.1f * Mathf.Sqrt(visitCounts[key]));
+        // RECENCY BONUS: Amplify learning for recent patterns
+        float recencyBonus = CalculateRecencyBonus(action);
+        float adjustedReward = reward * (1f + recencyBonus);
+        
+        // HIGH learning rate for new states, moderate for visited states
+        float adaptiveAlpha = visitCounts[key] <= 2 ? alpha : alpha * 0.7f;
         
         float currentQ = GetQValue(state, action);
         float nextQ = GetQValue(nextState, nextAction);
         
-        // Standard SARSA update with normalized reward
-        float tdError = normalizedReward + gamma * nextQ - currentQ;
+        // SARSA update with adjusted reward
+        float tdError = adjustedReward + gamma * nextQ - currentQ;
         float updated = currentQ + adaptiveAlpha * tdError;
         
         Q[key] = updated;
         
-        Debug.Log($"[SARSA] Q({state},{action}): {currentQ:F2}→{updated:F2} | r={reward:F2}→{normalizedReward:F2} | α={adaptiveAlpha:F3}");
+        Debug.Log($"[SARSA] Q({state},{action}): {currentQ:F2}→{updated:F2} | r={reward:F2} (adj:{adjustedReward:F2}) | α={adaptiveAlpha:F2} | visits={visitCounts[key]}");
     }
 
-    // Update running statistics for reward normalization
-    private void UpdateRewardStats(float reward)
+    // Calculate bonus based on recent consistency in performance
+    private float CalculateRecencyBonus(QuestionComponent.DifficultyClass action)
     {
-        rewardCount++;
-        rewardSum += reward;
-        rewardSumSquared += reward * reward;
-    }
-
-    // Normalize reward using running mean and standard deviation
-    private float NormalizeReward(float reward)
-    {
-        if (rewardCount < 2) return reward; // Need at least 2 samples
+        var recent = recentPerformance[action];
+        if (recent.Count < 2) return 0f;
         
-        float mean = rewardSum / rewardCount;
-        float variance = (rewardSumSquared / rewardCount) - (mean * mean);
-        float stdDev = Mathf.Sqrt(Mathf.Max(variance, 0f)) + EPSILON_NORM;
-        
-        return (reward - mean) / stdDev;
+        // If all recent attempts are same outcome (all correct or all wrong), amplify signal
+        bool allSame = recent.All(r => r == recent.First());
+        return allSame ? 0.3f : 0f; // 30% bonus for consistent patterns
     }
 
     // === EPSILON HANDLING ===
     public void DecayEpsilon()
     {
-        questionsSinceDecay++;
-        
-        // Only decay every N questions for stability
-        if (questionsSinceDecay >= questionsBeforeDecay)
-        {
-            epsilon = Mathf.Max(minEpsilon, epsilon * decayRate);
-            questionsSinceDecay = 0;
-        }
+        // Decay after EVERY question for fast convergence
+        epsilon = Mathf.Max(minEpsilon, epsilon * decayRate);
     }
 
     public void SetEpsilon(float newEpsilon)
@@ -142,27 +137,30 @@ public class SARSAController
     public float CurrentEpsilon => epsilon;
 
     // === STAGE TRANSITION ===
-    // Maintains Q-table across stages but boosts exploration
     public void OnNewStage()
     {
-        // Keep Q-table and reward stats for transfer learning
-        // Slightly increase exploration for new stage
-        epsilon = Mathf.Min(epsilon * 1.2f, 0.25f);
-        questionsSinceDecay = 0;
+        // Keep Q-table but reset recency tracking
+        foreach (var queue in recentPerformance.Values)
+        {
+            queue.Clear();
+        }
         
-        Debug.Log($"[SARSA] New stage | Q-table: {Q.Count} entries | Rewards: {rewardCount} | ε: {epsilon:F3}");
+        // Boost exploration slightly for new stage
+        epsilon = Mathf.Min(0.2f, epsilon * 1.5f);
+        
+        Debug.Log($"[SARSA] New stage | Q-table: {Q.Count} entries | ε: {epsilon:F3}");
     }
 
-    // Reset everything for completely new session
+    // Reset everything for new session
     public void Reset()
     {
         Q.Clear();
         visitCounts.Clear();
-        rewardSum = 0f;
-        rewardSumSquared = 0f;
-        rewardCount = 0;
-        epsilon = 0.2f;
-        questionsSinceDecay = 0;
+        foreach (var queue in recentPerformance.Values)
+        {
+            queue.Clear();
+        }
+        epsilon = 0.15f;
         
         Debug.Log("[SARSA] Complete reset");
     }
@@ -172,8 +170,7 @@ public class SARSAController
     {
         if (!Q.ContainsKey((state, action)))
         {
-            // === OPTIMISTIC INITIALIZATION ===
-            Q[(state, action)] = optimisticInit[action];
+            Q[(state, action)] = INIT_Q_VALUE;
         }
         return Q[(state, action)];
     }
@@ -186,9 +183,17 @@ public class SARSAController
         
         if (!actions.Any())
         {
-            // === HEURISTIC FALLBACK ===
             Debug.Log($"[SARSA] No Q-values for state '{state}' - using heuristic");
             return GetHeuristicAction(state);
+        }
+        
+        // Break ties randomly to avoid getting stuck
+        var maxValue = actions.Max(k => k.Value);
+        var bestActions = actions.Where(k => Mathf.Approximately(k.Value, maxValue)).ToList();
+        
+        if (bestActions.Count > 1)
+        {
+            return bestActions[rng.Next(bestActions.Count)].Key.action;
         }
         
         return actions.OrderByDescending(k => k.Value).First().Key.action;
@@ -204,28 +209,21 @@ public class SARSAController
         foreach (var kvp in Q.OrderBy(x => x.Key.state).ThenBy(x => x.Key.action))
         {
             int visits = visitCounts.GetValueOrDefault(kvp.Key, 0);
-            Debug.Log($"Q({kvp.Key.state}, {kvp.Key.action}) = {kvp.Value:F2} [visits: {visits}]");
-        }
-        
-        if (rewardCount > 0)
-        {
-            float mean = rewardSum / rewardCount;
-            float variance = (rewardSumSquared / rewardCount) - (mean * mean);
-            float stdDev = Mathf.Sqrt(Mathf.Max(variance, 0f));
-            Debug.Log($"Reward stats: μ={mean:F2}, σ={stdDev:F2}, n={rewardCount}");
+            var recent = recentPerformance[kvp.Key.action];
+            string recentStr = recent.Count > 0 ? 
+                string.Join("", recent.Select(r => r ? "✓" : "✗")) : "-";
+            Debug.Log($"Q({kvp.Key.state}, {kvp.Key.action}) = {kvp.Value:F2} [visits: {visits}, recent: {recentStr}]");
         }
     }
 
     // === PERSISTENCE ===
     public void SavePolicy(string path) 
     {
-        // TODO: Serialize Q, visitCounts, reward stats
         Debug.Log($"[SARSA] SavePolicy() to {path} - {Q.Count} entries");
     }
     
     public void LoadPolicy(string path) 
     {
-        // TODO: Deserialize Q, visitCounts, reward stats
         Debug.Log($"[SARSA] LoadPolicy() from {path}");
     }
 }

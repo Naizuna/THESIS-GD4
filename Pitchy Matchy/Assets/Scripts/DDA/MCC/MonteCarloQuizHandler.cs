@@ -43,8 +43,6 @@ public class MonteCarloQuizHandler : MonoBehaviour, IQuizHandler
 
     public void Update()
     {
-        Debug.Log("Current: " + ctx.QuestionsToAnswer.Count);
-        Debug.Log("questions asked: " + questionsAskedInEpisode);
     }
     
      private void AddQuestionWithEpisodeTracking()
@@ -124,6 +122,7 @@ public class MonteCarloQuizHandler : MonoBehaviour, IQuizHandler
         }
 
         float baseReward = q.isAnsweredCorrectly ? difficultyPoints : -difficultyPoints;
+        
 
         // Response time bonus
         float timeBonus = 0f;
@@ -132,7 +131,11 @@ public class MonteCarloQuizHandler : MonoBehaviour, IQuizHandler
         else if (responseTime <= 10f) timeBonus = 0.2f;
 
         //Old float reward = baseReward * difficultyMultiplier + timeBonus;
-        float reward = baseReward + timeBonus;
+
+        //accuracy
+        float accuracy = (float)ctx.QuestionsToAnswer.FindAll(q => q.isAnsweredCorrectly).Count / (ctx.CurrQuestionIndex + 1);
+        //reward
+        float reward = (baseReward * accuracy) - timeBonus;
 
 
         // Apply reward to the **most recent** episode entry
@@ -149,7 +152,6 @@ public class MonteCarloQuizHandler : MonoBehaviour, IQuizHandler
         questionsAskedInEpisode++;
         Debug.Log($"Answered {questionsAskedInEpisode}/{questionsPerEpisode} this episode.");
 
-        float accuracy = (float)ctx.QuestionsToAnswer.FindAll(q => q.isAnsweredCorrectly).Count / (ctx.CurrQuestionIndex + 1);
         Debug.Log($"Current Accuracy: {accuracy * 100f}% after {ctx.CurrQuestionIndex + 1} questions.");
 
         ctx.ShowCorrectAnswers();
@@ -195,8 +197,9 @@ public class MonteCarloQuizHandler : MonoBehaviour, IQuizHandler
         {
             //end episode
             mcAgent.UpdatePolicy(episode);
-            mcAgent.DecayEpsilon();
+            //mcAgent.DecayEpsilon();
             Debug.Log("Episode finished. Policy updated.");
+            Debug.Log("Debug Epsilon: " + mcAgent.CurrentEpsilon);
 
             int correct = ctx.QuestionsToAnswer.FindAll(q => q.isAnsweredCorrectly).Count;
             int total = ctx.QuestionsToAnswer.Count;
