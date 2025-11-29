@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
@@ -10,12 +9,13 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
     private readonly SARSAController agent;
     private int totalQuestions;
 
-    private string lastState = null;
-    private QuestionComponent.DifficultyClass lastAction;
-
-    // FINE-GRAINED state tracking (window of 2-3 recent questions)
-    private Queue<bool> recentResults = new Queue<bool>();
-    private const int STATE_WINDOW = 2; // Small window for fast adaptation
+    // State tracking
+    private string currentState = "START"; // Special initial state
+    private QuestionComponent.DifficultyClass currentAction;
+    
+    // For constructing next state after answer
+    private QuestionComponent.DifficultyClass lastQuestionDifficulty;
+    private float lastResponseTime;
 
     public bool IsSessionFinished { get; set; } = false;
     private Coroutine runningCoroutine;
@@ -33,15 +33,18 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
         ctx.CurrQuestionIndex = 0;
         ctx.QuestionsToAnswer.Clear();
         ctx.PlayerAnswers.Clear();
-        recentResults.Clear();
         IsSessionFinished = false;
+        
+        // Reset to initial state
+        currentState = "START";
+        totalCorrectAnswers = 0;
 
         LoadNextQuestion();
     }
 
     public void Update()
     {
-        // Optional debug info
+        // Optional: Could display current state info
     }
 
     public void ReceivePlayerAnswers(List<string> answers)
@@ -73,55 +76,57 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
         q.CheckAnswers();
 
         bool correct = q.isAnsweredCorrectly;
-        
-        // Update recent results with small window
-        recentResults.Enqueue(correct);
-        if (recentResults.Count > STATE_WINDOW) 
-            recentResults.Dequeue();
+        float responseTime = ctx.ResponseTimes[ctx.ResponseTimes.Count - 1];
 
-        // === SIMPLIFIED REWARD STRUCTURE ===
-        // Clear, immediate feedback based on difficulty and correctness
-        float reward = 0f;
+        // === REWARD CALCULATION ===
+        float reward = CalculateReward(q.questionDifficulty, correct, responseTime);
+
+        // === STATE TRANSITION ===
+        // nextState is based on what just happened
+        string nextState;
         
-        if (correct)
+        if (currentState == "START")
         {
-            // Positive reward scaled by difficulty
-            reward = q.questionDifficulty switch
-            {
-                QuestionComponent.DifficultyClass.EASY => 1.0f,
-                QuestionComponent.DifficultyClass.MEDIUM => 2.0f,
-                QuestionComponent.DifficultyClass.HARD => 3.0f,
-                _ => 1.0f
-            };
-            
-            // Small time bonus for quick correct answers
-            float responseTime = ctx.ResponseTimes.LastOrDefault();
-            if (responseTime > 0 && responseTime <= 5f)
-                reward += 0.5f;
-                
-            totalCorrectAnswers++;
+            // First question answered - construct real state
+            nextState = SARSAController.ConstructState(
+                q.questionDifficulty, 
+                correct, 
+                responseTime
+            );
         }
         else
         {
-            // Negative reward - stronger penalty for harder questions failed
-            reward = q.questionDifficulty switch
-            {
-                QuestionComponent.DifficultyClass.EASY => -1.5f,   // Bad to fail easy
-                QuestionComponent.DifficultyClass.MEDIUM => -1.0f,
-                QuestionComponent.DifficultyClass.HARD => -0.5f,   // Expected to fail hard sometimes
-                _ => -1.0f
-            };
+            // Normal state transition
+            nextState = SARSAController.ConstructState(
+                q.questionDifficulty, 
+                correct, 
+                responseTime
+            );
         }
 
-        // === STATE TRANSITIONS ===
-        string currentState = lastState ?? "START";
-        var currentAction = lastAction;
-        string nextState = GetNextState();
+        // Choose next action based on next state
         var nextAction = agent.ChooseAction(nextState);
 
-        // SARSA update
-        agent.UpdateQValue(currentState, currentAction, reward, nextState, nextAction);
-        agent.DecayEpsilon(); // Decay after every question
+        // === SARSA UPDATE ===
+        if (currentState != "START") // Don't update on first question
+        {
+            agent.UpdateQValue(currentState, currentAction, reward, nextState, nextAction);
+        }
+        
+        agent.DecayEpsilon();
+
+        // Update state for next iteration
+        currentState = nextState;
+        currentAction = nextAction;
+
+        if (correct)
+        {
+            totalCorrectAnswers++;
+        }
+
+        Debug.Log($"[QUIZ] Q#{ctx.CurrQuestionIndex + 1} | Difficulty: {q.questionDifficulty} | " +
+                  $"Correct: {correct} | Time: {responseTime:F1}s | State: {nextState} | " +
+                  $"Next Action: {nextAction} | Reward: {reward:F2}");
 
         // === GAMEPLAY EFFECTS ===
         ctx.ShowCorrectAnswers();
@@ -149,10 +154,12 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
         ctx.PlyrMetric?.SetQuestionsAnswered(ctx.QuestionsToAnswer);
         ctx.PlyrMetric?.CalculateTotalAccuracy();
 
+        // Check if quiz is finished
         if (ctx.QuestionsToAnswer.Count >= totalQuestions)
         {
             IsSessionFinished = true;
-            agent.PrintQTable(); // Debug output at end
+            agent.PrintQTable();
+            agent.PrintStateSpaceInfo();
             yield break;
         }
 
@@ -165,59 +172,83 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
     {
         if (IsSessionFinished) return;
 
-        string state = GetNextState();
-        lastState = state;
-        var action = agent.ChooseAction(state);
-        lastAction = action;
+        // For first question, use heuristic (typically EASY)
+        QuestionComponent.DifficultyClass difficulty;
+        
+        if (currentState == "START")
+        {
+            // First question - start with EASY
+            difficulty = QuestionComponent.DifficultyClass.EASY;
+            currentAction = difficulty;
+            Debug.Log($"[SARSA] First question - starting with {difficulty}");
+        }
+        else
+        {
+            // Use the action chosen in previous step
+            difficulty = currentAction;
+        }
 
-        var q = ctx.Bank.GetQuestionFromBank(action);
+        var q = ctx.Bank.GetQuestionFromBank(difficulty);
         ctx.AddQuestion(q);
         ctx.CurrQuestionIndex = ctx.QuestionsToAnswer.Count - 1;
 
         ctx.UpdateQuestionText();
         ctx.PlayCurrentQuestionPitches();
 
-        Debug.Log($"[SARSA] Q#{ctx.CurrQuestionIndex + 1}/{totalQuestions} | State={state} | Action={action} | ε={agent.CurrentEpsilon:F3}");
+        Debug.Log($"[SARSA] Loading Q#{ctx.CurrQuestionIndex + 1}/{totalQuestions} | " +
+                  $"State: {currentState} | Chosen Difficulty: {difficulty} | ε: {agent.CurrentEpsilon:F3}");
     }
 
-    // === FINE-GRAINED STATE REPRESENTATION ===
-    // 6 states instead of 3 for better discrimination
-    private string GetNextState()
+    // === REWARD FUNCTION ===
+    private float CalculateReward(
+        QuestionComponent.DifficultyClass difficulty, 
+        bool correct, 
+        float responseTime)
     {
-        if (ctx.QuestionsToAnswer.Count == 0) 
-            return "START";
-        
-        if (ctx.CurrQuestionIndex >= totalQuestions - 1) 
-            return "TERMINAL";
+        float reward = 0f;
 
-        // No results yet
-        if (recentResults.Count == 0) 
-            return "START";
-
-        int correctCount = recentResults.Count(r => r);
-        int totalCount = recentResults.Count;
-
-        // Single question only - binary state
-        if (totalCount == 1)
+        if (correct)
         {
-            return correctCount == 1 ? "IMPROVING" : "STRUGGLING";
+            // Base reward scaled by difficulty
+            reward = difficulty switch
+            {
+                QuestionComponent.DifficultyClass.EASY => 1.0f,
+                QuestionComponent.DifficultyClass.MEDIUM => 2.0f,
+                QuestionComponent.DifficultyClass.HARD => 3.0f,
+                _ => 1.0f
+            };
+
+            // Time bonus for fast correct answers
+            var timeCat = SARSAController.DiscretizeResponseTime(responseTime);
+            float timeBonus = timeCat switch
+            {
+                SARSAController.ResponseTimeCategory.FAST => 0.5f,
+                SARSAController.ResponseTimeCategory.AVERAGE => 0.2f,
+                SARSAController.ResponseTimeCategory.SLOW => 0f,
+                _ => 0f
+            };
+
+            reward += timeBonus;
+        }
+        else
+        {
+            // Penalties based on difficulty (asymmetric - lower penalty for hard)
+            reward = difficulty switch
+            {
+                QuestionComponent.DifficultyClass.EASY => -2.0f,   // Should know basics
+                QuestionComponent.DifficultyClass.MEDIUM => -1.5f,
+                QuestionComponent.DifficultyClass.HARD => -0.5f,   // Expected to struggle
+                _ => -1.0f
+            };
+
+            // Extra penalty for slow wrong answers (not even close)
+            var timeCat = SARSAController.DiscretizeResponseTime(responseTime);
+            if (timeCat == SARSAController.ResponseTimeCategory.SLOW)
+            {
+                reward -= 0.3f; // Additional penalty for slow + wrong
+            }
         }
 
-        // 2+ questions - more nuanced states
-        float accuracy = (float)correctCount / totalCount;
-        
-        if (accuracy == 0f)
-            return "STRUGGLING";      // All wrong
-        else if (accuracy < 0.5f)
-            return "INCONSISTENT";    // Mostly wrong
-        else if (accuracy == 0.5f)
-            return "INCONSISTENT";    // Mixed
-        else if (accuracy < 1.0f)
-            return "IMPROVING";       // Mostly right
-        else
-            return "MASTERING";       // All right
-
-        // Alternatively, could use last 2 questions as explicit state:
-        // "WW", "WC", "CW", "CC" for even finer control
+        return reward;
     }
 }
