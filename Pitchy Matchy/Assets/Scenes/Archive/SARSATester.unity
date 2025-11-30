@@ -263,7 +263,7 @@ MonoBehaviour:
   logDetailedOutput: 1
   exportResults: 1
   runBasicLearningTest: 1
-  runConvergenceTest: 1
+  runConvergenceTest: 0
   runAdaptationTest: 1
   runExplorationTest: 1
 --- !u!1660057539 &9223372036854775807

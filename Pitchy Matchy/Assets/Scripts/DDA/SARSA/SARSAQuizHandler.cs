@@ -9,8 +9,7 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
     private readonly SARSAController agent;
     private int totalQuestions;
 
-    // State tracking
-    private string currentState = "START"; // Special initial state
+    private string currentState = "START"; //initial state
     private QuestionComponent.DifficultyClass currentAction;
     
     // For constructing next state after answer
@@ -44,7 +43,6 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
 
     public void Update()
     {
-        // Optional: Could display current state info
     }
 
     public void ReceivePlayerAnswers(List<string> answers)
@@ -78,37 +76,24 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
         bool correct = q.isAnsweredCorrectly;
         float responseTime = ctx.ResponseTimes[ctx.ResponseTimes.Count - 1];
 
-        // === REWARD CALCULATION ===
+        //REWARD CALCULATION
         float reward = CalculateReward(q.questionDifficulty, correct, responseTime);
 
-        // === STATE TRANSITION ===
+        // STATE TRANSITION
         // nextState is based on what just happened
         string nextState;
         
-        if (currentState == "START")
-        {
-            // First question answered - construct real state
-            nextState = SARSAController.ConstructState(
-                q.questionDifficulty, 
-                correct, 
-                responseTime
-            );
-        }
-        else
-        {
-            // Normal state transition
-            nextState = SARSAController.ConstructState(
-                q.questionDifficulty, 
-                correct, 
-                responseTime
-            );
-        }
+        nextState = SARSAController.ConstructState(
+            q.questionDifficulty, 
+            correct, 
+            responseTime
+        );
 
         // Choose next action based on next state
         var nextAction = agent.ChooseAction(nextState);
 
-        // === SARSA UPDATE ===
-        if (currentState != "START") // Don't update on first question
+        //SARSA UPDATE
+        if (currentState != "START")
         {
             agent.UpdateQValue(currentState, currentAction, reward, nextState, nextAction);
         }
@@ -128,7 +113,7 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
                   $"Correct: {correct} | Time: {responseTime:F1}s | State: {nextState} | " +
                   $"Next Action: {nextAction} | Reward: {reward:F2}");
 
-        // === GAMEPLAY EFFECTS ===
+        
         ctx.ShowCorrectAnswers();
         ctx.keysHighlighter.GetTheKeys(new QuestionComponent(q));
         ctx.PlayCurrentQuestionPitches();
@@ -173,13 +158,14 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
     {
         if (IsSessionFinished) return;
 
-        // For first question, use heuristic (typically EASY)
+
         QuestionComponent.DifficultyClass difficulty;
         
         if (currentState == "START")
-        {
-            // First question - start with EASY
-            difficulty = QuestionComponent.DifficultyClass.EASY;
+        {   
+            // First question random
+            difficulty = (QuestionComponent.DifficultyClass)UnityEngine.Random.Range(
+                0, System.Enum.GetValues(typeof(QuestionComponent.DifficultyClass)).Length);
             currentAction = difficulty;
             Debug.Log($"[SARSA] First question - starting with {difficulty}");
         }
@@ -200,14 +186,14 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
                   $"State: {currentState} | Chosen Difficulty: {difficulty} | ε: {agent.CurrentEpsilon:F3}");
     }
 
-    // === REWARD FUNCTION ===
+    //REWARD FUNCTION
     private float CalculateReward(
         QuestionComponent.DifficultyClass difficulty, 
         bool correct, 
         float responseTime)
     {
         float reward = 0f;
-
+        
         if (correct)
         {
             // Base reward scaled by difficulty
@@ -229,16 +215,16 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
                 _ => 0f
             };
 
-            reward += timeBonus;
+            reward += timeBonus; // timebonus added only if answer is correct
         }
         else
         {
-            // Penalties based on difficulty (asymmetric - lower penalty for hard)
+            // Penalties based on difficulty
             reward = difficulty switch
             {
-                QuestionComponent.DifficultyClass.EASY => -2.0f,   // Should know basics
-                QuestionComponent.DifficultyClass.MEDIUM => -1.5f,
-                QuestionComponent.DifficultyClass.HARD => -0.5f,   // Expected to struggle
+                QuestionComponent.DifficultyClass.EASY => -1.0f,//-2.0f,   // Should know basics
+                QuestionComponent.DifficultyClass.MEDIUM => -2.0f, //-1.5f,
+                QuestionComponent.DifficultyClass.HARD => -3.0f,//0.5f,   // Expected to struggle
                 _ => -1.0f
             };
 

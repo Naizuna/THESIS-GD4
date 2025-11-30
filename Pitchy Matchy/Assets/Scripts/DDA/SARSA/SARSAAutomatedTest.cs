@@ -107,8 +107,8 @@ public class SARSAAutomatedTest : MonoBehaviour
         var testRun = new TestRun { runNumber = 1 };
 
         string currentState = "START";
-        QuestionComponent.DifficultyClass currentAction = QuestionComponent.DifficultyClass.EASY;
-
+        QuestionComponent.DifficultyClass currentAction = currentAction = (QuestionComponent.DifficultyClass)UnityEngine.Random.Range(
+                0, System.Enum.GetValues(typeof(QuestionComponent.DifficultyClass)).Length);
         Debug.Log("[Basic Learning] Simulating consistent correct answers...");
 
         for (int i = 0; i < questionsPerRun; i++)
@@ -183,7 +183,8 @@ public class SARSAAutomatedTest : MonoBehaviour
         var testRun = new TestRun { runNumber = 2 };
 
         string currentState = "START";
-        QuestionComponent.DifficultyClass currentAction = QuestionComponent.DifficultyClass.EASY;
+        QuestionComponent.DifficultyClass currentAction = (QuestionComponent.DifficultyClass)UnityEngine.Random.Range(
+                0, System.Enum.GetValues(typeof(QuestionComponent.DifficultyClass)).Length);
 
         // Track Q-value changes
         Dictionary<(string, QuestionComponent.DifficultyClass), List<float>> qValueHistory 
@@ -256,7 +257,8 @@ public class SARSAAutomatedTest : MonoBehaviour
         var testRun = new TestRun { runNumber = 3 };
 
         string currentState = "START";
-        QuestionComponent.DifficultyClass currentAction = QuestionComponent.DifficultyClass.EASY;
+        QuestionComponent.DifficultyClass currentAction = (QuestionComponent.DifficultyClass)UnityEngine.Random.Range(
+                0, System.Enum.GetValues(typeof(QuestionComponent.DifficultyClass)).Length);
 
         Debug.Log("[Adaptation] Testing response to performance changes...");
 
@@ -411,9 +413,9 @@ public class SARSAAutomatedTest : MonoBehaviour
         {
             reward = difficulty switch
             {
-                QuestionComponent.DifficultyClass.EASY => -2.0f,
-                QuestionComponent.DifficultyClass.MEDIUM => -1.5f,
-                QuestionComponent.DifficultyClass.HARD => -0.5f,
+                QuestionComponent.DifficultyClass.EASY => -1.0f,
+                QuestionComponent.DifficultyClass.MEDIUM => -2.0f,
+                QuestionComponent.DifficultyClass.HARD => -3.0f,
                 _ => -1.0f
             };
 
