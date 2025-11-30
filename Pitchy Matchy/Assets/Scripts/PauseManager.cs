@@ -7,6 +7,7 @@ public class PauseMenu : MonoBehaviour
     public static PauseMenu instance {get; private set; }
     [SerializeField] GameObject pauseMenu;
     [SerializeField] GameObject pauseButton;
+    [SerializeField] GameObject pausePanel;
     [SerializeField] private GameObject optionsPanel;
     public static bool isPaused;
 
@@ -36,12 +37,17 @@ public class PauseMenu : MonoBehaviour
             SceneManager.GetActiveScene().name == "Stage 3 Mini Quiz" ||
             SceneManager.GetActiveScene().name == "Final Quiz")
         {
-            
+
             if (optionsPanel != null && optionsPanel.activeSelf)
+            {
                 pauseButton.SetActive(false);
+                pausePanel.SetActive(false);
+            }
             else
+            {
                 pauseButton.SetActive(true);
-                
+                pausePanel.SetActive(true);
+            }
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 if (SoundManager.Instance != null)
