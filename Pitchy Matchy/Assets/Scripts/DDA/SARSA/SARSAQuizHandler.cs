@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
@@ -10,15 +9,16 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
     private readonly SARSAController agent;
     private int totalQuestions;
 
-    private string lastState = null;
-    private QuestionComponent.DifficultyClass lastAction;
-
-    private int consecutiveFails = 0;
-    private Queue<bool> recentResults = new Queue<bool>();
-    private int accuracyWindow = 5;
+    private string currentState = "START"; //initial state
+    private QuestionComponent.DifficultyClass currentAction;
+    
+    // For constructing next state after answer
+    private QuestionComponent.DifficultyClass lastQuestionDifficulty;
+    private float lastResponseTime;
 
     public bool IsSessionFinished { get; set; } = false;
     private Coroutine runningCoroutine;
+    private int totalCorrectAnswers = 0;
 
     public SARSAQuizHandler(QuizContext context, SARSAController sarsaAgent = null)
     {
@@ -32,17 +32,19 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
         ctx.CurrQuestionIndex = 0;
         ctx.QuestionsToAnswer.Clear();
         ctx.PlayerAnswers.Clear();
-        recentResults.Clear();
-        consecutiveFails = 0;
         IsSessionFinished = false;
+        
+        // Reset to initial state
+        currentState = "START";
+        totalCorrectAnswers = 0;
 
         LoadNextQuestion();
     }
-     public void Update()
+
+    public void Update()
     {
-        // Optional debug info for runtime monitoring
-        Debug.Log($"[SARSA] Progress {ctx.QuestionsToAnswer.Count}/{totalQuestions} | ε={agent.CurrentEpsilon:F3} | Fails={consecutiveFails}");
     }
+
     public void ReceivePlayerAnswers(List<string> answers)
     {
         if (IsSessionFinished) return;
@@ -63,7 +65,6 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
 
     private IEnumerator ProcessAnswerAndLearnCoroutine()
     {
-        Debug.Log("Coroutine started");
         ctx.enablePlayerInput(false);
 
         var q = ctx.GetCurrentQuestion();
@@ -73,51 +74,51 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
         q.CheckAnswers();
 
         bool correct = q.isAnsweredCorrectly;
-        recentResults.Enqueue(correct);
-        if (recentResults.Count > accuracyWindow) recentResults.Dequeue();
-        consecutiveFails = correct ? 0 : consecutiveFails + 1;
+        float responseTime = ctx.ResponseTimes[ctx.ResponseTimes.Count - 1];
 
-        // --- Reward ---
-        int difficultyPoints = q.questionDifficulty switch
-        {
-            QuestionComponent.DifficultyClass.EASY => 1,
-            QuestionComponent.DifficultyClass.MEDIUM => 2,
-            QuestionComponent.DifficultyClass.HARD => 3,
-            _ => 1
-        };
+        //REWARD CALCULATION
+        float reward = CalculateReward(q.questionDifficulty, correct, responseTime);
 
-        float baseReward = correct ? difficultyPoints : -difficultyPoints;
-        float responseTime = ctx.ResponseTimes.LastOrDefault();
-        float timeBonus = responseTime <= 5f ? 0.5f : (responseTime <= 10f ? 0.2f : 0f);
-        float reward = baseReward + timeBonus;
+        // STATE TRANSITION
+        // nextState is based on what just happened
+        string nextState;
+        
+        nextState = SARSAController.ConstructState(
+            q.questionDifficulty, 
+            correct, 
+            responseTime
+        );
 
-        // --- State transitions ---
-        string currentState = lastState ?? GetCurrentState();
-        var currentAction = lastAction;
-        string nextState = GetNextState();
+        // Choose next action based on next state
         var nextAction = agent.ChooseAction(nextState);
 
-        agent.UpdateQValue(currentState, currentAction, reward, nextState, nextAction);
-
-        // --- Epsilon behavior ---
-        if (consecutiveFails >= 3)
+        //SARSA UPDATE
+        if (currentState != "START")
         {
-            float newEps = Mathf.Max(agent.CurrentEpsilon * 0.5f, 0.02f);
-            agent.SetEpsilon(newEps);
-            Debug.Log($"[SARSA] High failure streak — reducing ε to {agent.CurrentEpsilon:F3}");
+            agent.UpdateQValue(currentState, currentAction, reward, nextState, nextAction);
         }
-        else
+        
+        agent.DecayEpsilon();
+
+        // Update state for next iteration
+        currentState = nextState;
+        currentAction = nextAction;
+
+        if (correct)
         {
-            agent.DecayEpsilon();
+            totalCorrectAnswers++;
         }
 
-        // --- Gameplay effects ---
+        Debug.Log($"[QUIZ] Q#{ctx.CurrQuestionIndex + 1} | Difficulty: {q.questionDifficulty} | " +
+                  $"Correct: {correct} | Time: {responseTime:F1}s | State: {nextState} | " +
+                  $"Next Action: {nextAction} | Reward: {reward:F2}");
+
+        
         ctx.ShowCorrectAnswers();
         ctx.keysHighlighter.GetTheKeys(new QuestionComponent(q));
         ctx.PlayCurrentQuestionPitches();
         ctx.keysHighlighter.HighlightAnsweredKeys();
 
-        Debug.Log("About to wait");
         yield return new WaitForSeconds(ctx.keysHighlighter.speed * 2f);
 
         if (correct)
@@ -135,13 +136,16 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
         }
 
         ctx.CheckCorrectStreak();
-
         ctx.PlyrMetric?.SetQuestionsAnswered(ctx.QuestionsToAnswer);
         ctx.PlyrMetric?.CalculateTotalAccuracy();
 
+        // Check if quiz is finished
         if (ctx.QuestionsToAnswer.Count >= totalQuestions)
         {
             IsSessionFinished = true;
+            agent.PrintQTable();
+            agent.PrintStateSpaceInfo();
+            agent.PrintQTableAll();
             yield break;
         }
 
@@ -154,36 +158,77 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
     {
         if (IsSessionFinished) return;
 
-        string state = GetCurrentState();
-        lastState = state;
-        var action = agent.ChooseAction(state);
-        lastAction = action;
 
-        var q = ctx.Bank.GetQuestionFromBank(action);
+        QuestionComponent.DifficultyClass difficulty;
+        
+        if (currentState == "START")
+        {   
+            // First question random
+            difficulty = (QuestionComponent.DifficultyClass)UnityEngine.Random.Range(
+                0, System.Enum.GetValues(typeof(QuestionComponent.DifficultyClass)).Length);
+            currentAction = difficulty;
+            Debug.Log($"[SARSA] First question - starting with {difficulty}");
+        }
+        else
+        {
+            // Use the action chosen in previous step
+            difficulty = currentAction;
+        }
+
+        var q = ctx.Bank.GetQuestionFromBank(difficulty);
         ctx.AddQuestion(q);
         ctx.CurrQuestionIndex = ctx.QuestionsToAnswer.Count - 1;
 
         ctx.UpdateQuestionText();
         ctx.PlayCurrentQuestionPitches();
 
-        Debug.Log($"[SARSA] Q#{ctx.CurrQuestionIndex} | state={state} | action={action}");
+        Debug.Log($"[SARSA] Loading Q#{ctx.CurrQuestionIndex + 1}/{totalQuestions} | " +
+                  $"State: {currentState} | Chosen Difficulty: {difficulty} | ε: {agent.CurrentEpsilon:F3}");
     }
 
-    private string GetCurrentState()
+    //REWARD FUNCTION
+    private float CalculateReward(
+        QuestionComponent.DifficultyClass difficulty, 
+        bool correct, 
+        float responseTime)
     {
-        if (ctx.QuestionsToAnswer.Count == 0 && recentResults.Count == 0) return "START";
+        float reward = 0f;
+        
+        if (correct)
+        {
+            // Base reward scaled by difficulty
+            reward = difficulty switch
+            {
+                QuestionComponent.DifficultyClass.EASY => 1.0f,
+                QuestionComponent.DifficultyClass.MEDIUM => 2.0f,
+                QuestionComponent.DifficultyClass.HARD => 3.0f,
+                _ => 1.0f
+            };
 
-        int correctCount = recentResults.Count(r => r);
-        float acc = (float)correctCount / Math.Max(1, recentResults.Count);
+            // Time bonus for fast correct answers
+            var timeCat = SARSAController.DiscretizeResponseTime(responseTime);
+            float timeBonus = timeCat switch
+            {
+                SARSAController.ResponseTimeCategory.FAST => 0.5f,
+                SARSAController.ResponseTimeCategory.AVERAGE => 0.2f,
+                SARSAController.ResponseTimeCategory.SLOW => 0f,
+                _ => 0f
+            };
 
-        if (acc < 0.4f) return "EASY";
-        if (acc < 0.7f) return "MEDIUM";
-        return "HARD";
-    }
+            reward += timeBonus; // timebonus added only if answer is correct
+        }
+        else
+        {
+            // Penalties based on difficulty
+            reward = difficulty switch
+            {
+                QuestionComponent.DifficultyClass.EASY => -1.0f,//-2.0f,   // Should know basics
+                QuestionComponent.DifficultyClass.MEDIUM => -2.0f, //-1.5f,
+                QuestionComponent.DifficultyClass.HARD => -3.0f,//0.5f,   // Expected to struggle
+                _ => -1.0f
+            };
+        }
 
-    private string GetNextState()
-    {
-        if (ctx.CurrQuestionIndex >= totalQuestions - 1) return "TERMINAL";
-        return GetCurrentState();
+        return reward;
     }
 }

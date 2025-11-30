@@ -29,8 +29,8 @@ public class QuizController : MonoBehaviour
 
     [Header("Reference Pitch")]
     [SerializeField] private AudioClip referencePitch;
-    [SerializeField] private Button referencePitchButton;       
-    [SerializeField] private Image referencePitchSprite;        
+    [SerializeField] private Button referencePitchButton;
+    [SerializeField] private Image referencePitchSprite;
 
     [Header("Monte Carlo Control Options (only valid if MCC mode)")]
     [SerializeField] private int mccQuestionsPerEpisode;
@@ -48,34 +48,40 @@ public class QuizController : MonoBehaviour
 
     void Awake()
     {
-        // Before change:
-        // if (quizMode == QuizMode.Normal)
-        // {
-        //     ctx = new QuizContext(bank, wp, sPanel, player, enemy, clipPlayer, questText, numberOfQuestions);
-        //     handler = new NormalQuizHandler(ctx);
-        // }
-        // else if (quizMode == QuizMode.MonteCarloControl)
-        // {
-        //     ctx = new QuizContext(bank, wp, sPanel, player, enemy, clipPlayer, questText, numberOfQuestions, mccQuestionsPerEpisode);
-        //     handler = new MonteCarloQuizHandler(ctx, new MonteCarloAgent()); // or inject agent instance
-        // }
-        // else if (quizMode == QuizMode.Sarsa)
-        // {
-        //     ctx = new QuizContext(bank, wp, sPanel, player, enemy, clipPlayer, questText, numberOfQuestions);
-        //     handler = new SARSAQuizHandler(ctx, new SARSAController());
-        // }
-
-        // After change:
         // Create context (always the same unless MCC needs extra)
         if (GameVersionManager.Instance.SelectedVersion == GameVersionManager.VersionType.MCC)
         {
             ctx = new QuizContext(bank, wp, sPanel, player, enemy, clipPlayer, questText, numberOfQuestions, mccQuestionsPerEpisode, keysHighlighter);
-            handler = new MonteCarloQuizHandler(ctx, new MonteCarloAgent());
+
+            var mcAgent = new MonteCarloAgent();
+
+            // Load saved experience
+            bool hadPreviousData = RLPersistenceManager.Instance.LoadMonteCarloAgent(mcAgent);
+            
+            // If this isn't the first stage, bump exploration slightly
+            if (hadPreviousData)
+            {
+                mcAgent.OnNewStageMicroBump(); // or OnNewStageConservative() / OnNewStageAggressive()
+            }
+
+            handler = new MonteCarloQuizHandler(ctx, mcAgent);
         }
         else if (GameVersionManager.Instance.SelectedVersion == GameVersionManager.VersionType.SARSA)
         {
             ctx = new QuizContext(bank, wp, sPanel, player, enemy, clipPlayer, questText, numberOfQuestions, keysHighlighter);
-            handler = new SARSAQuizHandler(ctx, new SARSAController());
+
+            var sarsaAgent = new SARSAController();
+
+            // Load saved experience
+            bool hadPreviousData = RLPersistenceManager.Instance.LoadSARSAAgent(sarsaAgent);
+            
+            // If this isn't the first stage, bump exploration slightly
+            if (hadPreviousData)
+            {
+                sarsaAgent.OnNewStageMicroBump(); // or OnNewStageConservative() / OnNewStageAggressive()
+            }
+
+            handler = new SARSAQuizHandler(ctx, sarsaAgent);
         }
         else // Normal (Control Group)
         {
@@ -88,7 +94,6 @@ public class QuizController : MonoBehaviour
         ctx.correctStreakMAX = numberOfCorrectStreakForImmunity;
         ctx.handler = this;
     }
-
     void Start()
     {
         handler.StartQuiz();
@@ -102,7 +107,6 @@ public class QuizController : MonoBehaviour
         viewQuestions = ctx.QuestionsToAnswer;
         // central checks (player death / victory)
         if (HasVictoryOrDefeatScreensShown) return;
-        Debug.Log("is input enabled: " + playerInputEnabled);
 
         if (player.IsPlayerDefeated())
         {
@@ -131,6 +135,7 @@ public class QuizController : MonoBehaviour
         sPanel.SetLoseScreen(ctx);
         PlayerObject.SetActive(false);
         enemyObject.SetActive(false);
+        SaveRLExperience();
     }
 
     private void HandlePlayerVictory()
@@ -139,6 +144,7 @@ public class QuizController : MonoBehaviour
         HandlePlayerMetrics();
         sPanel.SetWinScreen(ctx);
         PlayerObject.SetActive(false);
+        SaveRLExperience();
 
         if (enemyObject != null)
             enemyObject.SetActive(false);
@@ -146,7 +152,7 @@ public class QuizController : MonoBehaviour
         LevelCompletionManager.UnlockNextLevel();
     }
 
-     private void HandlePlayerMetrics()
+    private void HandlePlayerMetrics()
     {
         string verType = "";
 
@@ -254,6 +260,39 @@ public class QuizController : MonoBehaviour
             difficultySpriteChanger.ApplyDifficulty(q.questionDifficulty);
     }
 
+    private void SaveRLExperience()
+    {
+        if (handler is MonteCarloQuizHandler mccHandler)
+        {
+            // Get agent via reflection or add a getter to MonteCarloQuizHandler
+            var agentField = typeof(MonteCarloQuizHandler).GetField("agent",
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
 
+            if (agentField != null)
+            {
+                var agent = agentField.GetValue(mccHandler) as MonteCarloAgent;
+                if (agent != null)
+                {
+                    RLPersistenceManager.Instance.SaveMonteCarloAgent(agent);
+                    Debug.Log("[QuizController] Saved MCC experience for next stage");
+                }
+            }
+        }
+        else if (handler is SARSAQuizHandler sarsaHandler)
+        {
+            var agentField = typeof(SARSAQuizHandler).GetField("agent",
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+
+            if (agentField != null)
+            {
+                var agent = agentField.GetValue(sarsaHandler) as SARSAController;
+                if (agent != null)
+                {
+                    RLPersistenceManager.Instance.SaveSARSAAgent(agent);
+                    Debug.Log("[QuizController] Saved SARSA experience for next stage");
+                }
+            }
+        }
+    }
 
 }

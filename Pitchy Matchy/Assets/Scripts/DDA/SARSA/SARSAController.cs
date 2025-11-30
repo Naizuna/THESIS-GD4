@@ -9,129 +9,139 @@ public class SARSAController
     private Dictionary<(string state, QuestionComponent.DifficultyClass action), float> Q 
         = new Dictionary<(string, QuestionComponent.DifficultyClass), float>();
 
-    // Visit counts for adaptive learning
     private Dictionary<(string state, QuestionComponent.DifficultyClass action), int> visitCounts 
         = new Dictionary<(string, QuestionComponent.DifficultyClass), int>();
 
     // Learning parameters
-    private float alpha = 0.2f;           // Higher learning rate for short quizzes
-    private float gamma = 0.95f;          // Slightly lower gamma for short-term focus
+    private float alpha = 0.5f;           // Learning rate
+    private float gamma = 0.85f;          // Discount factor
     
-    // === OPTIMISTIC INITIALIZATION ===
-    // Encourages exploration of harder difficulties early
-    private Dictionary<QuestionComponent.DifficultyClass, float> optimisticInit = new()
-    {
-        { QuestionComponent.DifficultyClass.EASY, 0.5f },
-        { QuestionComponent.DifficultyClass.MEDIUM, 1.0f },
-        { QuestionComponent.DifficultyClass.HARD, 1.5f }
-    };
+    private const float INIT_Q_VALUE = 0f;
 
-    // === REWARD NORMALIZATION ===
-    private float rewardSum = 0f;
-    private float rewardSumSquared = 0f;
-    private int rewardCount = 0;
-    private const float EPSILON_NORM = 1e-8f; // Prevent division by zero
-
-    // Exploration parameters - tuned for 12-30 question quizzes
-    private float epsilon = 0.2f;          // Start with higher exploration
-    private float minEpsilon = 0.05f;      // Maintain some exploration
-    private float decayRate = 0.98f;       // Moderate decay
+    // Exploration parameters
+    private float epsilon = 0.15f;        
+    private float minEpsilon = 0.05f;     
+    private float decayRate = 0.95f;      
     
-    // Decay control - decay every N questions for stability
-    private int questionsBeforeDecay = 2;
-    private int questionsSinceDecay = 0;
-
     private System.Random rng = new System.Random();
 
-    // === ACTION SELECTION ===
+    // response time enums
+    public enum ResponseTimeCategory
+    {
+        FAST,      
+        AVERAGE,   
+        SLOW
+    }
+
+    public SARSAController()
+    {
+        Debug.Log("[SARSA] Initialized with composite state space");
+    }
+
+    // state construction
+    /// Constructs state from last question's context
+    /// Format: "DIFFICULTY_ACCURACY_RESPONSETIME"
+    /// Example: "MEDIUM_CORRECT_FAST"
+    public static string ConstructState(
+        QuestionComponent.DifficultyClass lastDifficulty, 
+        bool wasCorrect, 
+        float responseTime)
+    {
+        string accuracyPart = wasCorrect ? "CORRECT" : "WRONG";
+        ResponseTimeCategory timeCat = DiscretizeResponseTime(responseTime);
+        
+        return $"{lastDifficulty}_{accuracyPart}_{timeCat}";
+    }
+
+    /// Discretizes continuous response time into categories
+    public static ResponseTimeCategory DiscretizeResponseTime(float seconds)
+    {
+        if (seconds <= 5f)
+            return ResponseTimeCategory.FAST;
+        else if (seconds <= 10f)
+            return ResponseTimeCategory.AVERAGE;
+        else
+            return ResponseTimeCategory.SLOW;
+    }
+
+    // action select
     public QuestionComponent.DifficultyClass ChooseAction(string state)
     {
-        // ε-greedy exploration
-        if (rng.NextDouble() < epsilon || !HasState(state))
+        // ε-greedy policy
+        if (rng.NextDouble() < epsilon)
         {
+            // Exploration: random action
             Array values = Enum.GetValues(typeof(QuestionComponent.DifficultyClass));
-            return (QuestionComponent.DifficultyClass)values.GetValue(rng.Next(values.Length));
+            var action = (QuestionComponent.DifficultyClass)values.GetValue(rng.Next(values.Length));
+            Debug.Log($"[SARSA] EXPLORE: {state} → {action} (ε={epsilon:F3})");
+            return action;
         }
         else
         {
-            return GetBestAction(state);
+            // Exploitation: best known action
+            var action = GetBestAction(state);
+            Debug.Log($"[SARSA] EXPLOIT: {state} → {action}");
+            return action;
         }
     }
-
-    // === HEURISTIC FALLBACK ===
-    // Returns a safe difficulty based on state when Q-table is sparse
-    public QuestionComponent.DifficultyClass GetHeuristicAction(string state)
+    
+    private QuestionComponent.DifficultyClass GetBestAction(string state)
     {
-        return state switch
+        var actions = Q.Where(k => k.Key.state == state).ToList();
+        
+        if (!actions.Any())
         {
-            "START" => QuestionComponent.DifficultyClass.EASY,
-            "STRUGGLING" => QuestionComponent.DifficultyClass.EASY,
-            "AVERAGE" => QuestionComponent.DifficultyClass.MEDIUM,
-            "MASTERING" => QuestionComponent.DifficultyClass.HARD,
-            "TERMINAL" => QuestionComponent.DifficultyClass.MEDIUM,
-            _ => QuestionComponent.DifficultyClass.EASY
-        };
+            Debug.Log($"[SARSA] No Q-values for state '{state}' - using heuristic fallback");
+            return GetHeuristicAction(state);
+        }
+        
+        // Get best action, break ties randomly
+        var maxValue = actions.Max(k => k.Value);
+        var bestActions = actions.Where(k => Mathf.Approximately(k.Value, maxValue)).ToList();
+        
+        if (bestActions.Count > 1)
+        {
+            var chosen = bestActions[rng.Next(bestActions.Count)].Key.action;
+            Debug.Log($"[SARSA] Tie-breaking among {bestActions.Count} actions with Q={maxValue:F2}");
+            return chosen;
+        }
+        
+        return bestActions[0].Key.action;
     }
 
-    // === Q-VALUE UPDATE (SARSA with Normalization) ===
-    public void UpdateQValue(string state, QuestionComponent.DifficultyClass action, float reward,
-                             string nextState, QuestionComponent.DifficultyClass nextAction)
+        // q value update
+    public void UpdateQValue(
+        string state, 
+        QuestionComponent.DifficultyClass action, 
+        float reward,
+        string nextState, 
+        QuestionComponent.DifficultyClass nextAction)
     {
         var key = (state, action);
         
         // Track visit counts
         visitCounts[key] = visitCounts.GetValueOrDefault(key, 0) + 1;
         
-        // === REWARD NORMALIZATION ===
-        UpdateRewardStats(reward);
-        float normalizedReward = NormalizeReward(reward);
-        
-        // Adaptive learning rate: learn faster from novel experiences
-        float adaptiveAlpha = alpha / (1f + 0.1f * Mathf.Sqrt(visitCounts[key]));
+        // Adaptive learning rate (higher for new experiences)
+        float adaptiveAlpha = visitCounts[key] <= 2 ? alpha : alpha * 0.7f;
         
         float currentQ = GetQValue(state, action);
         float nextQ = GetQValue(nextState, nextAction);
         
-        // Standard SARSA update with normalized reward
-        float tdError = normalizedReward + gamma * nextQ - currentQ;
-        float updated = currentQ + adaptiveAlpha * tdError;
+        // SARSA update: Q(s,a) <= Q(s,a) + α[r + γQ(s',a') - Q(s,a)]
+        float tdError = reward + gamma * nextQ - currentQ;
+        float newQ = currentQ + adaptiveAlpha * tdError;
         
-        Q[key] = updated;
+        Q[key] = newQ;
         
-        Debug.Log($"[SARSA] Q({state},{action}): {currentQ:F2}→{updated:F2} | r={reward:F2}→{normalizedReward:F2} | α={adaptiveAlpha:F3}");
+        Debug.Log($"[SARSA] UPDATE | State: {state} | Action: {action} | Q: {currentQ:F2}→{newQ:F2} | " +
+                  $"Reward: {reward:F2} | TD-Error: {tdError:F2} | α: {adaptiveAlpha:F2} | Visits: {visitCounts[key]}");
     }
 
-    // Update running statistics for reward normalization
-    private void UpdateRewardStats(float reward)
-    {
-        rewardCount++;
-        rewardSum += reward;
-        rewardSumSquared += reward * reward;
-    }
-
-    // Normalize reward using running mean and standard deviation
-    private float NormalizeReward(float reward)
-    {
-        if (rewardCount < 2) return reward; // Need at least 2 samples
-        
-        float mean = rewardSum / rewardCount;
-        float variance = (rewardSumSquared / rewardCount) - (mean * mean);
-        float stdDev = Mathf.Sqrt(Mathf.Max(variance, 0f)) + EPSILON_NORM;
-        
-        return (reward - mean) / stdDev;
-    }
-
-    // === EPSILON HANDLING ===
+    // epsilon decay
     public void DecayEpsilon()
     {
-        questionsSinceDecay++;
-        
-        // Only decay every N questions for stability
-        if (questionsSinceDecay >= questionsBeforeDecay)
-        {
-            epsilon = Mathf.Max(minEpsilon, epsilon * decayRate);
-            questionsSinceDecay = 0;
-        }
+        epsilon = Mathf.Max(minEpsilon, epsilon * decayRate);
     }
 
     public void SetEpsilon(float newEpsilon)
@@ -139,93 +149,161 @@ public class SARSAController
         epsilon = Mathf.Clamp(newEpsilon, minEpsilon, 1f);
     }
 
-    public float CurrentEpsilon => epsilon;
 
-    // === STAGE TRANSITION ===
-    // Maintains Q-table across stages but boosts exploration
-    public void OnNewStage()
+    // fallback for unknown states
+    public QuestionComponent.DifficultyClass GetHeuristicAction(string state)
     {
-        // Keep Q-table and reward stats for transfer learning
-        // Slightly increase exploration for new stage
-        epsilon = Mathf.Min(epsilon * 1.2f, 0.25f);
-        questionsSinceDecay = 0;
-        
-        Debug.Log($"[SARSA] New stage | Q-table: {Q.Count} entries | Rewards: {rewardCount} | ε: {epsilon:F3}");
+
+        if (state.Contains("CORRECT") && state.Contains("FAST"))
+        {
+            // Performing well confidently then increase difficulty
+            if (state.StartsWith("EASY"))
+                return QuestionComponent.DifficultyClass.MEDIUM;
+            else if (state.StartsWith("MEDIUM"))
+                return QuestionComponent.DifficultyClass.HARD;
+            else
+                return QuestionComponent.DifficultyClass.HARD;
+        }
+        else if (state.Contains("WRONG") || state.Contains("SLOW"))
+        {
+            // Struggling then decrease or maintain difficulty
+            if (state.StartsWith("HARD"))
+                return QuestionComponent.DifficultyClass.MEDIUM;
+            else if (state.StartsWith("MEDIUM"))
+                return QuestionComponent.DifficultyClass.EASY;
+            else
+                return QuestionComponent.DifficultyClass.EASY;
+        }
+        else
+        {
+            // Mixed signals (e.g., CORRECT but SLOW) then maintain difficulty
+            if (state.StartsWith("EASY"))
+                return QuestionComponent.DifficultyClass.EASY;
+            else if (state.StartsWith("MEDIUM"))
+                return QuestionComponent.DifficultyClass.MEDIUM;
+            else
+                return QuestionComponent.DifficultyClass.HARD;
+        }
     }
 
-    // Reset everything for completely new session
+    public float CurrentEpsilon => epsilon;
+
     public void Reset()
     {
         Q.Clear();
         visitCounts.Clear();
-        rewardSum = 0f;
-        rewardSumSquared = 0f;
-        rewardCount = 0;
-        epsilon = 0.2f;
-        questionsSinceDecay = 0;
+        epsilon = 0.15f;
         
         Debug.Log("[SARSA] Complete reset");
     }
 
-    // === Q-TABLE UTILITIES ===
+    //
     private float GetQValue(string state, QuestionComponent.DifficultyClass action)
     {
         if (!Q.ContainsKey((state, action)))
         {
-            // === OPTIMISTIC INITIALIZATION ===
-            Q[(state, action)] = optimisticInit[action];
+            Q[(state, action)] = INIT_Q_VALUE;
         }
         return Q[(state, action)];
     }
 
-    private bool HasState(string state) => Q.Keys.Any(k => k.state == state);
-
-    private QuestionComponent.DifficultyClass GetBestAction(string state)
-    {
-        var actions = Q.Where(k => k.Key.state == state);
-        
-        if (!actions.Any())
-        {
-            // === HEURISTIC FALLBACK ===
-            Debug.Log($"[SARSA] No Q-values for state '{state}' - using heuristic");
-            return GetHeuristicAction(state);
-        }
-        
-        return actions.OrderByDescending(k => k.Value).First().Key.action;
-    }
-
-    // === DEBUG & ANALYSIS ===
+    // debugging
     public Dictionary<(string, QuestionComponent.DifficultyClass), float> GetQTable()
         => new Dictionary<(string, QuestionComponent.DifficultyClass), float>(Q);
 
     public void PrintQTable()
     {
-        Debug.Log("=== Q-Table ===");
-        foreach (var kvp in Q.OrderBy(x => x.Key.state).ThenBy(x => x.Key.action))
-        {
-            int visits = visitCounts.GetValueOrDefault(kvp.Key, 0);
-            Debug.Log($"Q({kvp.Key.state}, {kvp.Key.action}) = {kvp.Value:F2} [visits: {visits}]");
-        }
+        Debug.Log("=== SARSA Q-TABLE ===");
+        Debug.Log($"Total entries: {Q.Count}");
+        Debug.Log($"Current ε: {epsilon:F3}");
+        Debug.Log("");
         
-        if (rewardCount > 0)
+        var grouped = Q.GroupBy(kvp => kvp.Key.state)
+                       .OrderBy(g => g.Key);
+        
+        foreach (var group in grouped)
         {
-            float mean = rewardSum / rewardCount;
-            float variance = (rewardSumSquared / rewardCount) - (mean * mean);
-            float stdDev = Mathf.Sqrt(Mathf.Max(variance, 0f));
-            Debug.Log($"Reward stats: μ={mean:F2}, σ={stdDev:F2}, n={rewardCount}");
+            Debug.Log($"State: {group.Key}");
+            foreach (var kvp in group.OrderByDescending(x => x.Value))
+            {
+                int visits = visitCounts.GetValueOrDefault(kvp.Key, 0);
+                string bestMarker = kvp.Value == group.Max(x => x.Value) ? "★" : " ";
+                Debug.Log($"  {bestMarker} {kvp.Key.action,-8} Q={kvp.Value,6:F2}  [visits: {visits}]");
+            }
+            Debug.Log("");
         }
     }
 
-    // === PERSISTENCE ===
-    public void SavePolicy(string path) 
+    public void PrintStateSpaceInfo()
     {
-        // TODO: Serialize Q, visitCounts, reward stats
-        Debug.Log($"[SARSA] SavePolicy() to {path} - {Q.Count} entries");
+        int totalStates = Enum.GetValues(typeof(QuestionComponent.DifficultyClass)).Length * 
+                         2 * // CORRECT/WRONG
+                         Enum.GetValues(typeof(ResponseTimeCategory)).Length;
+        
+        int exploredStates = Q.Select(kvp => kvp.Key.state).Distinct().Count();
+        
+        Debug.Log($"[SARSA] State Space: {exploredStates}/{totalStates} states explored " +
+                  $"({(float)exploredStates/totalStates*100:F1}%)");
     }
-    
-    public void LoadPolicy(string path) 
+
+    // debugging
+    public Dictionary<(string, QuestionComponent.DifficultyClass), float> GetQTableAll()
+        => new Dictionary<(string, QuestionComponent.DifficultyClass), float>(Q);
+
+    /// Returns a formatted string of the entire Q-table for display/export
+    public string GetQTableAsString()
     {
-        // TODO: Deserialize Q, visitCounts, reward stats
-        Debug.Log($"[SARSA] LoadPolicy() from {path}");
+        var sb = new System.Text.StringBuilder();
+        
+        sb.AppendLine("=== SARSA Q-TABLE ===");
+        sb.AppendLine($"Total entries: {Q.Count}");
+        sb.AppendLine($"Unique states: {Q.Select(kvp => kvp.Key.state).Distinct().Count()}");
+        sb.AppendLine($"Current ε: {epsilon:F3}");
+        sb.AppendLine("");
+        
+        if (Q.Count == 0)
+        {
+            sb.AppendLine("(Empty Q-table - no learning has occurred yet)");
+            return sb.ToString();
+        }
+        
+        var grouped = Q.GroupBy(kvp => kvp.Key.state)
+                       .OrderBy(g => g.Key);
+        
+        foreach (var group in grouped)
+        {
+            sb.AppendLine($"State: {group.Key}");
+            sb.AppendLine("  Action       Q-Value    Visits  Best?");
+            sb.AppendLine("  --------     -------    ------  -----");
+            
+            var maxValue = group.Max(x => x.Value);
+            
+            foreach (var kvp in group.OrderByDescending(x => x.Value))
+            {
+                int visits = visitCounts.GetValueOrDefault(kvp.Key, 0);
+                string bestMarker = Mathf.Approximately(kvp.Value, maxValue) ? "★" : " ";
+                sb.AppendLine($"  {kvp.Key.action,-12} {kvp.Value,7:F2}    {visits,6}    {bestMarker}");
+            }
+            sb.AppendLine("");
+        }
+        
+        return sb.ToString();
+        
+    }
+
+    /// Micro bump - tiny exploration boost for new content
+    public void OnNewStageMicroBump()
+    {
+        // Just a 5-10% bump to handle the small amount of new content
+        epsilon = Mathf.Max(epsilon * 1.05f, 0.06f);
+        epsilon = Mathf.Min(epsilon, 0.12f);
+        
+        Debug.Log($"[RL] New stage (micro bump) | Epsilon: {epsilon:F3} - slight adjustment for new content");
+    }
+
+    /// Prints Q-table to Unity console (grouped by state, sorted by Q-value)
+    public void PrintQTableAll()
+    {
+        Debug.Log(GetQTableAsString());
     }
 }

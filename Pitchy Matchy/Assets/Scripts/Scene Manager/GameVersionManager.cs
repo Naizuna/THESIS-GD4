@@ -53,6 +53,8 @@ public class GameVersionManager : MonoBehaviour
         // Clear PlayerPrefs progress
         PlayerPrefs.DeleteKey("UnlockedLevel");
         PlayerPrefs.Save();
+        
+        RLPersistenceManager.Instance.ClearAllSavedData();
 
         Debug.Log("🔁 Level progress reset — all levels locked again.");
 
