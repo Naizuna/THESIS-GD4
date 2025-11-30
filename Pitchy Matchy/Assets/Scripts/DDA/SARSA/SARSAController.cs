@@ -288,6 +288,17 @@ public class SARSAController
         }
         
         return sb.ToString();
+        
+    }
+
+    /// Micro bump - tiny exploration boost for new content
+    public void OnNewStageMicroBump()
+    {
+        // Just a 5-10% bump to handle the small amount of new content
+        epsilon = Mathf.Max(epsilon * 1.05f, 0.06f);
+        epsilon = Mathf.Min(epsilon, 0.12f);
+        
+        Debug.Log($"[RL] New stage (micro bump) | Epsilon: {epsilon:F3} - slight adjustment for new content");
     }
 
     /// Prints Q-table to Unity console (grouped by state, sorted by Q-value)

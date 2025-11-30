@@ -208,15 +208,6 @@ public class MonteCarloAgent
 
     public float CurrentEpsilon => epsilon;
 
-    // stage transitions
-    public void OnNewStage()
-    {
-        // Keep Q-table (transfer learning)
-        // Slightly boost exploration for new stage
-        epsilon = Mathf.Min(0.2f, epsilon * 1.3f);
-
-        Debug.Log($"[MCC] New stage | Q-table: {Q.Count} entries | ε: {epsilon:F3}");
-    }
 
     // === RESET ===
     public void Reset()
@@ -343,6 +334,16 @@ public class MonteCarloAgent
 
         Debug.Log($"[MCC] State Space: {exploredStates}/{totalStates} states explored " +
                   $"({(float)exploredStates / totalStates * 100:F1}%)");
+    }
+
+    /// Micro bump - tiny exploration boost for new content
+    public void OnNewStageMicroBump()
+    {
+        // Just a 5-10% bump to handle the small amount of new content
+        epsilon = Mathf.Max(epsilon * 1.05f, 0.06f);
+        epsilon = Mathf.Min(epsilon, 0.12f);
+        
+        Debug.Log($"[RL] New stage (micro bump) | Epsilon: {epsilon:F3} - slight adjustment for new content");
     }
 
     // Data structure for Q-table entries

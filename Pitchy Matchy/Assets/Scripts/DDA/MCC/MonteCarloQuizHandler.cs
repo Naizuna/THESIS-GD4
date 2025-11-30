@@ -261,9 +261,9 @@ public class MonteCarloQuizHandler : MonoBehaviour, IQuizHandler
             // Penalties based on difficulty 
             reward = difficulty switch
             {
-                QuestionComponent.DifficultyClass.EASY => -1.0f,//-2.0f,   
-                QuestionComponent.DifficultyClass.MEDIUM => -2.0f,//-1.5f,
-                QuestionComponent.DifficultyClass.HARD => -3.0f,//-0.5f,   
+                QuestionComponent.DifficultyClass.EASY => -3.0f,   
+                QuestionComponent.DifficultyClass.MEDIUM => -2.0f,
+                QuestionComponent.DifficultyClass.HARD => -1.0f,   
                 _ => -1.0f
             };
         }

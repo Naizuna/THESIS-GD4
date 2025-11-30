@@ -222,9 +222,9 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
             // Penalties based on difficulty
             reward = difficulty switch
             {
-                QuestionComponent.DifficultyClass.EASY => -1.0f,//-2.0f,   // Should know basics
+                QuestionComponent.DifficultyClass.EASY => -3.0f,//-2.0f,   // Should know basics
                 QuestionComponent.DifficultyClass.MEDIUM => -2.0f, //-1.5f,
-                QuestionComponent.DifficultyClass.HARD => -3.0f,//0.5f,   // Expected to struggle
+                QuestionComponent.DifficultyClass.HARD => -1.0f,//0.5f,   // Expected to struggle
                 _ => -1.0f
             };
         }
