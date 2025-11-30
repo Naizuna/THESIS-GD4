@@ -227,13 +227,6 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
                 QuestionComponent.DifficultyClass.HARD => -3.0f,//0.5f,   // Expected to struggle
                 _ => -1.0f
             };
-
-            // Extra penalty for slow wrong answers (not even close)
-            var timeCat = SARSAController.DiscretizeResponseTime(responseTime);
-            if (timeCat == SARSAController.ResponseTimeCategory.SLOW)
-            {
-                reward -= 0.3f; // Additional penalty for slow + wrong
-            }
         }
 
         return reward;
