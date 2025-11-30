@@ -36,8 +36,12 @@ public class PauseMenu : MonoBehaviour
             SceneManager.GetActiveScene().name == "Stage 3 Mini Quiz" ||
             SceneManager.GetActiveScene().name == "Final Quiz")
         {
-            pauseButton.SetActive(true);
-
+            
+            if (optionsPanel != null && optionsPanel.activeSelf)
+                pauseButton.SetActive(false);
+            else
+                pauseButton.SetActive(true);
+                
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 if (SoundManager.Instance != null)
@@ -57,7 +61,6 @@ public class PauseMenu : MonoBehaviour
                 }
                 else
                 {
-                    
                     Pause();
                 }
             }
@@ -83,6 +86,19 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1;
         // FindObjectOfType<AudioManager>().Play("UI Button");
     }
+
+    public void PauseButton()
+    {
+        if (isPaused)
+        {
+            Resume();
+        }
+        else
+        {
+            Pause();
+        }
+    }
+    
     public void Restart()
     {
         isPaused = false;
