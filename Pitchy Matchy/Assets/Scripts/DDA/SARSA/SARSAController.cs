@@ -153,37 +153,8 @@ public class SARSAController
     // fallback for unknown states
     public QuestionComponent.DifficultyClass GetHeuristicAction(string state)
     {
-
-        if (state.Contains("CORRECT") && state.Contains("FAST"))
-        {
-            // Performing well confidently then increase difficulty
-            if (state.StartsWith("EASY"))
-                return QuestionComponent.DifficultyClass.MEDIUM;
-            else if (state.StartsWith("MEDIUM"))
-                return QuestionComponent.DifficultyClass.HARD;
-            else
-                return QuestionComponent.DifficultyClass.HARD;
-        }
-        else if (state.Contains("WRONG") || state.Contains("SLOW"))
-        {
-            // Struggling then decrease or maintain difficulty
-            if (state.StartsWith("HARD"))
-                return QuestionComponent.DifficultyClass.MEDIUM;
-            else if (state.StartsWith("MEDIUM"))
-                return QuestionComponent.DifficultyClass.EASY;
-            else
-                return QuestionComponent.DifficultyClass.EASY;
-        }
-        else
-        {
-            // Mixed signals (e.g., CORRECT but SLOW) then maintain difficulty
-            if (state.StartsWith("EASY"))
-                return QuestionComponent.DifficultyClass.EASY;
-            else if (state.StartsWith("MEDIUM"))
-                return QuestionComponent.DifficultyClass.MEDIUM;
-            else
-                return QuestionComponent.DifficultyClass.HARD;
-        }
+        Array values = Enum.GetValues(typeof(QuestionComponent.DifficultyClass));
+        return (QuestionComponent.DifficultyClass)values.GetValue(rng.Next(values.Length));
     }
 
     public float CurrentEpsilon => epsilon;
@@ -294,9 +265,7 @@ public class SARSAController
     /// Micro bump - tiny exploration boost for new content
     public void OnNewStageMicroBump()
     {
-        // Just a 5-10% bump to handle the small amount of new content
-        epsilon = Mathf.Max(epsilon * 1.05f, 0.06f);
-        epsilon = Mathf.Min(epsilon, 0.12f);
+        epsilon = Mathf.Min(0.15f, epsilon * 1.4f);
         
         Debug.Log($"[RL] New stage (micro bump) | Epsilon: {epsilon:F3} - slight adjustment for new content");
     }
