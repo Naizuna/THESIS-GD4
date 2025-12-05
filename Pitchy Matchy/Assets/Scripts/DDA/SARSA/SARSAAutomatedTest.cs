@@ -418,6 +418,12 @@ public class SARSAAutomatedTest : MonoBehaviour
                 QuestionComponent.DifficultyClass.HARD => -3.0f,
                 _ => -1.0f
             };
+
+            var timeCat = SARSAController.DiscretizeResponseTime(responseTime);
+            if (timeCat == SARSAController.ResponseTimeCategory.SLOW)
+            {
+                reward -= 0.3f;
+            }
         }
 
         return reward;
