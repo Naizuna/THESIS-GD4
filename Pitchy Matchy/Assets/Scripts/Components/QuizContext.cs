@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.Video;
 using UnityEngine.SceneManagement;
+using System;
 
 public class QuizContext
 {
@@ -15,6 +16,7 @@ public class QuizContext
     public EnemyComponent Enemy { get; private set; }
     public ClipPlayer ClipPlayer { get; }
     public TMP_Text QuestText { get; }
+    public TMP_Text ResponseTimeText { get; set; }
     public DifficultySpriteChanger DifficultyUI;
     public KeysHighlighter keysHighlighter;
 
@@ -142,6 +144,25 @@ public class QuizContext
 
         // Reset response time tracking for the new question
         StartQuestionTimer();
+    }
+
+    public void ShowResponseTime(string discreteResponseTime)
+    {
+        switch (discreteResponseTime)
+        {
+            case "FAST":
+                ResponseTimeText.text = "lightning fast!";
+                break;
+            case "AVERAGE":
+                ResponseTimeText.text = "nice work!";
+                break;
+            case "SLOW":
+                ResponseTimeText.text = "you did it!";
+                break;
+            default:
+                ResponseTimeText.text = String.Empty;
+                break;
+        }
     }
 
     public void ShowCorrectAnswers()

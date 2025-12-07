@@ -18,6 +18,13 @@ public class NormalQuizHandler : MonoBehaviour, IQuizHandler
         ctx = context;
     }
 
+    public enum ResponseTimeCategory
+    {
+        FAST,      
+        AVERAGE,    
+        SLOW       
+    }
+
     public void StartQuiz()
     {
         ctx.CurrQuestionIndex = 0;
@@ -40,10 +47,21 @@ public class NormalQuizHandler : MonoBehaviour, IQuizHandler
 
     public void ReceivePlayerAnswers(List<string> answers)
     {
+        ctx.RecordResponseTime();
         if (IsSessionFinished) return;
 
         ctx.PlayerAnswers = new List<string>(answers);
         ProcessAnswer();
+    }
+
+    public static ResponseTimeCategory DiscretizeResponseTime(float seconds)
+    {
+        if (seconds <= 5f)
+            return ResponseTimeCategory.FAST;
+        else if (seconds <= 10f)
+            return ResponseTimeCategory.AVERAGE;
+        else
+            return ResponseTimeCategory.SLOW;
     }
 
     public void LoadNextQuestion()
@@ -83,6 +101,8 @@ public class NormalQuizHandler : MonoBehaviour, IQuizHandler
 
 
         q.playerAnswers = new List<string>(ctx.PlayerAnswers);
+        var responseTime = ctx.ResponseTimes[ctx.ResponseTimes.Count - 1];
+        string timeCat = DiscretizeResponseTime(responseTime).ToString();
 
 
         q.CheckAnswers();
@@ -95,12 +115,12 @@ public class NormalQuizHandler : MonoBehaviour, IQuizHandler
         Debug.Log("About to wait");
         yield return new WaitForSeconds(ctx.keysHighlighter.speed * 2f);
 
-
         if (q.isAnsweredCorrectly)
         {
             ctx.Player.PlayAttack();
             ctx.Enemy.TakeDamage(ctx.Player.GetAttackPower());
             ctx.correctStreak++;
+            ctx.ShowResponseTime(timeCat);
         }
         else
         {
@@ -113,6 +133,7 @@ public class NormalQuizHandler : MonoBehaviour, IQuizHandler
         ctx.CheckCorrectStreak();
 
         yield return new WaitForSeconds(ctx.keysHighlighter.speed * 2f);
+        ctx.ShowResponseTime("");
         LoadNextQuestion();
         ctx.enablePlayerInput(true);
     }

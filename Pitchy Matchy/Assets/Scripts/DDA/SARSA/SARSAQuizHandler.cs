@@ -75,6 +75,7 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
 
         bool correct = q.isAnsweredCorrectly;
         float responseTime = ctx.ResponseTimes[ctx.ResponseTimes.Count - 1];
+        var timeCat = SARSAController.DiscretizeResponseTime(responseTime);
 
         //REWARD CALCULATION
         float reward = CalculateReward(q.questionDifficulty, correct, responseTime);
@@ -126,6 +127,7 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
             ctx.Player.PlayAttack();
             ctx.Enemy.TakeDamage(ctx.Player.GetAttackPower());
             ctx.correctStreak++;
+            ctx.ShowResponseTime(timeCat.ToString());
         }
         else
         {
@@ -150,6 +152,7 @@ public class SARSAQuizHandler : MonoBehaviour, IQuizHandler
         }
 
         yield return new WaitForSeconds(ctx.keysHighlighter.speed * 2f);
+        ctx.ShowResponseTime("");
         LoadNextQuestion();
         ctx.enablePlayerInput(true);
     }

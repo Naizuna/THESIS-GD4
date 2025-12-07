@@ -22,6 +22,7 @@ public class QuizController : MonoBehaviour
     [SerializeField] private EnemyComponent enemy;
     [SerializeField] private ClipPlayer clipPlayer;
     [SerializeField] private TMPro.TMP_Text questText;
+    [SerializeField] private TMPro.TMP_Text responseTimeText;
     [SerializeField] private int numberOfQuestions;
     [SerializeField] private EnemySpawner enemySpawner;
     [SerializeField] private KeysHighlighter keysHighlighter;
@@ -57,7 +58,7 @@ public class QuizController : MonoBehaviour
 
             // Load saved experience
             bool hadPreviousData = RLPersistenceManager.Instance.LoadMonteCarloAgent(mcAgent);
-            
+
             // If this isn't the first stage, bump exploration slightly
             if (hadPreviousData)
             {
@@ -74,7 +75,7 @@ public class QuizController : MonoBehaviour
 
             // Load saved experience
             bool hadPreviousData = RLPersistenceManager.Instance.LoadSARSAAgent(sarsaAgent);
-            
+
             // If this isn't the first stage, bump exploration slightly
             if (hadPreviousData)
             {
@@ -93,6 +94,7 @@ public class QuizController : MonoBehaviour
         ctx.DifficultyUI = difficultySpriteChanger;
         ctx.correctStreakMAX = numberOfCorrectStreakForImmunity;
         ctx.handler = this;
+        ctx.ResponseTimeText = responseTimeText;
     }
     void Start()
     {

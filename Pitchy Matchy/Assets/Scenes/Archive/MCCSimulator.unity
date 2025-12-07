@@ -243,6 +243,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c54403ef2a88254aa67c0db974f2275, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  numberOfTestRuns: 1
+  totalQuestions: 12
+  questionsPerEpisode: 4
+  logDetailedOutput: 1
+  exportResults: 1
+  runBasicLearningTest: 1
+  runConvergenceTest: 1
+  runAdaptationTest: 1
+  runExplorationTest: 1
 --- !u!4 &920507132
 Transform:
   m_ObjectHideFlags: 0

@@ -98,6 +98,7 @@ public class MonteCarloQuizHandler : MonoBehaviour, IQuizHandler
 
         bool correct = q.isAnsweredCorrectly;
         float responseTime = ctx.ResponseTimes[ctx.ResponseTimes.Count - 1];
+        var timeCat = MonteCarloAgent.DiscretizeResponseTime(responseTime);
 
         float reward = CalculateReward(q.questionDifficulty, correct, responseTime);
 
@@ -137,6 +138,7 @@ public class MonteCarloQuizHandler : MonoBehaviour, IQuizHandler
             ctx.Player.PlayAttack();
             ctx.Enemy.TakeDamage(ctx.Player.GetAttackPower());
             ctx.correctStreak++;
+            ctx.ShowResponseTime(timeCat.ToString());
         }
         else
         {
@@ -224,7 +226,7 @@ public class MonteCarloQuizHandler : MonoBehaviour, IQuizHandler
         }
 
         yield return new WaitForSeconds(ctx.keysHighlighter.speed * 2f);
-
+        ctx.ShowResponseTime("");
         // Move to next question
         if (ctx.CurrQuestionIndex + 1 < ctx.QuestionsToAnswer.Count)
         {
