@@ -26,6 +26,7 @@ public class QuizController : MonoBehaviour
     [SerializeField] private int numberOfQuestions;
     [SerializeField] private EnemySpawner enemySpawner;
     [SerializeField] private KeysHighlighter keysHighlighter;
+    [SerializeField] private TimerBar timerBar;
 
 
     [Header("Reference Pitch")]
@@ -193,6 +194,7 @@ public class QuizController : MonoBehaviour
         if (!playerInputEnabled) return;
 
         Debug.Log("handler received inputs");
+        // timerBar.FreezeTimer();
         handler.ReceivePlayerAnswers(answers);
     }
 
@@ -251,6 +253,8 @@ public class QuizController : MonoBehaviour
     public void OnRequestNextQuestion()
     {
         handler.LoadNextQuestion();
+        // timerBar.UnfreezeTimer();
+        // timerBar.ResetTimer(ctx.questionStartTime);
         UpdateDifficultyVisual();
         UpdateReferencePitchButton();
     }

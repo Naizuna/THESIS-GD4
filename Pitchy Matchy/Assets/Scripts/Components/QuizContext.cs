@@ -39,7 +39,7 @@ public class QuizContext
 
     // Response Time Tracking
     public List<float> ResponseTimes { get; private set; }
-    private float questionStartTime;
+    public float questionStartTime;
 
     //Coroutine
     public MonoBehaviour coroutineRunner;
@@ -213,7 +213,9 @@ public class QuizContext
     {
         float responseTime = Time.time - questionStartTime;
         ResponseTimes.Add(responseTime);
-        Debug.Log($"Response Time for Question {CurrQuestionIndex + 1}: {responseTime:F2} seconds");
+        Debug.Log("[QuizContext] Time: "+Time.time+
+                "\n[QuizContext] QuestionStartTime: "+questionStartTime);
+        Debug.Log($"[QuizContext] Response Time for Question {CurrQuestionIndex + 1}: {responseTime:F2} seconds");
     }
 
     public void UpdatePlayerMetrics()
