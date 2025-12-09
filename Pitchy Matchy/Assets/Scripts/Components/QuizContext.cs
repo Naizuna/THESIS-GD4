@@ -40,6 +40,7 @@ public class QuizContext
     // Response Time Tracking
     public List<float> ResponseTimes { get; private set; }
     public float questionStartTime;
+    public TimerBar TimerBar { get; set;}
 
     //Coroutine
     public MonoBehaviour coroutineRunner;
@@ -144,6 +145,12 @@ public class QuizContext
 
         // Reset response time tracking for the new question
         StartQuestionTimer();
+
+        // Reset timer bar for the new question
+        if (TimerBar != null)
+        {
+            TimerBar.ResetTimer();
+        }
     }
 
     public void ShowResponseTime(string discreteResponseTime)
