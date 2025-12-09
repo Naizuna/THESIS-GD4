@@ -96,6 +96,7 @@ public class QuizController : MonoBehaviour
         ctx.correctStreakMAX = numberOfCorrectStreakForImmunity;
         ctx.handler = this;
         ctx.ResponseTimeText = responseTimeText;
+        ctx.TimerBar = timerBar;
     }
     void Start()
     {
@@ -194,7 +195,9 @@ public class QuizController : MonoBehaviour
         if (!playerInputEnabled) return;
 
         Debug.Log("handler received inputs");
-        // timerBar.FreezeTimer();
+
+        timerBar.FreezeTimer();
+
         handler.ReceivePlayerAnswers(answers);
     }
 
@@ -253,8 +256,9 @@ public class QuizController : MonoBehaviour
     public void OnRequestNextQuestion()
     {
         handler.LoadNextQuestion();
-        // timerBar.UnfreezeTimer();
-        // timerBar.ResetTimer(ctx.questionStartTime);
+
+        timerBar.ResetTimer();
+
         UpdateDifficultyVisual();
         UpdateReferencePitchButton();
     }

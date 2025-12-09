@@ -10,16 +10,21 @@ public class TimerBar : MonoBehaviour
     [SerializeField] QuizController quizController;
     [SerializeField] SpriteRenderer sr;
     [SerializeField] Sprite[] timerBarSprite;
-    private float ctxQuestionStarttime;
 
-    // void Start()
-    // {
-    //     ctxQuestionStarttime = quizController.ctx.questionStartTime;
-    // }
+    private bool isFrozen = false;
+    private float frozenResponseTime = 0f; // Store the time when frozen
 
     void Update()
     {
-        UpdateTimerBar();
+        if (!isFrozen)
+        {
+            UpdateTimerBar();
+        }
+        else
+        {
+            int spriteIndex = GetSpriteIndex(frozenResponseTime);
+            sr.sprite = timerBarSprite[Mathf.Clamp(spriteIndex, 0, timerBarSprite.Length - 1)];
+        }
     }
 
     void UpdateTimerBar()
@@ -57,5 +62,30 @@ public class TimerBar : MonoBehaviour
             // 10+ sec → sprites 7–9+ (red)
             return Mathf.Min(7 + Mathf.FloorToInt((t - 10f)), timerBarSprite.Length -1);
         }
+    }
+
+    public void FreezeTimer()
+    {
+        if (!isFrozen)
+        {
+            float startTime = quizController.ctx.questionStartTime;
+            frozenResponseTime = Time.time - startTime;
+            isFrozen = true;
+            Debug.Log($"[TimerBar] Frozen at {frozenResponseTime:F2} seconds");
+        }
+    }
+
+    public void UnfreezeTimer()
+    {
+        isFrozen = false;
+        frozenResponseTime = 0f;
+        Debug.Log("[TimerBar] Unfrozen - ready for next question");
+    }
+
+    public void ResetTimer()
+    {
+        UnfreezeTimer();
+        sr.sprite = timerBarSprite[0];
+        Debug.Log("[TimerBar] Reset to start");
     }
 }
